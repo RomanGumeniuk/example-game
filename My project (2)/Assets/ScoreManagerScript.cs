@@ -15,4 +15,5 @@ public class ScoreManagerScript : MonoBehaviour
         scoreText.text = "Score: ";
         scoreText.text += currentScore.ToString();
     }
+    //siema
 }

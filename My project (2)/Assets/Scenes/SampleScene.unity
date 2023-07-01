@@ -447,7 +447,8 @@ MonoBehaviour:
   deadZone: -40
   myRigidbody: {fileID: 8793101}
   myRenderer: {fileID: 8793102}
-  clickedSprite: {fileID: 21300000, guid: 84c2f2ce7cf346e4985cffda9304c79c, type: 3}
+  defaultSprite: {fileID: 21300000, guid: b276c41825d79f34aa84af8184bccb9d, type: 3}
+  onclickSprite: {fileID: 21300000, guid: 84c2f2ce7cf346e4985cffda9304c79c, type: 3}
 --- !u!70 &8793106
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
