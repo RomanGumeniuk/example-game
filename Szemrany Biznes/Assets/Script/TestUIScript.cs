@@ -22,8 +22,18 @@ public class TestUIScript : MonoBehaviour
             NetworkManager.Singleton.StartClient();
             Hide();
         });
+
+        
     }
 
+    private void Start()
+    {
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+        
+    }
 
     private void Hide()
     {
