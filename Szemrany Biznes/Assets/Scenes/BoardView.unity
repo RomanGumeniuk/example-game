@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 11
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 300200003002000060040000c0080000200d0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 10
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 800200008002000000050000000a0000000f0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -1595,7 +1595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 3
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -1721,7 +1721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 2
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 6801000068010000d0020000a005000070080000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -2422,7 +2422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 200300002003000040060000800c0000c0120000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -2911,9 +2911,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 
-  townCostToPay: 
+  tileType: 6
+  townCostToBuy: 2c010000
+  townCostToPay: 00000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -3068,8 +3068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 0a00000064000000e803000010270000a0860100
+  tileType: 2
+  townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -3304,7 +3304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 08020000080200001004000020080000300c0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -3990,9 +3990,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 
-  townCostToPay: 
+  tileType: 4
+  townCostToBuy: 90010000
+  townCostToPay: 00000000000000000000000000000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -4116,9 +4116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 
-  townCostToPay: 
+  tileType: 7
+  townCostToBuy: 2c010000
+  townCostToPay: 00000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -4542,7 +4542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 1801000018010000300200006004000090060000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -4615,7 +4615,7 @@ GameObject:
   - component: {fileID: 879980737}
   - component: {fileID: 879980740}
   m_Layer: 0
-  m_Name: Tile (22)
+  m_Name: Szansa#2-C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4720,7 +4720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 3
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -4934,7 +4934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 4001000040010000800200000005000080070000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -5863,9 +5863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 8
   townCostToBuy: 
-  townCostToPay: 
+  townCostToPay: c8000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -5990,7 +5990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: b8010000b801000070030000e0060000500a0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -6115,7 +6115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 2
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -6448,7 +6448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: bc020000bc02000078050000f00a000068100000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -6642,7 +6642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 5802000058020000b004000060090000100e0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -7272,7 +7272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: e0010000e0010000c003000080070000400b0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -7398,7 +7398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 6801000068010000d0020000a005000070080000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -7524,7 +7524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 1801000018010000300200006004000090060000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -7650,7 +7650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 08020000080200001004000020080000300c0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -7885,7 +7885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: c8000000c80000009001000020030000b0040000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -8177,7 +8177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: c8000000c80000009001000020030000b0040000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -8552,7 +8552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 5802000058020000b004000060090000100e0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -8783,10 +8783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 0a00000064000000e8030000e8030000a0860100
-  townCostToPay: 0000000000000000000000000000000000000000
-  townCostToBuyBackFromSomeone: 0000000000000000000000000000000000000000
+  tileType: 5
+  townCostToBuy: 
+  townCostToPay: 90010000
+  townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
   curentMaxTownLevelThatCanBeBuy: 3
@@ -9044,7 +9044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 9
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -9171,7 +9171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 0a00000064000000e803000010270000a0860100
+  townCostToBuy: 7800000078000000f0000000e0010000d0020000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -9296,7 +9296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 1
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -9559,7 +9559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 9001000090010000200300004006000060090000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -10057,7 +10057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 3
   townCostToBuy: 
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
@@ -10507,9 +10507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 
-  townCostToPay: 
+  tileType: 4
+  townCostToBuy: 90010000
+  townCostToPay: 00000000000000000000000000000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -11022,7 +11022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: f0000000f0000000e0010000c0030000a0050000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -11148,9 +11148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 0a00000064000000e8030000e803000010270000
-  townCostToPay: 
+  tileType: 4
+  townCostToBuy: 90010000
+  townCostToPay: 00000000000000000000000000000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -11429,7 +11429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 0a00000064000000e803000010270000a0860100
+  townCostToBuy: 7800000078000000f0000000e0010000d0020000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -11555,7 +11555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: b8010000b801000070030000e0060000500a0000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
@@ -11756,9 +11756,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
-  townCostToBuy: 
-  townCostToPay: 
+  tileType: 4
+  townCostToBuy: 90010000
+  townCostToPay: 00000000000000000000000000000000
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
