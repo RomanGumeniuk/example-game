@@ -20,11 +20,11 @@ public class TileScript : MonoBehaviour
 
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
-    public List<int> townCostToBuyBackFromSomeone = new List<int>();
 
     public int ownerId = -1;
     public int townLevel = 0;
     public int curentMaxTownLevelThatCanBeBuy = 3;
+    public int amountMoneyGiveOnPlayerStep = 0;
     // -1 means that town has no owner
     
 
@@ -50,29 +50,29 @@ public class TileScript : MonoBehaviour
                     {
                         //can buy at lest 1 level town
                         BuyingTabUIScript.Instance.ShowBuyingUI(townLevel, maxLevelThatPlayerCanAfford, townCostToBuy,this);
+                        return;
                     }
-
-
                     //no option of buying return and go to next player
-                    //GameUIScript.OnNextPlayerTurn.Invoke();
-                    
+                    GameUIScript.OnNextPlayerTurn.Invoke();
                     return;
                 }
-                //paying someone for visiting town and option to buy back if has enough money
+                //paying someone for visiting town
                 if(playerAmountOfMoney > townCostToPay[townLevel])
                 {
                     //player can pay for visiting town
-                    if(playerAmountOfMoney > townCostToBuyBackFromSomeone[townLevel])
-                    {
-                        //player can buy back from player that has this town
-                    }
-                    //no option of buying back go to next player
+                    PlayerScript.LocalInstance.amountOfMoney -= townCostToPay[townLevel];
+                    GameLogic.Instance.GivePlayerMoneyByIdServerRpc(ownerId, townCostToPay[townLevel]);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 else
                 {
                     //player cant aford visiting town there for needs to sold some of his properite to pay for it
+                    PlayerScript.LocalInstance.amountOfMoney = 0;
+                    GameUIScript.OnNextPlayerTurn.Invoke();
                 }
+                break;
+            case 1:
+                PlayerScript.LocalInstance.amountOfMoney += amountMoneyGiveOnPlayerStep;
                 break;
         
         }
@@ -85,6 +85,7 @@ public class TileScript : MonoBehaviour
         townLevel += addedLevels+1;
         if (curentMaxTownLevelThatCanBeBuy != 5) curentMaxTownLevelThatCanBeBuy++;
     }
+
 
 
 }
