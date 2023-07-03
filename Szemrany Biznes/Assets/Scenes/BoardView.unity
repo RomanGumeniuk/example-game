@@ -2911,9 +2911,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 6
   townCostToBuy: 2c010000
   townCostToPay: 00000000
+=======
+  tileType: 0
+  townCostToBuy: 
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -3990,9 +3996,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 4
   townCostToBuy: 90010000
   townCostToPay: 00000000000000000000000000000000
+=======
+  tileType: 0
+  townCostToBuy: 
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -4116,9 +4128,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 7
   townCostToBuy: 2c010000
   townCostToPay: 00000000
+=======
+  tileType: 0
+  townCostToBuy: 
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -5865,7 +5883,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 8
   townCostToBuy: 
+<<<<<<< HEAD
   townCostToPay: c8000000
+=======
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -8783,10 +8805,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 5
   townCostToBuy: 
   townCostToPay: 90010000
   townCostToBuyBackFromSomeone: 
+=======
+  tileType: 0
+  townCostToBuy: 0a00000064000000e8030000e8030000a0860100
+  townCostToPay: 0000000000000000000000000000000000000000
+  townCostToBuyBackFromSomeone: 0000000000000000000000000000000000000000
+>>>>>>> parent of 9149022 (UIChanges)
   ownerId: -1
   townLevel: 0
   curentMaxTownLevelThatCanBeBuy: 3
@@ -10507,9 +10536,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 4
   townCostToBuy: 90010000
   townCostToPay: 00000000000000000000000000000000
+=======
+  tileType: 0
+  townCostToBuy: 
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -11148,9 +11183,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 4
   townCostToBuy: 90010000
   townCostToPay: 00000000000000000000000000000000
+=======
+  tileType: 0
+  townCostToBuy: 0a00000064000000e8030000e803000010270000
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
@@ -11756,9 +11797,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6ffff77aa5e494694625978c7cfcda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   tileType: 4
   townCostToBuy: 90010000
   townCostToPay: 00000000000000000000000000000000
+=======
+  tileType: 0
+  townCostToBuy: 
+  townCostToPay: 
+>>>>>>> parent of 9149022 (UIChanges)
   townCostToBuyBackFromSomeone: 
   ownerId: -1
   townLevel: 0
