@@ -15,6 +15,7 @@ public class GameLogic : NetworkBehaviour
 
     public int index = 0;
     public int allPlayerAmount = 0;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -109,7 +110,11 @@ public class GameLogic : NetworkBehaviour
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
     }
 
-    
+    [ServerRpc(RequireOwnership =false)]
+    public void GivePlayerMoneyByIdServerRpc(int playerId,int money)
+    {
+        NetworkManager.Singleton.ConnectedClients[(ulong)playerId].PlayerObject.GetComponent<PlayerScript>().amountOfMoney += money;
+    }
 
     
 }

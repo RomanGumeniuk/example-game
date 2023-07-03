@@ -9,7 +9,7 @@ public class PlayerScript : NetworkBehaviour
     public int directionZ = 0;
     public int currentTileIndex = 0;
     public int playerIndex;
-    public int amountOfMoney = 20000;
+    public int amountOfMoney = 3000;
 
 
     public static PlayerScript LocalInstance { get; private set; }
