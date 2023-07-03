@@ -123,6 +123,11 @@ public class BuyingTabUIScript : MonoBehaviour
         foreach(int cost in townAllLevelsCost)
         {
             currentTownCostToBuy.Add(cost);
+
+        }
+        for(int i=0;i<4;i++)
+        {
+            Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
         }
         currentTileScript = tileScript;
         for(int i=0;i<townLevel;i++)
