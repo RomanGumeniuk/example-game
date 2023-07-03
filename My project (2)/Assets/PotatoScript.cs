@@ -29,7 +29,7 @@ public class PotatoScript : MonoBehaviour
 
         Movement();
 
-       bool dead = Dying();
+        bool dead = Dying();
     }
     void Movement()
     {
@@ -37,8 +37,6 @@ public class PotatoScript : MonoBehaviour
            || Input.GetKeyDown(KeyCode.UpArrow))
         {
             myRigidbody.velocity = Vector2.up * flapStrength;
-
-            ChangeSprite(onclickSprite,defaultSprite);
         }
     }
 
@@ -51,16 +49,5 @@ public class PotatoScript : MonoBehaviour
         }
         else { return false; }
         
-    }
-    void ChangeSprite(Sprite onclickSprite,Sprite defaultSprite)
-    {
-        if(myRenderer.sprite != onclickSprite){
-            myRenderer.sprite = onclickSprite;
-            myRenderer.sprite = defaultSprite;
-        }
-        else
-        {
-            myRenderer.sprite = defaultSprite;
-        }
     }
 }
