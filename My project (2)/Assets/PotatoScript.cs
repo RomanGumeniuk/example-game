@@ -34,7 +34,6 @@ public class PotatoScript : MonoBehaviour
     void Movement()
     {
         if (Input.GetKeyDown(KeyCode.Space)
-           || Input.GetKeyDown(KeyCode.Mouse0)
            || Input.GetKeyDown(KeyCode.UpArrow))
         {
             myRigidbody.velocity = Vector2.up * flapStrength;

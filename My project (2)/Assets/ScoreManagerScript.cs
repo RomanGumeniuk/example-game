@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreManagerScript : MonoBehaviour
 {
@@ -9,11 +10,15 @@ public class ScoreManagerScript : MonoBehaviour
    public Text scoreText;
 
     [ContextMenu("Increase current score")]
-   public void addScore()
+   public void addScore(int scoreToAdd)
     {
-        currentScore = currentScore + 1;
+        currentScore = currentScore + scoreToAdd;
         scoreText.text = "Score: ";
         scoreText.text += currentScore.ToString();
     }
-    //siema
+
+    public void restartGame()
+{
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+}
 }

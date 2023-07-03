@@ -18,8 +18,8 @@ public class TriggerScript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer = 3) { 
-        scoreManager.addScore();
+        if (collision.gameObject.layer == 3) { 
+        scoreManager.addScore(1);
     }
     }
 }
