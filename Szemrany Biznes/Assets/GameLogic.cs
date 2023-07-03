@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Events;
+using TMPro;
 
 public class GameLogic : NetworkBehaviour
 {
@@ -15,6 +16,10 @@ public class GameLogic : NetworkBehaviour
 
     public int index = 0;
     public int allPlayerAmount = 0;
+
+    public Transform content;
+    public GameObject playerListPrefab;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -78,6 +83,9 @@ public class GameLogic : NetworkBehaviour
         {
             int currentIndex = Random.Range(0, allPlayerAmount - i);
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            allPlayerIndex.RemoveAt(currentIndex);
+            GameObject playerPrefabList = Instantiate(playerListPrefab, content);
+            playerListPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + currentIndex.ToString();
+            playerListPrefab.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = "3000PLN";
         }
         index = 0;
         OnNextPlayerTurnServerRpc();
@@ -109,7 +117,11 @@ public class GameLogic : NetworkBehaviour
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
     }
 
-    
+    [ServerRpc(RequireOwnership =false)]
+    public void GivePlayerMoneyByIdServerRpc(int playerId,int money)
+    {
+        NetworkManager.Singleton.ConnectedClients[(ulong)playerId].PlayerObject.GetComponent<PlayerScript>().amountOfMoney += money;
+    }
 
     
 }
