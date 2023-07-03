@@ -68,13 +68,8 @@ public class TileScript : MonoBehaviour
                 break;
             case 1:
                 PlayerScript.LocalInstance.amountOfMoney += amountMoneyGiveOnPlayerStep;
-                GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
-            default:
-                GameUIScript.OnNextPlayerTurn.Invoke();
-                break;
-
-
+        
         }
 
     }
