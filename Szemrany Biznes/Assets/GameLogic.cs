@@ -7,10 +7,11 @@ using UnityEngine.Events;
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic Instance { get; private set; }
-    // tu jest komentarz
-
+    
     public List<Transform> SpawnPoints = new List<Transform>();
     public List<NetworkClient> PlayersOrder = new List<NetworkClient>();
+
+    public List<TileScript> allTileScripts = new List<TileScript>();
 
     public int index = 0;
     public int allPlayerAmount = 0;
@@ -107,5 +108,8 @@ public class GameLogic : NetworkBehaviour
         else index++;
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
     }
-     
+
+    
+
+    
 }

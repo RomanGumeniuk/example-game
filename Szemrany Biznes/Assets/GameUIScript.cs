@@ -28,7 +28,7 @@ public class GameUIScript : NetworkBehaviour
             PlayerScript.LocalInstance.Move(diceValue);
             RollDiceButton.gameObject.SetActive(false);
             
-            OnNextPlayerTurn.Invoke();
+            //OnNextPlayerTurn.Invoke();
         });
         if (!IsServer)return;
         
@@ -54,6 +54,8 @@ public class GameUIScript : NetworkBehaviour
     {
         Instance = this;
     }
+
+    
 
 
 }

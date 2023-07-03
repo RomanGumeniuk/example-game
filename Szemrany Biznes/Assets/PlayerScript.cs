@@ -9,6 +9,8 @@ public class PlayerScript : NetworkBehaviour
     public int directionZ = 0;
     public int currentTileIndex = 0;
     public int playerIndex;
+    public int amountOfMoney = 20000;
+
 
     public static PlayerScript LocalInstance { get; private set; }
 
@@ -69,6 +71,7 @@ public class PlayerScript : NetworkBehaviour
             if (currentTileIndex != (9 * 4) + 3) currentTileIndex++;
             else currentTileIndex = 0;
         }
+        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
         
     }
 
