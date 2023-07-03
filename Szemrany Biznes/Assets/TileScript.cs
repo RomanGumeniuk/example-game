@@ -11,12 +11,7 @@ public class TileScript : MonoBehaviour
     // 3-> chance tile#2
     // 4-> train tile
     // 5-> parking tile
-    // 6-> lightbulb tile
-    // 7-> waterpipes tile
-    // 8 -> ring tile
-    // 9 -> custody tile
-    // 10 -> patrol tile
-    // 11 -> party tile
+    // 6-> 
 
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
