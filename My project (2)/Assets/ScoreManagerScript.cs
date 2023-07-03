@@ -17,8 +17,5 @@ public class ScoreManagerScript : MonoBehaviour
         scoreText.text += currentScore.ToString();
     }
 
-    public void restartGame()
-{
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-}
+    
 }
