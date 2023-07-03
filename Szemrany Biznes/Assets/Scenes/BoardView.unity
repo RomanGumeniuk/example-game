@@ -3307,7 +3307,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 1003311994}
     PlayerPrefab: {fileID: 8427377863888018464, guid: 347b579b596fe004cbef9b193fdb3f89, type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 93380a2ae6109ff4289c55f87a7d5336, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -3323,12 +3324,7 @@ MonoBehaviour:
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
-    OldPrefabList:
-    - Override: 0
-      Prefab: {fileID: 8427377863888018464, guid: 347b579b596fe004cbef9b193fdb3f89, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+    OldPrefabList: []
   RunInBackground: 1
   LogLevel: 1
 --- !u!1 &1028594683
@@ -3469,14 +3465,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052017714}
-  m_LocalRotation: {x: 0.15675826, y: -0.2129347, z: 0.035579264, w: 0.9637529}
-  m_LocalPosition: {x: 8.61, y: 4.17, z: -11.02}
+  m_LocalRotation: {x: 0.36888716, y: -0.27508298, z: 0.115269996, w: 0.8803207}
+  m_LocalPosition: {x: 8.61, y: 13.9, z: -11.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 18.5, y: -24.9, z: 0.11}
+  m_LocalEulerAnglesHint: {x: 45.471, y: -34.706, z: 0}
 --- !u!1 &1078993327
 GameObject:
   m_ObjectHideFlags: 0
@@ -5096,7 +5092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb3e94a12f7feb41b48cdf7f9cfb1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dice: {fileID: 929681975787997513, guid: 0f5019bac9a5af74ab992f3e6aac7d38, type: 3}
+  Dice: {fileID: 304886457734002768, guid: 54eb5123499899c4294a5543dada433b, type: 3}
   rollForce: 10
 --- !u!1 &1454818946
 GameObject:

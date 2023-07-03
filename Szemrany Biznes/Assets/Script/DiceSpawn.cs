@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class DiceSpawn : MonoBehaviour
+public class DiceSpawn : NetworkBehaviour
 {
     // Start is called before the first frame update
     public GameObject Dice;
@@ -31,10 +32,11 @@ public class DiceSpawn : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject prefabInstance = Instantiate(Dice.transform.GetChild(0).gameObject, new Vector3(0, 8.59f, 0), Quaternion.Euler(0, 0, -18.48f));
+            GameObject prefabInstance = Instantiate(Dice, new Vector3(0, 8.59f, 0), Quaternion.Euler(0, 0, -18.48f));
             Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
             rb.AddForce(Vector3.right * rollForce, ForceMode.Impulse);
             rb.AddForce(Vector3.back * rollForce, ForceMode.Impulse);
+            prefabInstance.GetComponent<NetworkObject>().Spawn();
             // diceNumber = Random.Range(1, numberOfSides + 1);
         }
     }
