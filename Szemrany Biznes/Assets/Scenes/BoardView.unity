@@ -9297,7 +9297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  townCostToBuy: 
+  townCostToBuy: 0000000000000000000000000000000000000000
   townCostToPay: 
   townCostToBuyBackFromSomeone: 
   ownerId: -1
