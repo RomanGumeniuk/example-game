@@ -6,20 +6,29 @@ using Unity.Netcode;
 public class DiceSpawn : NetworkBehaviour
 {
     // Start is called before the first frame update
+    //Gameobjects
     public GameObject Dice;
-    Vector3 cords;
-    public float rollForce = 10;
-    private Vector3[] rollNumberTable1;
-    private Vector3[] rollNumberTable2;
-    private Vector3[] rollNumberTable3;
-    private Vector3[] rollNumberTable4;
-    private Vector3[] rollNumberTable5;
-    private Vector3[] rollNumberTable6;
+
+    [SerializeField] Vector3 offset;
+    [SerializeField] int backOrForward;
+    [SerializeField] private float rollForce = 10;
+    [SerializeField] private float speed = 150;
+
+    // Tables declaration and 
+    [SerializeField] Vector3 cords;
+    [SerializeField] private Vector3[] rollNumberTable1;
+    [SerializeField] private Vector3[] rollNumberTable2;
+    [SerializeField] private Vector3[] rollNumberTable3;
+    [SerializeField] private Vector3[] rollNumberTable4;
+    [SerializeField] private Vector3[] rollNumberTable5;
+    [SerializeField] private Vector3[] rollNumberTable6;
+
+    
     void Start()
     {
 
         rollNumberTable1 = new Vector3[6]; // We need 6 elements for numbers 1 to 6
-        rollNumberTable1[0] = new Vector3(0, 8, 0); // Number 1
+        rollNumberTable1[0] = new Vector3(4, 8, 7); // Number 1
         rollNumberTable1[1] = new Vector3(2, 8, 0); // Number 2
         rollNumberTable1[2] = new Vector3(-2, 8, 0); // Number 3
 
@@ -54,6 +63,7 @@ public class DiceSpawn : NetworkBehaviour
     void Update()
     {
         rollTheDice();
+        
 
 
     }
@@ -68,41 +78,55 @@ public class DiceSpawn : NetworkBehaviour
             {
                 case 1:
                     cords = rollNumberTable1[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 case 2:
                     cords = rollNumberTable2[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 case 3:
                     cords = rollNumberTable3[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 case 4:
                     cords = rollNumberTable4[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 case 5:
                     cords = rollNumberTable5[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 case 6:
                     cords = rollNumberTable6[i];
-                    getAnimationNumber();
+                    Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
                     break;
                 default:
-                    Debug.Log("i hate niggers");
+                    Debug.Log("Somethings wrong");
                     break;
             }
-            void getAnimationNumber()
-            {
-                Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
-            }
 
-            GameObject prefabInstance = Instantiate(Dice, new Vector3(-1.5f, 8f, -9f), Quaternion.Euler(30f, 0, 0));
+            GameObject prefabInstance = Instantiate(Dice, offset, Quaternion.Euler(0, 0, 30f));
             Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.forward * rollForce, ForceMode.Impulse);
-            //prefabInstance.GetComponent<NetworkObject>().Spawn();
+            prefabInstance.transform.Rotate(Vector3.up, speed * Time.deltaTime);
+
+
+            //if (diceNumber % 2 == 0)
+            
+            if (backOrForward == 1) //parzysta
+            {
+                
+                rb.AddForce(Vector3.forward * rollForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.down * rollForce, ForceMode.Impulse);
+               
+
+
+            }
+            else //nieparzysta 0
+            {
+                rb.AddForce(Vector3.back * rollForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.down * rollForce, ForceMode.Impulse);
+                
+            }
         }
     }
 }
