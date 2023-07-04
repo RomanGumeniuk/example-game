@@ -82,7 +82,8 @@ public class GameLogic : NetworkBehaviour
         for (int i = 0; i < allPlayerAmount; i++)
         {
             int currentIndex = Random.Range(0, allPlayerAmount - i);
-            PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            allPlayerIndex.RemoveAt(currentIndex);
+            PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
+            allPlayerIndex.RemoveAt(currentIndex);
             GameObject playerPrefabList = Instantiate(playerListPrefab, content);
             playerListPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + currentIndex.ToString();
             playerListPrefab.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = "3000PLN";
@@ -94,13 +95,14 @@ public class GameLogic : NetworkBehaviour
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)
     {
-
+        Debug.Log("i have permission");
         GameUIScript.Instance.ShowUIForRollDice();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void OnNextPlayerTurnServerRpc()
     {
+        Debug.Log("nextplayer");
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams

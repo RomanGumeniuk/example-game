@@ -25,9 +25,8 @@ public class GameUIScript : NetworkBehaviour
             Debug.Log("RollClicked");
             int diceValue = Random.Range(1, 7);
             TextAboutStateOfGame.text = "You rolled " + diceValue;
-            PlayerScript.LocalInstance.Move(diceValue);
             RollDiceButton.gameObject.SetActive(false);
-            
+            PlayerScript.LocalInstance.Move(diceValue);
             //OnNextPlayerTurn.Invoke();
         });
         if (!IsServer)return;
@@ -43,7 +42,7 @@ public class GameUIScript : NetworkBehaviour
     }
 
     public void ShowUIForRollDice()
-    {
+    { 
         RollDiceButton.gameObject.SetActive(true);
         TextAboutStateOfGame.text = "Roll Dice!!!";
         TextAboutStateOfGame.gameObject.SetActive(true);

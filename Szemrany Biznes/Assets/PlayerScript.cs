@@ -11,6 +11,7 @@ public class PlayerScript : NetworkBehaviour
     public int playerIndex;
     public int amountOfMoney = 3000;
 
+    public bool firstMove = true;
 
     public static PlayerScript LocalInstance { get; private set; }
 
@@ -48,7 +49,20 @@ public class PlayerScript : NetworkBehaviour
                     case 0:
                         directionX = -1;
                         directionZ = 0;
+                        if(firstMove)
+                        {
+                            firstMove = false;
+                            break;
+                        }
                         transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
+                        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
+                        if(i+1>=diceValue)
+                        {
+                            transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
+                            currentTileIndex = 0;
+                            firstMove = true;
+                            return;
+                        }
                         break;
                     case 10:
                         directionX = 0;

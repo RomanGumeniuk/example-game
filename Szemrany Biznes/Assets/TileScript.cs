@@ -11,7 +11,12 @@ public class TileScript : MonoBehaviour
     // 3-> chance tile#2
     // 4-> train tile
     // 5-> parking tile
-    // 6-> 
+    // 6-> lightbulb tile
+    // 7-> waterpipes tile
+    // 8 -> ring tile
+    // 9 -> custody tile
+    // 10 -> patrol tile
+    // 11 -> party tile
 
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
@@ -21,7 +26,19 @@ public class TileScript : MonoBehaviour
     public int curentMaxTownLevelThatCanBeBuy = 3;
     public int amountMoneyGiveOnPlayerStep = 0;
     // -1 means that town has no owner
-    
+
+    private void Start()
+    {
+        if(tileType==0)
+        {
+            if (townCostToBuy.Count == 0) return;
+            townCostToBuy.Add(townCostToBuy[0]);
+            townCostToBuy.Add(townCostToBuy[0] * 2);
+            townCostToBuy.Add(townCostToBuy[0] * 4);
+            townCostToBuy.Add(townCostToBuy[0] * 6);        
+        }
+    }
+
 
     public void OnPlayerEnter()
     {
