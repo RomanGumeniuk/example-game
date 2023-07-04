@@ -5626,7 +5626,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 1003311994}
     PlayerPrefab: {fileID: 8427377863888018464, guid: 347b579b596fe004cbef9b193fdb3f89, type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 93380a2ae6109ff4289c55f87a7d5336, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -5642,12 +5643,7 @@ MonoBehaviour:
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
-    OldPrefabList:
-    - Override: 0
-      Prefab: {fileID: 8427377863888018464, guid: 347b579b596fe004cbef9b193fdb3f89, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+    OldPrefabList: []
   RunInBackground: 1
   LogLevel: 1
 --- !u!1 &1009484665
@@ -7135,6 +7131,8 @@ GameObject:
   - component: {fileID: 1249600818}
   - component: {fileID: 1249600820}
   - component: {fileID: 1249600819}
+  - component: {fileID: 1249600821}
+  - component: {fileID: 1249600822}
   m_Layer: 5
   m_Name: ListPlayerUI
   m_TagString: Untagged
@@ -7203,6 +7201,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1249600821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249600817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d88291c92257b124bae02fd482882a66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1249600822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249600817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2257937890
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1254900359
 GameObject:
   m_ObjectHideFlags: 0
@@ -8857,6 +8887,7 @@ MonoBehaviour:
   - {fileID: 1132903545}
   - {fileID: 1078993332}
   - {fileID: 446312042}
+  allPlayersListPrefab: []
   index: 0
   allPlayerAmount: 0
   content: {fileID: 50737031}

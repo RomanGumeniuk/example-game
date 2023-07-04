@@ -26,7 +26,7 @@ public class BuyingTabUIScript : MonoBehaviour
         DontBuyButton.onClick.AddListener(() =>
         {
             Hide();
-
+            //ShowBuyingUI(3, 4, new List<int>());
         });
         
         BuyButton.onClick.AddListener(() =>
@@ -114,12 +114,14 @@ public class BuyingTabUIScript : MonoBehaviour
     }
     
     
-    public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript)
+    public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript )
     {
+        Debug.Log("town:" + townLevel + " maxTown:" + maxTownLevelThatCanBeBuy);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
         }
+        currentTownCostToBuy.Clear();
         foreach(int cost in townAllLevelsCost)
         {
             currentTownCostToBuy.Add(cost);
@@ -130,14 +132,22 @@ public class BuyingTabUIScript : MonoBehaviour
             Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
         }
         currentTileScript = tileScript;
-        for(int i=0;i<townLevel;i++)
+        for (int i=0;i<townLevel;i++)
         {
             Levels[i].GetComponent<Image>().color = Color.gray;
             LevelsOfToggle[i].isOn = true;
             LevelsOfToggle[i].interactable = false;
+            Debug.Log("townLevelNotInteractible:" + i);
+        }
+        for(int i=townLevel;i<maxTownLevelThatCanBeBuy;i++)
+        {
+            if (i > 4) continue;
+            Levels[i].GetComponent<Image>().color = Color.white;
+            LevelsOfToggle[i].interactable = true;
         }
         for(int i=maxTownLevelThatCanBeBuy; i<4;i++)
         {
+            Debug.Log("maxTownLevelThatCanBeBuy:" + i);
             Levels[i].GetComponent<Image>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
         }

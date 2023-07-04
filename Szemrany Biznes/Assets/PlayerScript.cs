@@ -58,7 +58,6 @@ public class PlayerScript : NetworkBehaviour
                         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
                         if(i+1>=diceValue)
                         {
-                            transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
                             currentTileIndex = 0;
                             firstMove = true;
                             return;

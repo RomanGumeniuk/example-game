@@ -14,6 +14,8 @@ public class GameLogic : NetworkBehaviour
 
     public List<TileScript> allTileScripts = new List<TileScript>();
 
+    public List<Transform> allPlayersListPrefab = new List<Transform>();
+
     public int index = 0;
     public int allPlayerAmount = 0;
 
@@ -84,13 +86,26 @@ public class GameLogic : NetworkBehaviour
             int currentIndex = Random.Range(0, allPlayerAmount - i);
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
             allPlayerIndex.RemoveAt(currentIndex);
-            GameObject playerPrefabList = Instantiate(playerListPrefab, content);
-            playerListPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + currentIndex.ToString();
-            playerListPrefab.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = "3000PLN";
+            AddAllPlayerPrefabListClientRpc(currentIndex);
+            //PlayersListUI.Instance.AddPlayerToListServerRpc(allPlayersListPrefab.Count - 1);
+
         }
         index = 0;
         OnNextPlayerTurnServerRpc();
     }
+
+    [ClientRpc]
+    public void AddAllPlayerPrefabListClientRpc(int index)
+    {
+        GameObject playerPrefabList = Instantiate(playerListPrefab, content);
+        allPlayersListPrefab.Add(playerPrefabList.transform);
+        playerListPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index.ToString();
+        playerListPrefab.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = NetworkManager.Singleton.ConnectedClients[(ulong)index].PlayerObject.GetComponent<PlayerScript>().amountOfMoney +"PLN";
+        
+    }
+
+
+
 
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)

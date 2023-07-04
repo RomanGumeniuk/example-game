@@ -23,7 +23,7 @@ public class TileScript : MonoBehaviour
 
     public int ownerId = -1;
     public int townLevel = 0;
-    public int curentMaxTownLevelThatCanBeBuy = 3;
+    public int curentMaxTownLevelThatCanBeBuy = 1;
     public int amountMoneyGiveOnPlayerStep = 0;
     // -1 means that town has no owner
 
@@ -46,11 +46,11 @@ public class TileScript : MonoBehaviour
         {
             case 0:
                 int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney;
-                if (ownerId==-1)
+                if (ownerId == -1 || ownerId == PlayerScript.LocalInstance.playerIndex) 
                 {
                     int maxLevelThatPlayerCanAfford = 0;
                     //option to buy town
-                    for(int i=0;i< curentMaxTownLevelThatCanBeBuy;i++)
+                    for(int i= townLevel; i< curentMaxTownLevelThatCanBeBuy;i++)
                     {
                         if (playerAmountOfMoney > townCostToBuy[i])
                         {
@@ -61,7 +61,7 @@ public class TileScript : MonoBehaviour
                     if(maxLevelThatPlayerCanAfford!=0)
                     {
                         //can buy at lest 1 level town
-                        BuyingTabUIScript.Instance.ShowBuyingUI(townLevel, maxLevelThatPlayerCanAfford, townCostToBuy,this);
+                        BuyingTabUIScript.Instance.ShowBuyingUI(townLevel, maxLevelThatPlayerCanAfford+townLevel, townCostToBuy,this);
                         return;
                     }
                     //no option of buying return and go to next player
