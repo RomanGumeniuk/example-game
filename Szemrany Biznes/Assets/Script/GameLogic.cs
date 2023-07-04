@@ -45,8 +45,7 @@ public class GameLogic : NetworkBehaviour
             }
         };
         Debug.Log("Server");
-        GiveClientSpawnPositionClientRpc(/*SpawnPoints[index].position*/SpawnPoints[0].GetChild(index).transform.position,index, clientRpcParams);
-        index++;
+        GiveClientSpawnPositionClientRpc(/*SpawnPoints[index].position*/SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, clientRpcParams);
     }
 
     [ClientRpc]
@@ -86,7 +85,7 @@ public class GameLogic : NetworkBehaviour
             int currentIndex = Random.Range(0, allPlayerAmount - i);
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
             allPlayerIndex.RemoveAt(currentIndex);
-            AddAllPlayerPrefabListClientRpc(currentIndex);
+            AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId);
             //PlayersListUI.Instance.AddPlayerToListServerRpc(allPlayersListPrefab.Count - 1);
 
         }
@@ -95,29 +94,74 @@ public class GameLogic : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void AddAllPlayerPrefabListClientRpc(int index)
+    public void AddAllPlayerPrefabListClientRpc(ulong index)
     {
+        Debug.Log(index);
         GameObject playerPrefabList = Instantiate(playerListPrefab, content);
         allPlayersListPrefab.Add(playerPrefabList.transform);
-        playerListPrefab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index.ToString();
-        playerListPrefab.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = NetworkManager.Singleton.ConnectedClients[(ulong)index].PlayerObject.GetComponent<PlayerScript>().amountOfMoney +"PLN";
+        playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index;
+        playerPrefabList.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = NetworkManager.Singleton.ConnectedClients[index].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value +"PLN";
         
     }
 
+    [ServerRpc(RequireOwnership =false)]
+    public void RefreshAllPlayerPrefbListServerRpc()
+    {
+        for(int i=0;i<allPlayersListPrefab.Count;i++)
+        {
+            //allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value + "PLN";
+            SetUIMoneyOfPlayerClientRpc(i, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value);
+        }
+    }
 
+    [ClientRpc]
+    public void SetUIMoneyOfPlayerClientRpc(int i,int money)
+    {
+        allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = money + "PLN";
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateMoneyForPlayerServerRpc(int newMoney,int playerIndex,int type =0) // type 0-> set 1-> subtract 2->add
+    {
+        switch(type)
+        {
+            case 0:
+                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value = newMoney; 
+                break;
+            case 1:
+                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value -= newMoney;
+                break;
+            case 2:
+                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value += newMoney;
+                break;
+        }
+        
+        RefreshAllPlayerPrefbListServerRpc();
+    }
+   
+
+    private void Update()
+    {
+        if(IsServer)
+        {
+            if(Input.GetKey(KeyCode.D))
+            {
+                RefreshAllPlayerPrefbListServerRpc();
+            }
+        }
+    }
 
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("i have permission");
+        
         GameUIScript.Instance.ShowUIForRollDice();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void OnNextPlayerTurnServerRpc()
     {
-        Debug.Log("nextplayer");
+        
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -134,11 +178,4 @@ public class GameLogic : NetworkBehaviour
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
     }
 
-    [ServerRpc(RequireOwnership =false)]
-    public void GivePlayerMoneyByIdServerRpc(int playerId,int money)
-    {
-        NetworkManager.Singleton.ConnectedClients[(ulong)playerId].PlayerObject.GetComponent<PlayerScript>().amountOfMoney += money;
-    }
-
-    
 }

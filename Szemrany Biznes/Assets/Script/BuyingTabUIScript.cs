@@ -34,7 +34,7 @@ public class BuyingTabUIScript : MonoBehaviour
             int townLevelsAdded = GetCurrentIndexOfChoosenLevel();
             if (townLevelsAdded != -1)
             {
-                PlayerScript.LocalInstance.amountOfMoney -= currentTownCostToBuy[currentTileScript.townLevel+ townLevelsAdded];
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc( currentTownCostToBuy[currentTileScript.townLevel+ townLevelsAdded], PlayerScript.LocalInstance.playerIndex, 1);
                 currentTileScript.UpgradeTown(townLevelsAdded, PlayerScript.LocalInstance.playerIndex);
                 Hide();
             }
