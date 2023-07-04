@@ -45,7 +45,7 @@ public class TileScript : MonoBehaviour
         switch (tileType)
         {
             case 0:
-                int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney;
+                int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
                 if (ownerId == -1 || ownerId == PlayerScript.LocalInstance.playerIndex) 
                 {
                     int maxLevelThatPlayerCanAfford = 0;
@@ -72,19 +72,20 @@ public class TileScript : MonoBehaviour
                 if(playerAmountOfMoney > townCostToPay[townLevel])
                 {
                     //player can pay for visiting town
-                    PlayerScript.LocalInstance.amountOfMoney -= townCostToPay[townLevel];
-                    GameLogic.Instance.GivePlayerMoneyByIdServerRpc(ownerId, townCostToPay[townLevel]);
+                    
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel], PlayerScript.LocalInstance.playerIndex,1);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel], ownerId,2);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 else
                 {
                     //player cant aford visiting town there for needs to sold some of his properite to pay for it
-                    PlayerScript.LocalInstance.amountOfMoney = 0;
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(0,PlayerScript.LocalInstance.playerIndex);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 break;
             case 1:
-                PlayerScript.LocalInstance.amountOfMoney += amountMoneyGiveOnPlayerStep;
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyGiveOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2);
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
             default:

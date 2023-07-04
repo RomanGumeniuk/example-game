@@ -9,7 +9,8 @@ public class PlayerScript : NetworkBehaviour
     public int directionZ = 0;
     public int currentTileIndex = 0;
     public int playerIndex;
-    public int amountOfMoney = 3000;
+    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>( 3000);
+    public int playerId;
 
     public bool firstMove = true;
 
