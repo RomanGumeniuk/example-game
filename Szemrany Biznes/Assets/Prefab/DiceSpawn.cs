@@ -7,17 +7,46 @@ public class DiceSpawn : NetworkBehaviour
 {
     // Start is called before the first frame update
     public GameObject Dice;
-    
+    Vector3 cords;
     public float rollForce = 10;
-    private Vector3Int[] rollNumberTable1;
+    private Vector3[] rollNumberTable1;
+    private Vector3[] rollNumberTable2;
+    private Vector3[] rollNumberTable3;
+    private Vector3[] rollNumberTable4;
+    private Vector3[] rollNumberTable5;
+    private Vector3[] rollNumberTable6;
     void Start()
     {
-        
-        rollNumberTable1 = new Vector3Int[5];
-        for (int i = 0; i < 5; i++)
-        {
-            rollNumberTable1[i] = new Vector3Int();
-        }
+
+        rollNumberTable1 = new Vector3[6]; // We need 6 elements for numbers 1 to 6
+        rollNumberTable1[0] = new Vector3(0, 8, 0); // Number 1
+        rollNumberTable1[1] = new Vector3(2, 8, 0); // Number 2
+        rollNumberTable1[2] = new Vector3(-2, 8, 0); // Number 3
+
+        rollNumberTable2 = new Vector3[6]; // We need 6 elements for numbers 1 to 6
+        rollNumberTable2[0] = new Vector3(0, 8, 0); // Number 1
+        rollNumberTable2[1] = new Vector3(2, 8, 0); // Number 2
+        rollNumberTable2[2] = new Vector3(-2, 8, 0); // Number 3
+
+        rollNumberTable3 = new Vector3[6];
+        rollNumberTable3[0] = new Vector3(0, 8, 2);
+        rollNumberTable3[1] = new Vector3(2, 8, 2);
+        rollNumberTable3[2] = new Vector3(-2, 8, 2);
+
+        rollNumberTable4 = new Vector3[6];
+        rollNumberTable4[0] = new Vector3(-1.5f, 8f, -9f);
+        rollNumberTable4[1] = new Vector3(2, 8, 2);
+        rollNumberTable4[2] = new Vector3(-2, 8, 2);
+
+        rollNumberTable5 = new Vector3[6];
+        rollNumberTable5[0] = new Vector3(0, 8, 2);
+        rollNumberTable5[1] = new Vector3(2, 8, 2);
+        rollNumberTable5[2] = new Vector3(-2, 8, 2);
+
+        rollNumberTable6 = new Vector3[6];
+        rollNumberTable6[0] = new Vector3(0, 8, 2);
+        rollNumberTable6[1] = new Vector3(2, 8, 2);
+        rollNumberTable6[2] = new Vector3(-2, 8, 2);
 
     }
 
@@ -25,19 +54,55 @@ public class DiceSpawn : NetworkBehaviour
     void Update()
     {
         rollTheDice();
-        
+
 
     }
     void rollTheDice()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject prefabInstance = Instantiate(Dice, new Vector3(0, 8.59f, 0), Quaternion.Euler(0, 0, -18.48f));
+
+            int diceNumber = Random.Range(1, 7);
+            int i = Random.Range(0, 3);
+            switch (diceNumber)
+            {
+                case 1:
+                    cords = rollNumberTable1[i];
+                    getAnimationNumber();
+                    break;
+                case 2:
+                    cords = rollNumberTable2[i];
+                    getAnimationNumber();
+                    break;
+                case 3:
+                    cords = rollNumberTable3[i];
+                    getAnimationNumber();
+                    break;
+                case 4:
+                    cords = rollNumberTable4[i];
+                    getAnimationNumber();
+                    break;
+                case 5:
+                    cords = rollNumberTable5[i];
+                    getAnimationNumber();
+                    break;
+                case 6:
+                    cords = rollNumberTable6[i];
+                    getAnimationNumber();
+                    break;
+                default:
+                    Debug.Log("i hate niggers");
+                    break;
+            }
+            void getAnimationNumber()
+            {
+                Debug.Log("Wylosowa³eœ numer kostki " + diceNumber + " z animacj¹ nr. " + i + " a xyz to " + cords);
+            }
+
+            GameObject prefabInstance = Instantiate(Dice, new Vector3(-1.5f, 8f, -9f), Quaternion.Euler(30f, 0, 0));
             Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.right * rollForce, ForceMode.Impulse);
-            rb.AddForce(Vector3.back * rollForce, ForceMode.Impulse);
-            prefabInstance.GetComponent<NetworkObject>().Spawn();
-            // diceNumber = Random.Range(1, numberOfSides + 1);
+            rb.AddForce(Vector3.forward * rollForce, ForceMode.Impulse);
+            //prefabInstance.GetComponent<NetworkObject>().Spawn();
         }
     }
 }
