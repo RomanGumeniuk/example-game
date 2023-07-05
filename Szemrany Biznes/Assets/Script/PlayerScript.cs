@@ -11,9 +11,6 @@ public class PlayerScript : NetworkBehaviour
     public int playerIndex;
     public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>( 3000);
     public int playerId;
-
-    public bool firstMove = true;
-
     public static PlayerScript LocalInstance { get; private set; }
 
     public override void OnNetworkSpawn()
@@ -50,17 +47,12 @@ public class PlayerScript : NetworkBehaviour
                     case 0:
                         directionX = -1;
                         directionZ = 0;
-                        if(firstMove)
-                        {
-                            firstMove = false;
-                            break;
-                        }
+                        
                         transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
-                        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
+                        if(i!=0)GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
                         if(i+1>=diceValue)
                         {
                             currentTileIndex = 0;
-                            firstMove = true;
                             return;
                         }
                         break;

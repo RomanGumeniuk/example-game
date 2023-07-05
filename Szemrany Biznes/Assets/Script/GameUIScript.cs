@@ -24,6 +24,7 @@ public class GameUIScript : NetworkBehaviour
         {
             Debug.Log("RollClicked");
             int diceValue = Random.Range(1, 7);
+
             TextAboutStateOfGame.text = "You rolled " + diceValue;
             RollDiceButton.gameObject.SetActive(false);
             PlayerScript.LocalInstance.Move(diceValue);

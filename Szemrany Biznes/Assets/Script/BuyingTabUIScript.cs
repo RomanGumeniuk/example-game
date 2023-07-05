@@ -87,6 +87,17 @@ public class BuyingTabUIScript : MonoBehaviour
             //changed to false
             RefreshLevelsOnToggleOff(3);
         });
+        LevelsOfToggle[4].onValueChanged.AddListener((state) =>
+        {
+            if (state)
+            {
+                //changed to true
+                RefreshLevelsOnToggleOn(4);
+                return;
+            }
+            //changed to false
+            RefreshLevelsOnToggleOff(4);
+        });
 
 
     }
@@ -104,7 +115,7 @@ public class BuyingTabUIScript : MonoBehaviour
     
     public void RefreshLevelsOnToggleOff(int index)
     {
-        for (int i = index; i < 4; i++)
+        for (int i = index; i < 5; i++)
         {
             if (LevelsOfToggle[i].interactable)
             {
@@ -126,7 +137,7 @@ public class BuyingTabUIScript : MonoBehaviour
             currentTownCostToBuy.Add(cost);
 
         }
-        for(int i=0;i<4;i++)
+        for(int i=0;i<5;i++)
         {
             Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
         }
@@ -139,11 +150,11 @@ public class BuyingTabUIScript : MonoBehaviour
         }
         for(int i=townLevel;i<maxTownLevelThatCanBeBuy;i++)
         {
-            if (i > 4) continue;
+            if (i > 5) continue;
             Levels[i].GetComponent<RawImage>().color = Color.white;
             LevelsOfToggle[i].interactable = true;
         }
-        for(int i=maxTownLevelThatCanBeBuy; i<4;i++)
+        for(int i=maxTownLevelThatCanBeBuy; i<5;i++)
         {
             Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
@@ -162,7 +173,7 @@ public class BuyingTabUIScript : MonoBehaviour
     public int GetCurrentIndexOfChoosenLevel()
     {
         int currentIndex = -1;
-        for(int i=0;i<4;i++)
+        for(int i=0;i<5;i++)
         {
             if (LevelsOfToggle[i].interactable)
             {
