@@ -34,8 +34,8 @@ public class BuyingTabUIScript : MonoBehaviour
             int townLevelsAdded = GetCurrentIndexOfChoosenLevel();
             if (townLevelsAdded != -1)
             {
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc( currentTownCostToBuy[currentTileScript.townLevel+ townLevelsAdded], PlayerScript.LocalInstance.playerIndex, 1);
-                currentTileScript.UpgradeTown(townLevelsAdded, PlayerScript.LocalInstance.playerIndex);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc( currentTownCostToBuy[currentTileScript.townLevel.Value+ townLevelsAdded], PlayerScript.LocalInstance.playerIndex, 1);
+                currentTileScript.UpgradeTownServerRpc(townLevelsAdded, PlayerScript.LocalInstance.playerIndex);
                 Hide();
             }
         });
@@ -116,7 +116,6 @@ public class BuyingTabUIScript : MonoBehaviour
     
     public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript )
     {
-        Debug.Log("town:" + townLevel + " maxTown:" + maxTownLevelThatCanBeBuy);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -134,21 +133,19 @@ public class BuyingTabUIScript : MonoBehaviour
         currentTileScript = tileScript;
         for (int i=0;i<townLevel;i++)
         {
-            Levels[i].GetComponent<Image>().color = Color.gray;
+            Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].isOn = true;
             LevelsOfToggle[i].interactable = false;
-            Debug.Log("townLevelNotInteractible:" + i);
         }
         for(int i=townLevel;i<maxTownLevelThatCanBeBuy;i++)
         {
             if (i > 4) continue;
-            Levels[i].GetComponent<Image>().color = Color.white;
+            Levels[i].GetComponent<RawImage>().color = Color.white;
             LevelsOfToggle[i].interactable = true;
         }
         for(int i=maxTownLevelThatCanBeBuy; i<4;i++)
         {
-            Debug.Log("maxTownLevelThatCanBeBuy:" + i);
-            Levels[i].GetComponent<Image>().color = Color.gray;
+            Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
         }
     }
@@ -172,7 +169,6 @@ public class BuyingTabUIScript : MonoBehaviour
                 if (LevelsOfToggle[i].isOn) currentIndex++;
             }
         }
-        Debug.Log(currentIndex);
         return currentIndex;
     }
 

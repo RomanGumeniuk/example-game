@@ -85,23 +85,25 @@ public class GameLogic : NetworkBehaviour
             int currentIndex = Random.Range(0, allPlayerAmount - i);
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
             allPlayerIndex.RemoveAt(currentIndex);
-            AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId);
+            AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value);
             //PlayersListUI.Instance.AddPlayerToListServerRpc(allPlayersListPrefab.Count - 1);
 
         }
+        
         index = 0;
         OnNextPlayerTurnServerRpc();
     }
 
     [ClientRpc]
-    public void AddAllPlayerPrefabListClientRpc(ulong index)
+    public void AddAllPlayerPrefabListClientRpc(ulong index,int startMoney)
     {
         Debug.Log(index);
         GameObject playerPrefabList = Instantiate(playerListPrefab, content);
         allPlayersListPrefab.Add(playerPrefabList.transform);
         playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index;
-        playerPrefabList.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = NetworkManager.Singleton.ConnectedClients[index].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value +"PLN";
-        
+        playerPrefabList.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = startMoney +"PLN";
+        content.parent.parent.parent.GetComponent<RectTransform>().anchoredPosition = new Vector2(757, -150);
+        content.parent.parent.parent.gameObject.SetActive(true);
     }
 
     [ServerRpc(RequireOwnership =false)]
