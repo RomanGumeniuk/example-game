@@ -116,7 +116,6 @@ public class BuyingTabUIScript : MonoBehaviour
     
     public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript )
     {
-        Debug.Log("town:" + townLevel + " maxTown:" + maxTownLevelThatCanBeBuy);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -137,7 +136,6 @@ public class BuyingTabUIScript : MonoBehaviour
             Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].isOn = true;
             LevelsOfToggle[i].interactable = false;
-            Debug.Log("townLevelNotInteractible:" + i);
         }
         for(int i=townLevel;i<maxTownLevelThatCanBeBuy;i++)
         {
@@ -147,7 +145,6 @@ public class BuyingTabUIScript : MonoBehaviour
         }
         for(int i=maxTownLevelThatCanBeBuy; i<4;i++)
         {
-            Debug.Log("maxTownLevelThatCanBeBuy:" + i);
             Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
         }
@@ -172,7 +169,6 @@ public class BuyingTabUIScript : MonoBehaviour
                 if (LevelsOfToggle[i].isOn) currentIndex++;
             }
         }
-        Debug.Log(currentIndex);
         return currentIndex;
     }
 
