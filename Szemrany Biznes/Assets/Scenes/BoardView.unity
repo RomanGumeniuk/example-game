@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.43890795, g: 0.48710978, b: 0.56737214, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2518,7 +2518,6 @@ GameObject:
   - component: {fileID: 491863973}
   - component: {fileID: 491863976}
   - component: {fileID: 491863975}
-  - component: {fileID: 491863974}
   m_Layer: 0
   m_Name: Karta Szansy#2
   m_TagString: Untagged
@@ -2541,28 +2540,6 @@ Transform:
   m_Father: {fileID: 1933073992}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!64 &491863974
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491863972}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &491863975
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3873,7 +3850,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 73.165, y: -134.56, z: 329.337}
 --- !u!1 &725326861
 GameObject:
@@ -6913,7 +6890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 256}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249600819
@@ -7237,7 +7214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -286, y: -164}
+  m_AnchoredPosition: {x: -286, y: 0}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1266876916
@@ -7357,7 +7334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -165}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1310299837
@@ -8661,7 +8638,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1433943886
 MonoBehaviour:
@@ -8696,17 +8673,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dice: {fileID: 8875057411541281468, guid: c4e22c202042fa64e98a249d4b58475e, type: 3}
-  offset: {x: -11, y: 13, z: 11}
-  backOrForward: 0
-  rollForce: 25
+  offsetPosition: {x: 0, y: 11, z: -8}
+  offsetRotation: {x: 0, y: 0, z: 0}
+  backOrForward: 1
+  rollForce: 24
   speed: 150
-  cords: {x: 0, y: 0, z: 0}
-  rollNumberTable1: []
-  rollNumberTable2: []
-  rollNumberTable3: []
-  rollNumberTable4: []
-  rollNumberTable5: []
-  rollNumberTable6: []
 --- !u!1 &1495275982
 GameObject:
   m_ObjectHideFlags: 0
@@ -8937,7 +8908,6 @@ GameObject:
   - component: {fileID: 1552487483}
   - component: {fileID: 1552487486}
   - component: {fileID: 1552487485}
-  - component: {fileID: 1552487484}
   m_Layer: 0
   m_Name: Karta Szansy#1
   m_TagString: Untagged
@@ -8960,28 +8930,6 @@ Transform:
   m_Father: {fileID: 1933073992}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!64 &1552487484
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552487482}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1552487485
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12466,7 +12414,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 25.935, y: -18.337, z: 0}
 --- !u!1 &2140257104
 GameObject:
@@ -12632,7 +12580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0002002716
+      value: -0.45
       objectReference: {fileID: 0}
     - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12698,11 +12646,23 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6098264799298542536, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6487163618825470596, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6507913140692745207, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7728121665358826000, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8338582890570352784, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -12718,8 +12678,16 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8787794419679966222, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2375983536928216804, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+    - {fileID: 545129527542014806, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+    - {fileID: 1705687206674660662, guid: ca08febc00121574080478e0089a1ff1, type: 3}
+    - {fileID: 4080956791304879737, guid: ca08febc00121574080478e0089a1ff1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca08febc00121574080478e0089a1ff1, type: 3}
