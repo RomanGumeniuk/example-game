@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TileScript : MonoBehaviour
+using Unity.Netcode;
+public class TileScript : NetworkBehaviour
 {
     public int tileType = 0;
     // 0-> town tile
@@ -21,8 +21,8 @@ public class TileScript : MonoBehaviour
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
 
-    public int ownerId = -1;
-    public int townLevel = 0;
+    public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1);
+    public NetworkVariable<int> townLevel = new NetworkVariable<int>(0);
     public int curentMaxTownLevelThatCanBeBuy = 1;
     public int amountMoneyGiveOnPlayerStep = 0;
     // -1 means that town has no owner
@@ -35,7 +35,12 @@ public class TileScript : MonoBehaviour
             townCostToBuy.Add(townCostToBuy[0]);
             townCostToBuy.Add(townCostToBuy[0] * 2);
             townCostToBuy.Add(townCostToBuy[0] * 4);
-            townCostToBuy.Add(townCostToBuy[0] * 6);        
+            townCostToBuy.Add(townCostToBuy[0] * 6);
+            townCostToPay.Add(townCostToBuy[0]/2);
+            townCostToPay.Add(townCostToBuy[0] );
+            townCostToPay.Add(townCostToBuy[0] * 2);
+            townCostToPay.Add(townCostToBuy[0] * 4);
+            townCostToPay.Add(townCostToBuy[0] * 6);
         }
     }
 
@@ -46,11 +51,11 @@ public class TileScript : MonoBehaviour
         {
             case 0:
                 int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
-                if (ownerId == -1 || ownerId == PlayerScript.LocalInstance.playerIndex) 
+                if (ownerId.Value == -1 || ownerId.Value == PlayerScript.LocalInstance.playerIndex) 
                 {
                     int maxLevelThatPlayerCanAfford = 0;
                     //option to buy town
-                    for(int i= townLevel; i< curentMaxTownLevelThatCanBeBuy;i++)
+                    for(int i= townLevel.Value; i< curentMaxTownLevelThatCanBeBuy;i++)
                     {
                         if (playerAmountOfMoney > townCostToBuy[i])
                         {
@@ -61,7 +66,7 @@ public class TileScript : MonoBehaviour
                     if(maxLevelThatPlayerCanAfford!=0)
                     {
                         //can buy at lest 1 level town
-                        BuyingTabUIScript.Instance.ShowBuyingUI(townLevel, maxLevelThatPlayerCanAfford+townLevel, townCostToBuy,this);
+                        BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford+townLevel.Value, townCostToBuy,this);
                         return;
                     }
                     //no option of buying return and go to next player
@@ -69,12 +74,12 @@ public class TileScript : MonoBehaviour
                     return;
                 }
                 //paying someone for visiting town
-                if(playerAmountOfMoney > townCostToPay[townLevel])
+                if(playerAmountOfMoney > townCostToPay[townLevel.Value])
                 {
                     //player can pay for visiting town
-                    
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel], PlayerScript.LocalInstance.playerIndex,1);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel], ownerId,2);
+                    Debug.Log(PlayerScript.LocalInstance.gameObject.name+" Paying: " + townCostToPay[townLevel.Value]);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 else
@@ -96,13 +101,14 @@ public class TileScript : MonoBehaviour
         }
 
     }
-
-    public void UpgradeTown(int addedLevels,int ownerId)
+    [ServerRpc(RequireOwnership = false)]
+    public void UpgradeTownServerRpc(int addedLevels,int ownerId)
     {
-        this.ownerId = ownerId;
-        townLevel += addedLevels+1;
+        this.ownerId.Value = ownerId ;
+        townLevel.Value += addedLevels+1;
         if (curentMaxTownLevelThatCanBeBuy != 5) curentMaxTownLevelThatCanBeBuy++;
     }
+
 
 
 
