@@ -134,7 +134,7 @@ public class BuyingTabUIScript : MonoBehaviour
         currentTileScript = tileScript;
         for (int i=0;i<townLevel;i++)
         {
-            Levels[i].GetComponent<Image>().color = Color.gray;
+            Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].isOn = true;
             LevelsOfToggle[i].interactable = false;
             Debug.Log("townLevelNotInteractible:" + i);
@@ -142,13 +142,13 @@ public class BuyingTabUIScript : MonoBehaviour
         for(int i=townLevel;i<maxTownLevelThatCanBeBuy;i++)
         {
             if (i > 4) continue;
-            Levels[i].GetComponent<Image>().color = Color.white;
+            Levels[i].GetComponent<RawImage>().color = Color.white;
             LevelsOfToggle[i].interactable = true;
         }
         for(int i=maxTownLevelThatCanBeBuy; i<4;i++)
         {
             Debug.Log("maxTownLevelThatCanBeBuy:" + i);
-            Levels[i].GetComponent<Image>().color = Color.gray;
+            Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
         }
     }

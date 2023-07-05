@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 public class TileScript : NetworkBehaviour
 {
     public int tileType = 0;
@@ -105,8 +106,16 @@ public class TileScript : NetworkBehaviour
     public void UpgradeTownServerRpc(int addedLevels,int ownerId)
     {
         this.ownerId.Value = ownerId ;
+        
         townLevel.Value += addedLevels+1;
+        UpdateOwnerTextClientRpc(ownerId, townLevel.Value);
         if (curentMaxTownLevelThatCanBeBuy != 5) curentMaxTownLevelThatCanBeBuy++;
+    }
+
+    [ClientRpc]
+    public void UpdateOwnerTextClientRpc(int ownerId,int townLevel)
+    {
+        gameObject.GetComponentInChildren<TextMeshPro>().text = ownerId.ToString() + "   L:" + townLevel;
     }
 
 
