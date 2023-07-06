@@ -22,7 +22,7 @@ public class GameUIScript : NetworkBehaviour
     {
         RollDiceButton.onClick.AddListener(() =>
         {
-            Debug.Log("RollClicked");
+            
             int diceValue = Random.Range(1, 7);
 
             TextAboutStateOfGame.text = "You rolled " + diceValue;

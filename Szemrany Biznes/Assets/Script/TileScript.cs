@@ -34,7 +34,7 @@ public class TileScript : NetworkBehaviour
         if(tileType==0)
         {
             if (townCostToBuy.Count == 0) return;
-            townLevel.Value = -1;
+            //townLevel.Value = -1;
             townCostToBuy.Add(townCostToBuy[0]);
             townCostToBuy.Add(townCostToBuy[0] * 2);
             townCostToBuy.Add(townCostToBuy[0] * 4);
@@ -48,7 +48,7 @@ public class TileScript : NetworkBehaviour
     }
 
 
-    public void OnPlayerEnter()
+    public void OnPlayerEnter(bool passTheStartTile = false)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         switch (tileType)
@@ -92,7 +92,7 @@ public class TileScript : NetworkBehaviour
                 {
                     //player can pay for visiting town
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 else
@@ -104,7 +104,7 @@ public class TileScript : NetworkBehaviour
                 break;
             case 1:
                 GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2);
-                GameUIScript.OnNextPlayerTurn.Invoke();
+                if(!passTheStartTile)GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
             case 5:
             case 8:
@@ -118,13 +118,13 @@ public class TileScript : NetworkBehaviour
                 if (ownerId.Value == -1)
                 {
                     if(playerAmountOfMoney < townCostToBuy[0]) GameUIScript.OnNextPlayerTurn.Invoke();
-                    BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0],  this);
+                    else BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0],  this);
                     return;
                 }
                 if(ownerId.Value != PlayerScript.LocalInstance.playerIndex)
                 {
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2,false);
                 }
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 break;

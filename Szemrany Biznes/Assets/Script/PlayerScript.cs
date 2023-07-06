@@ -47,14 +47,7 @@ public class PlayerScript : NetworkBehaviour
                     case 0:
                         directionX = -1;
                         directionZ = 0;
-                        
                         transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
-                        if(i!=0)GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
-                        if(i+1>=diceValue)
-                        {
-                            currentTileIndex = 0;
-                            return;
-                        }
                         break;
                     case 10:
                         directionX = 0;
@@ -75,7 +68,14 @@ public class PlayerScript : NetworkBehaviour
             }
             transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
             if (currentTileIndex != (9 * 4) + 3) currentTileIndex++;
-            else currentTileIndex = 0;
+            else
+            {
+                currentTileIndex = 0;
+                if (i + 1 < diceValue)
+                {
+                    GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(true);
+                }
+            }
         }
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
         

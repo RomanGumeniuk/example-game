@@ -627,7 +627,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &46440028
 MonoBehaviour:
@@ -1249,7 +1249,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &93440070
 MonoBehaviour:
@@ -3495,7 +3495,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &322965123
 MonoBehaviour:
@@ -4362,7 +4362,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &446312043
 MonoBehaviour:
@@ -5856,7 +5856,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &617577414
 MonoBehaviour:
@@ -7872,7 +7872,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &876903477
 MonoBehaviour:
@@ -8169,7 +8169,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &884165575
 MonoBehaviour:
@@ -9954,7 +9954,7 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  amountMoneyOnPlayerStep: 0
+  amountMoneyOnPlayerStep: 200
 --- !u!114 &1078993333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10102,7 +10102,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1079120171
 MonoBehaviour:
@@ -10741,7 +10741,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1132903546
 MonoBehaviour:
@@ -11020,7 +11020,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1212966763
 MonoBehaviour:
@@ -12059,7 +12059,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1342720362
 MonoBehaviour:
@@ -12208,7 +12208,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1346953076
 MonoBehaviour:
@@ -12357,7 +12357,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1347945031
 MonoBehaviour:
@@ -12678,7 +12678,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1380939273
 MonoBehaviour:
@@ -12934,7 +12934,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1393701520
 MonoBehaviour:
@@ -13421,7 +13421,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1418124837
 MonoBehaviour:
@@ -14049,7 +14049,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1550375333
 MonoBehaviour:
@@ -15042,7 +15042,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1633467542
 MonoBehaviour:
@@ -15326,7 +15326,7 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  amountMoneyOnPlayerStep: 0
+  amountMoneyOnPlayerStep: 400
 --- !u!114 &1651830895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15919,7 +15919,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &1708358581
 MonoBehaviour:
@@ -19312,7 +19312,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &2037842680
 MonoBehaviour:
@@ -19766,7 +19766,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &2085603642
 MonoBehaviour:
@@ -19915,7 +19915,7 @@ MonoBehaviour:
   ownerId:
     m_InternalValue: -1
   townLevel:
-    m_InternalValue: 0
+    m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
 --- !u!114 &2115745486
 MonoBehaviour:
