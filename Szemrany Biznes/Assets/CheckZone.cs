@@ -6,24 +6,37 @@ public class CheckZone : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] public GameObject GameLogic;
+    DiceSpawn diceSpawn;
     public int diceNumber;
-    public bool isNotMoving;
+    public bool isNotMoving = false;
     Vector3 diceVelocity;
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        diceVelocity = GameLogic.diceVelocity;
+        diceSpawn = GameLogic.GetComponent<DiceSpawn>();
+        diceVelocity = diceSpawn.diceVelocity;
+        
     }
     void OnTriggerStay(Collider col)
     {
+        if (isNotMoving==true)
+        {
+            StopCoroutine(test(col));
+        }
+        StartCoroutine(test(col));
+    }
+    IEnumerator test(Collider col)
+    {
+        yield return new WaitForSeconds(1);
         if (diceVelocity.x == 0f && diceVelocity.y == 0f && diceVelocity.z == 0f)
         {
             isNotMoving = true;
+            
             switch (col.gameObject.name)
             {
                 case "Number1":
@@ -50,9 +63,16 @@ public class CheckZone : MonoBehaviour
                     diceNumber = 1;
                     Debug.Log("Wylosowano liczbê: " + diceNumber);
                     break;
+                default:
+                    diceNumber = 0;
+                    break;
             }
 
 
+        }
+        else if (isNotMoving == true)
+        {
+            yield break;
         }
     }
 }

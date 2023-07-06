@@ -3,37 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using Mono.Cecil.Cil;
 
 public class DiceSpawn : NetworkBehaviour
 {
     
     //Gameobjects
     public GameObject Dice;
-    public GameObject CheckZone;
+    CheckZone checkZone;
+    [SerializeField] GameObject CheckZone;
 
     [SerializeField] Vector3 offsetPosition, offsetRotation;
     [SerializeField] int backOrForward;
     [SerializeField] private float rollForce = 20;
     Coroutine _velocityCoroutine;
-    bool isNotMoving = false;
     public int diceNumber;
     public Vector3 diceVelocity;
 
     void Start()
     {
-        Collider collider = CheckZone.GetComponent<Collider>();
+        checkZone = CheckZone.GetComponent<CheckZone>();
+        Debug.Log(checkZone.isNotMoving);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         rollTheDice();
+        
 
     }
     IEnumerator CheckVelocity(Rigidbody rb)
     {
         yield return null;
         diceVelocity = rb.velocity;
+        yield return null;
+        Debug.Log(diceVelocity);
+        if (checkZone.isNotMoving == true)
+        {
+            Debug.Log("ZATRZYMANO KUROTINA KURWE");
+            yield break;
+            
+        }
     }
     void rollTheDice()
         {
@@ -43,12 +55,12 @@ public class DiceSpawn : NetworkBehaviour
                 Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
                 rb.AddForce(Vector3.forward * rollForce, ForceMode.Impulse);
                 rb.AddForce(Vector3.down * rollForce, ForceMode.Impulse);
-            if (isNotMoving == false)
+            if (checkZone.isNotMoving == false)
             {
                 _velocityCoroutine = StartCoroutine(CheckVelocity(rb));
             }
             else {
-                StopCoroutine(_velocityCoroutine);
+                Debug.Log("Stoisz chyba");
             }
             }           
 
