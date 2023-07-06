@@ -577,7 +577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &34489028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1002,7 +1002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &56765625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4568,7 +4568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &387410191
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8683,7 +8683,11 @@ MonoBehaviour:
     m_InternalValue: -1
   currentBid:
     m_InternalValue: 0
-  timeLeft: 15
+  currentPlayersIndexInAuction:
+    m_InternalValue: 
+  timeLeft:
+    m_InternalValue: 15
+  playerIndexThatNotBuyProperti: -1
 --- !u!1 &876903471
 GameObject:
   m_ObjectHideFlags: 0
@@ -12120,7 +12124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1199587639
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12241,7 +12245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1202226543
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20267,7 +20271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1901777586
 RectTransform:
   m_ObjectHideFlags: 0

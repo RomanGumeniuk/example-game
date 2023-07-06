@@ -23,6 +23,8 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
 
         DontBuyButton.onClick.AddListener(() =>
         {
+            Debug.Log("dontBuy");
+            BiddingTabUIScript.Instance.StartServerRpc(currentTileScript.townCostToBuy[0],currentTileScript.name,PlayerScript.LocalInstance.playerIndex);
             Hide();
         });
 
@@ -34,6 +36,12 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
             Hide();
             
         });
+    }
+
+    public void BuyTownForOtherPlayer(int playerIndex,int currentBid)
+    {
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid, playerIndex, 1);
+        currentTileScript.UpgradeTownServerRpc(0, playerIndex);
     }
 
     public void ShowBuyingUI(int Cost, TileScript tileScript)
