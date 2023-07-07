@@ -8683,8 +8683,7 @@ MonoBehaviour:
     m_InternalValue: -1
   currentBid:
     m_InternalValue: 0
-  currentPlayersIndexInAuction:
-    m_InternalValue: 
+  currentPlayersIndexInAuction: 00000000
   timeLeft:
     m_InternalValue: 15
   playerIndexThatNotBuyProperti: -1
@@ -14496,7 +14495,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 700, y: 100}
+  m_SizeDelta: {x: 1200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1386711866
 MonoBehaviour:
@@ -17737,8 +17736,8 @@ RectTransform:
   - {fileID: 1998289728}
   - {fileID: 1158416363}
   - {fileID: 1195325511}
-  - {fileID: 1249600818}
   - {fileID: 865135454}
+  - {fileID: 1249600818}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

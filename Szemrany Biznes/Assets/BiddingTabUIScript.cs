@@ -27,7 +27,7 @@ public class BiddingTabUIScript : NetworkBehaviour
 
     public NetworkVariable<float> timeLeft = new NetworkVariable<float>(15);
 
-    public int playerIndexThatNotBuyProperti=-1;
+    public int playerIndexThatNotBuyProperti = -1;
 
     public static BiddingTabUIScript Instance { get; private set; }
 
@@ -69,8 +69,12 @@ public class BiddingTabUIScript : NetworkBehaviour
         ChangeTimeLeftServerRpc(15);
         ChangeCurrentBidServerRpc(currentBid.Value + bidValue);
         ChangeCurrentBidWinnerPlayerIndexServerRpc(PlayerScript.LocalInstance.playerIndex);
-        RefreshOnNewBidServerRpc();
+        Debug.Log("false interactable");
         PassButton.interactable = false;
+        Bid10Button.interactable = false;
+        Bid50Button.interactable = false;
+        Bid100Button.interactable = false;
+        Bid200Button.interactable = false;
     }
 
     public void HideBiddingOption()
@@ -82,10 +86,11 @@ public class BiddingTabUIScript : NetworkBehaviour
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void ChangeCurrentBidServerRpc(int newBid)
     {
         currentBid.Value = newBid;
+        OnCurrentBidChanged(0, currentBid.Value);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -103,7 +108,7 @@ public class BiddingTabUIScript : NetworkBehaviour
     private void AddPlayerToListServerRpc(int playerIndex)
     {
         currentPlayersIndexInAuction.Add(playerIndex);
-        Debug.Log("added "+ currentPlayersIndexInAuction.Count);
+        Debug.Log("added " + currentPlayersIndexInAuction.Count);
 
     }
 
@@ -123,22 +128,22 @@ public class BiddingTabUIScript : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void StartAuctionClientRpc(int currentCostOfProperty,string currentPropertiName, int playerIndexThatNotBuyProperti)
+    public void StartAuctionClientRpc(int currentCostOfProperty, string currentPropertiName, int playerIndexThatNotBuyProperti)
     {
         Debug.Log("startAukcji");
         NameOfProperti.text = currentPropertiName;
         RegularCost.text = currentCostOfProperty.ToString() + "PLN";
         ChangeCurrentBidServerRpc(currentCostOfProperty - 10);
-        CurrentBid.text = "Start bid: " + currentBid.Value + "PLN";
+        CurrentBid.text = "Start bid: " + (currentCostOfProperty - 10) + "PLN";
         TimerImage.fillAmount = 1;
         TimeLeft.text = "15s";
         TextLabel.text = "Wait for all Players to end auction";
         ChangeCurrentBidWinnerPlayerIndexServerRpc(-1);
         ChangeTimeLeftServerRpc(15);
-        
+        RefreshOnNewBid();
         transform.GetChild(0).gameObject.SetActive(true);
         this.playerIndexThatNotBuyProperti = playerIndexThatNotBuyProperti;
-        if (playerIndexThatNotBuyProperti != PlayerScript.LocalInstance.playerIndex && PlayerScript.LocalInstance.amountOfMoney.Value >=currentCostOfProperty)
+        if (playerIndexThatNotBuyProperti != PlayerScript.LocalInstance.playerIndex && PlayerScript.LocalInstance.amountOfMoney.Value >= currentCostOfProperty)
         {
             TextLabel.text = "How much do you wanna bid?";
             AddPlayerToListServerRpc(PlayerScript.LocalInstance.playerIndex);
@@ -146,47 +151,71 @@ public class BiddingTabUIScript : NetworkBehaviour
             {
                 child.gameObject.SetActive(true);
             }
-            RefreshOnNewBidServerRpc();
-            
         }
-        for(int i=0;i<currentPlayersIndexInAuction.Count;i++)
+        for (int i = 0; i < currentPlayersIndexInAuction.Count; i++)
         {
             Debug.Log(i);
         }
-        
+
         StartCoroutine(Timer());
 
     }
-    [ServerRpc (RequireOwnership =false)]
-    public void RefreshOnNewBidServerRpc()
-    {
-        RefreshOnNewBidClientRpc();
-    }    
 
 
-    [ClientRpc]
-    public void RefreshOnNewBidClientRpc()
+
+    public override void OnNetworkSpawn()
     {
-        if(currentBidWinnerPlayerIndex.Value == PlayerScript.LocalInstance.playerIndex) PassButton.interactable = true;
-        CurrentBid.text = "Player#"+currentBidWinnerPlayerIndex.Value+" bid: " + currentBid.Value + " PLN";
-        if(!currentPlayersIndexInAuction.Contains(PlayerScript.LocalInstance.playerIndex)) return;
-        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentBid.Value + 10)
+        currentBidWinnerPlayerIndex.OnValueChanged += OnCurrentBidWinnerChanged;
+        currentBid.OnValueChanged += OnCurrentBidChanged;
+    }
+
+    public void OnCurrentBidWinnerChanged(int prevValue,int currentValue)
+    {
+        RefreshOnNewBid();
+    }
+
+    public void OnCurrentBidChanged(int prevValue,int currentValue)
+    {
+        Debug.Log($"old: {prevValue} new:{currentValue}");
+        Debug.Log($"player money: {PlayerScript.LocalInstance.amountOfMoney.Value} curentBid{currentValue}");
+        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 10)
         {
-            transform.GetChild(1).GetComponent<Button>().interactable = false;
+            Bid10Button.interactable = false;
             RemovePlayerToListServerRpc(PlayerScript.LocalInstance.playerIndex);
             HideBiddingOption();
+            Debug.Log("hide10");
         }
-        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentBid.Value + 50)
+        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 50)
         {
-            transform.GetChild(2).GetComponent<Button>().interactable = false;
+            Bid50Button.interactable = false;
+            Debug.Log("hide50");
         }
-        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentBid.Value + 100)
+        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 100)
         {
-            transform.GetChild(3).GetComponent<Button>().interactable = false;
+            Bid100Button.interactable = false;
+            Debug.Log("hide100");
         }
-        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentBid.Value + 200)
+        if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 200)
         {
-            transform.GetChild(4).GetComponent<Button>().interactable = false;
+            Bid200Button.interactable = false;
+            Debug.Log("hide200");
+        }
+    }
+    
+    public void RefreshOnNewBid()
+    {
+        if (currentBidWinnerPlayerIndex.Value != PlayerScript.LocalInstance.playerIndex)
+        {
+            Debug.Log("true interactable |" + currentBidWinnerPlayerIndex.Value +"|"+ PlayerScript.LocalInstance.playerIndex);
+            PassButton.interactable = true;
+            if(PlayerScript.LocalInstance.amountOfMoney.Value >= currentBid.Value + 10)
+                Bid10Button.interactable = true;
+            if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentBid.Value + 50)
+                Bid50Button.interactable = true;
+            if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentBid.Value + 100)
+                Bid100Button.interactable = true;
+            if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentBid.Value + 200)
+                Bid200Button.interactable = true;
         }
     }
 
@@ -204,6 +233,7 @@ public class BiddingTabUIScript : NetworkBehaviour
             if(IsServer)ChangeTimeLeftServerRpc( timeLeft.Value - 0.02f);
             TimeLeft.text = Mathf.Ceil(timeLeft.Value)+"s";
             TimerImage.fillAmount = timeLeft.Value/15;
+            if (currentBidWinnerPlayerIndex.Value != -1) CurrentBid.text = "Player#" + currentBidWinnerPlayerIndex.Value + " bid: " + currentBid.Value + " PLN";
         }
         
     }
@@ -217,7 +247,15 @@ public class BiddingTabUIScript : NetworkBehaviour
         {
             BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value);
         }
-        
+        if(currentBidWinnerPlayerIndex.Value == PlayerScript.LocalInstance.playerIndex) StartCoroutine(WinnerOfAuction());
+    }
+
+    IEnumerator WinnerOfAuction()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+        TextLabel.text = "You win Auction and paid " + currentBid.Value + " PLN for " + NameOfProperti.text;
+        yield return new WaitForSeconds(3);
+        hide();
     }
 
     public void hide()
