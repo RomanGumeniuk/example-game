@@ -15468,8 +15468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dice: {fileID: 8875057411541281468, guid: c4e22c202042fa64e98a249d4b58475e, type: 3}
-  CheckZone: {fileID: 1868397918}
-  offsetPosition: {x: 0, y: 5, z: 0}
+  offsetPosition: {x: 0, y: 5, z: -3}
   offsetRotation: {x: 0, y: 0, z: 0}
   backOrForward: 0
   rollForce: 25
@@ -20055,9 +20054,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfa40e3361e09a419719cf62378c297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameLogic: {fileID: 1433943883}
   diceNumber: 0
-  isNotMoving: 0
+  diceSide: {fileID: 0}
 --- !u!65 &1868397920
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22541,29 +22539,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 300427695621930572, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1348973071452317284, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_RootOrder
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.84
       objectReference: {fileID: 0}
     - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22605,57 +22583,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2510349928661389002, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2949501938979186131, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2968260688749386006, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3110856212486774871, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3295565813256017822, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3631576410957556953, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680692612912763081, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4931689682937832207, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6487163618825470596, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7728121665358826000, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8345472625659364798, guid: ca08febc00121574080478e0089a1ff1, type: 3}
       propertyPath: m_Name
       value: Boundaries
-      objectReference: {fileID: 0}
-    - target: {fileID: 8429016189644213728, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8586824818461374113, guid: ca08febc00121574080478e0089a1ff1, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

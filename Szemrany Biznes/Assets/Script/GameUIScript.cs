@@ -18,19 +18,18 @@ public class GameUIScript : NetworkBehaviour
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
 
-    public void OnDiceNumberReturn(int diceNumber)
+    [ClientRpc]
+    public void OnDiceNumberReturnClientRpc(int diceNumber, ClientRpcParams clientRpcParams = default)
     {
         TextAboutStateOfGame.text = "You rolled " + diceNumber;
-        RollDiceButton.gameObject.SetActive(false);
         PlayerScript.LocalInstance.Move(diceNumber);
     }
     public override void OnNetworkSpawn()
     {
         RollDiceButton.onClick.AddListener(() =>
         {
-
-            DiceSpawn.Instance.RollTheDice();
-            //OnNextPlayerTurn.Invoke();
+            RollDiceButton.gameObject.SetActive(false);
+            DiceSpawn.Instance.RollTheDiceServerRpc(PlayerScript.LocalInstance.playerIndex);
         });
         if (!IsServer)return;
         

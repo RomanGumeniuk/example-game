@@ -1,79 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class CheckZone : MonoBehaviour
+public class CheckZone : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] public GameObject GameLogic;
-    DiceSpawn diceSpawn;
+
     public int diceNumber = 0;
-    public bool isNotMoving;
     public Collider diceSide;
-    void Start()
+    public static CheckZone Instance { get; private set; }
+
+    void Awake()
     {
-        diceSpawn = GameLogic.GetComponent<DiceSpawn>();
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         diceSide = other;
     }
-    public IEnumerator test(Transform prefab)
+    public void test(GameObject prefabGameObject,int playerIndex)
     {
-        
-        if (diceSpawn.diceVelocity.x == 0f && diceSpawn.diceVelocity.y == 0f && diceSpawn.diceVelocity.z == 0f)
+        switch (diceSide.name)
         {
-            if (isNotMoving == true)
-            {
-                yield break;
-            }
-                isNotMoving = true;
-            
-                switch (diceSide.name)
-                {
-                    case "Number1":
-                        diceNumber = 6;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    case "Number2":
-                        diceNumber = 5;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    case "Number3":
-                        diceNumber = 4;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    case "Number4":
-                        diceNumber = 3;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    case "Number5":
-                        diceNumber = 2;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    case "Number6":
-                        diceNumber = 1;
-                        Debug.Log("Wylosowano liczbê: " + diceNumber);
-                        break;
-                    default:
-                        diceNumber = 0;
-                        break;
-                }
-            GameUIScript.Instance.OnDiceNumberReturn(diceNumber);
-            }
-            
-
-
+            case "Number1":
+                diceNumber = 6;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            case "Number2":
+                diceNumber = 5;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            case "Number3":
+                diceNumber = 4;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            case "Number4":
+                diceNumber = 3;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            case "Number5":
+                diceNumber = 2;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            case "Number6":
+                diceNumber = 1;
+                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                break;
+            default:
+                diceNumber = 0;
+                break;
         }
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { (ulong)playerIndex }
+            }
+        };
+        GameUIScript.Instance.OnDiceNumberReturnClientRpc(diceNumber,clientRpcParams);
+        Destroy(prefabGameObject);
         
-        
+
     }
 
-    
-    
+}
