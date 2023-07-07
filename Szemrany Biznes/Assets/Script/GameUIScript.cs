@@ -18,16 +18,18 @@ public class GameUIScript : NetworkBehaviour
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
 
+    public void OnDiceNumberReturn(int diceNumber)
+    {
+        TextAboutStateOfGame.text = "You rolled " + diceNumber;
+        RollDiceButton.gameObject.SetActive(false);
+        PlayerScript.LocalInstance.Move(diceNumber);
+    }
     public override void OnNetworkSpawn()
     {
         RollDiceButton.onClick.AddListener(() =>
         {
-            
-            int diceValue = Random.Range(1, 7);
 
-            TextAboutStateOfGame.text = "You rolled " + diceValue;
-            RollDiceButton.gameObject.SetActive(false);
-            PlayerScript.LocalInstance.Move(diceValue);
+            DiceSpawn.Instance.RollTheDice();
             //OnNextPlayerTurn.Invoke();
         });
         if (!IsServer)return;

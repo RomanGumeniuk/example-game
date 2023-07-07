@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 public class DiceSpawn : NetworkBehaviour
 {
-    
+    public static DiceSpawn Instance { get; private set; }
     //Gameobjects
     public GameObject Dice;
     CheckZone checkZone;
@@ -20,52 +20,48 @@ public class DiceSpawn : NetworkBehaviour
     public int diceNumber;
     public Vector3 diceVelocity;
 
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         checkZone = CheckZone.GetComponent<CheckZone>();
-        Debug.Log(checkZone.isNotMoving);
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        rollTheDice();
-        
-
-    }
     IEnumerator CheckVelocity(Rigidbody rb)
     {
-        yield return null;
+        yield return new WaitForSeconds(2);
+        while (true) { 
         diceVelocity = rb.velocity;
         yield return null;
-        Debug.Log(diceVelocity);
-        if (checkZone.isNotMoving == true)
+        if (diceVelocity == new Vector3(0,0,0))
         {
-            Debug.Log("ZATRZYMANO KUROTINA KURWE");
-            yield break;
             
+            Debug.Log("ZATRZYMANO KUROTINA KURWE");
+               StartCoroutine(checkZone.test(rb.transform));
+            yield break;
+        }
         }
     }
-    void rollTheDice()
+    public void RollTheDice()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+                checkZone.isNotMoving = false;
                 GameObject prefabInstance = Instantiate(Dice, offsetPosition, Quaternion.Euler(offsetRotation));
                 Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
                 rb.AddForce(Vector3.forward * rollForce, ForceMode.Impulse);
                 rb.AddForce(Vector3.down * rollForce, ForceMode.Impulse);
-            if (checkZone.isNotMoving == false)
-            {
-                _velocityCoroutine = StartCoroutine(CheckVelocity(rb));
+                if (checkZone.isNotMoving == false)
+                {
+                    _velocityCoroutine = StartCoroutine(CheckVelocity(rb));
+                }
+                else if(checkZone.isNotMoving==true){
+                    Debug.Log("Stoisz chyba");
+                    
             }
-            else {
-                Debug.Log("Stoisz chyba");
-            }
-            }           
-
         }
-    
-    }
+}
 
 

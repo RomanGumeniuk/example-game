@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
+using System;
 
 public class BuyingTabForOnePaymentUIScript : MonoBehaviour
 {
@@ -65,6 +67,11 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
             child.gameObject.SetActive(false);
         }
         GameUIScript.OnNextPlayerTurn.Invoke();
+    }
+
+    internal void BuyTownForOtherPlayer(int value, NetworkVariable<int> currentBid)
+    {
+        throw new NotImplementedException();
     }
 }
 

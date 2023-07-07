@@ -100,9 +100,13 @@ public class GameLogic : NetworkBehaviour
         Debug.Log(index);
         GameObject playerPrefabList = Instantiate(playerListPrefab, content);
         allPlayersListPrefab.Add(playerPrefabList.transform);
-        
-        if(PlayerScript.LocalInstance.playerIndex == (int)index) playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index + " You";
-        else playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index;
+
+        if (PlayerScript.LocalInstance.playerIndex == (int)index) playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index + " You";
+        else
+        {
+            playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index;
+        }
+
         playerPrefabList.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = startMoney +"PLN";
         content.parent.parent.parent.GetComponent<RectTransform>().anchoredPosition = new Vector2(757, -150);
         content.parent.parent.parent.gameObject.SetActive(true);
