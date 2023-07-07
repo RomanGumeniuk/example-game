@@ -112,7 +112,7 @@ public class GameLobby : MonoBehaviour
         
     }
 
-    private async void ListLobbies() //Wypisuje wszsytkie lobby ktore spelniaja filtry
+    public async void ListLobbies() //Wypisuje wszsytkie lobby ktore spelniaja filtry
     {
         try
         {
@@ -146,7 +146,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private async void JoinLobbyByCode(string lobbyCode) //Dolacza do lobby po kodzie
+    public async void JoinLobbyByCode(string lobbyCode) //Dolacza do lobby po kodzie
     {
         try {
             JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
@@ -175,7 +175,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private Player GetPlayer() { //Zwraca dane graczxa
+    public Player GetPlayer() { //Zwraca dane graczxa
         return new Player
         {
             Data = new Dictionary<string, PlayerDataObject> {
@@ -184,14 +184,14 @@ public class GameLobby : MonoBehaviour
         };
     }
 
-    private void PrintPlayers() //Zwraca dane graczy w lobby
+    public void PrintPlayers() //Zwraca dane graczy w lobby
     {
         PrintPlayers(joinedLobby);
     }
 
     private void PrintPlayers(Lobby lobby) //Zwraca dane graczy w lobby
     {
-        Debug.Log("Players in lobby " + lobby.Name + " " + lobby.Data["GameMode"].Value + " " + lobby.Data["Map"].Value);
+        Debug.Log("Players in lobby " + lobby.Name);
         foreach(Player player in lobby.Players)
         {
             Debug.Log(player.Id + " " + player.Data["PlayerName"].Value);
@@ -200,7 +200,7 @@ public class GameLobby : MonoBehaviour
 
 
 
-    private async void UpdateLobbyGameMode(string gameMode) //Aktualizacja trybu gry
+    public async void UpdateLobbyGameMode(string gameMode) //Aktualizacja trybu gry
     {
         try
         {
@@ -222,7 +222,7 @@ public class GameLobby : MonoBehaviour
         
     }
 
-    private async void UpdatePlayerName(string newPlayerName) //Aktualizacja nazwy gracza
+    public async void UpdatePlayerName(string newPlayerName) //Aktualizacja nazwy gracza
     {
         try {
             playerName = newPlayerName;
@@ -239,7 +239,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private async void LeaveLobby() //Mozliwosc opuszczenia lobby
+    public async void LeaveLobby() //Mozliwosc opuszczenia lobby
     {
         try
         {
@@ -251,7 +251,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private async void KickPlayer() //Mozliwosc kikniecia gracza z lobby (JAKO HOST)
+    public async void KickPlayer() //Mozliwosc kikniecia gracza z lobby (JAKO HOST)
     {
         try
         {
@@ -263,7 +263,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private async void MigrateHost() //Oddaje hosta nastepnemu graczu w lobby
+    public async void MigrateHost() //Oddaje hosta nastepnemu graczu w lobby
     {
         try
         {
@@ -281,7 +281,7 @@ public class GameLobby : MonoBehaviour
         }
     }
 
-    private async void DeleteLobby() //Usuwa lobby
+    public async void DeleteLobby() //Usuwa lobby
     {
         try
         {
