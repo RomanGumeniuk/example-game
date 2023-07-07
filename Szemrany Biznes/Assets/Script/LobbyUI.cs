@@ -7,7 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyUI : MonoBehaviour
-{
+{   
+    public static LobbyUI Instance { get; private set; }
     [SerializeField] private Button createLobbyButton;
     [SerializeField] private Button joinLobbyButton;
     [SerializeField] private Button settingsButton;
@@ -16,26 +17,35 @@ public class LobbyUI : MonoBehaviour
 
     private void Awake()
     {
-        createLobbyButton.onClick.AddListener(() =>
+        if (Instance!=null)
         {
-            SceneLoader.Instance.GoToScene("MenuCreator");
-        });
-        /*joinLobbyButton.onClick.AddListener(() =>
+            Instance = this;
+            DontDestroyOnLoad(this);
+            createLobbyButton.onClick.AddListener(() =>
+            {
+                SceneLoader.Instance.GoToScene("MenuCreator");
+            });
+            joinLobbyButton.onClick.AddListener(() =>
+            {
+                SceneLoader.Instance.GoToScene("LobbyJoiner");
+            });
+            settingsButton.onClick.AddListener(() =>
+            {
+                SceneLoader.Instance.GoToScene("Settings");
+            });
+            creditsButton.onClick.AddListener(() =>
+            {
+                SceneLoader.Instance.GoToScene("Credits");
+            });
+            exitButton.onClick.AddListener(() =>
+            {
+                //Exit the game
+                Application.Quit();
+            });
+        }
+        else
         {
-            SceneLoader.Instance.GoToScene("LobbyJoiner");
-        });
-        settingsButton.onClick.AddListener(() =>
-        {
-            SceneLoader.Instance.GoToScene("Settings");
-        });
-        creditsButton.onClick.AddListener(() =>
-        {
-            SceneLoader.Instance.GoToScene("Credits");
-        });
-        exitButton.onClick.AddListener(() =>
-        {
-            //Exit the game
-            Application.Quit();
-        });*/
+            Destroy(this.gameObject);
+        }
     }
 }

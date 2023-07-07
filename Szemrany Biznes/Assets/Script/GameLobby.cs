@@ -80,7 +80,7 @@ public class GameLobby : MonoBehaviour
 
 
     
-    public async void CreateLobby(string lobbyName, int maxPlayers, bool IsPrivate) //Tworzy lobby
+    public async void CreateLobby(string lobbyName, float maxPlayers, bool IsPrivate) //Tworzy lobby
     {
         try
         {
@@ -95,7 +95,7 @@ public class GameLobby : MonoBehaviour
                 }*/
             };
 
-            Unity.Services.Lobbies.Models.Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
+            Unity.Services.Lobbies.Models.Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, (int)maxPlayers, createLobbyOptions);
 
             hostLobby = lobby;
             joinedLobby = hostLobby;
@@ -179,8 +179,8 @@ public class GameLobby : MonoBehaviour
         return new Player
         {
             Data = new Dictionary<string, PlayerDataObject> {
-                        { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)}
-                    }
+                { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)}
+            }
         };
     }
 

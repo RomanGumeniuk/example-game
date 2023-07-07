@@ -6,6 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 0674ce43c4208de4585baff7b4381305
+  - enabled: 1
     path: Assets/Scenes/BoardView.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/MenuCreator.unity
+    guid: 3580f8e1934fa4f4b87a573a991e8cac
+  - enabled: 1
+    path: Assets/Scenes/LobbySearching.unity
+    guid: 4e09a8a2a21e0284ba10dec7cd36a31b
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: e08b4646e7e89454fb6989033521ab61
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: cd5ee468c32e1424aa66d7d63104aebe
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 5a13ba70a3e6b5340b7bc1b4234c7f47
   m_configObjects: {}
