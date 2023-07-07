@@ -215,7 +215,7 @@ public class BiddingTabUIScript : NetworkBehaviour
         hide();
         if (currentBidWinnerPlayerIndex.Value != -1 && PlayerScript.LocalInstance.playerIndex == playerIndexThatNotBuyProperti)
         {
-            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid);
+            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value);
         }
         
     }
