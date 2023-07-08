@@ -40,6 +40,7 @@ public class SellingTabUI : MonoBehaviour
         {
             BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].GetCurrentPropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
             SellAtAuctionButton.interactable = false;
+            SellButton.interactable = false;
         });
         PayButton.onClick.AddListener(() =>
         {
