@@ -19,6 +19,10 @@ public class LobbyUI : MonoBehaviour
     {
         if (Instance!=null)
         {
+            Destroy(this.gameObject);
+        }
+        else
+        {
             Instance = this;
             DontDestroyOnLoad(this);
             createLobbyButton.onClick.AddListener(() =>
@@ -27,7 +31,7 @@ public class LobbyUI : MonoBehaviour
             });
             joinLobbyButton.onClick.AddListener(() =>
             {
-                SceneLoader.Instance.GoToScene("LobbyJoiner");
+                SceneLoader.Instance.GoToScene("LobbySearching");
             });
             settingsButton.onClick.AddListener(() =>
             {
@@ -42,10 +46,6 @@ public class LobbyUI : MonoBehaviour
                 //Exit the game
                 Application.Quit();
             });
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
 }

@@ -112,7 +112,7 @@ public class GameLobby : MonoBehaviour
         
     }
 
-    public async void ListLobbies() //Wypisuje wszsytkie lobby ktore spelniaja filtry
+    public async void ListLobbies(string lobbyNameInput) //Wypisuje wszsytkie lobby ktore spelniaja filtry
     {
         try
         {
@@ -122,7 +122,7 @@ public class GameLobby : MonoBehaviour
                 Filters = new List<QueryFilter>
                 {
                     new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT),
-                    //new QueryFilter(QueryFilter.FieldOptions.S1, "Solo", QueryFilter.OpOptions.EQ)
+                    new QueryFilter(QueryFilter.FieldOptions.Name, lobbyNameInput, QueryFilter.OpOptions.CONTAINS)
                 },
                 Order = new List<QueryOrder>
                 {
@@ -136,8 +136,7 @@ public class GameLobby : MonoBehaviour
             Debug.Log("Lobbies found " + queryResponse.Results.Count);
             foreach (Lobby lobby in queryResponse.Results)
             {
-                //Debug.Log(lobby.Name + " " + lobby.MaxPlayers + " " + lobby.Data["GameMode"].Value + " " + lobby.Data["Map"].Value);
-                Debug.Log(lobby.Name + " " + lobby.MaxPlayers);
+                //return lobby.Name lobby.MaxPlayers lobby.Id
             }
         }
         catch (LobbyServiceException e)
