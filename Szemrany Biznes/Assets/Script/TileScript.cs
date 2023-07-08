@@ -24,7 +24,7 @@ public class TileScript : NetworkBehaviour
 
     public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1);
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
-    int curentMaxTownLevelThatCanBeBuy = 0;
+    public int curentMaxTownLevelThatCanBeBuy = 0;
     public int amountMoneyOnPlayerStep = 0;
     public DisplayPropertyUI displayPropertyUI;
     // -1 means that town has no owner

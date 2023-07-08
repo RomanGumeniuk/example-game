@@ -18,6 +18,8 @@ public class BuyingTabUIScript : MonoBehaviour
     public List<int> currentTownCostToBuy = new List<int>();
 
     public TileScript currentTileScript = null;
+    public int currentTownLevel;
+    public int currentMaxTownLevelThanCanBeBuy;
 
     private void Awake()
     {
@@ -33,7 +35,15 @@ public class BuyingTabUIScript : MonoBehaviour
             int townLevelsAdded = GetCurrentIndexOfChoosenLevel();
             if (townLevelsAdded != -1)
             {
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc( currentTownCostToBuy[currentTileScript.townLevel.Value+ townLevelsAdded], PlayerScript.LocalInstance.playerIndex, 1);
+                int totalCost = 0;
+                for (int i = currentTownLevel; i < currentMaxTownLevelThanCanBeBuy; i++)
+                {
+                    if (LevelsOfToggle[i].isOn && LevelsOfToggle[i].interactable)
+                    {
+                        totalCost += currentTownCostToBuy[i];
+                    }
+                }
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalCost, PlayerScript.LocalInstance.playerIndex, 1);
                 currentTileScript.UpgradeTownServerRpc(townLevelsAdded, PlayerScript.LocalInstance.playerIndex);
                 Hide();
             }
@@ -110,6 +120,7 @@ public class BuyingTabUIScript : MonoBehaviour
                 LevelsOfToggle[i].isOn = true;
             }
         }
+        RefreshBuyButtonText();
     }
     
     public void RefreshLevelsOnToggleOff(int index)
@@ -121,6 +132,20 @@ public class BuyingTabUIScript : MonoBehaviour
                 LevelsOfToggle[i].isOn = false;
             }
         }
+        RefreshBuyButtonText();
+    }
+
+    public void RefreshBuyButtonText()
+    {
+        int totalCost=0;
+        for (int i = currentTownLevel; i < currentMaxTownLevelThanCanBeBuy; i++)
+        {
+            if (LevelsOfToggle[i].isOn && LevelsOfToggle[i].interactable)
+            {
+                totalCost += currentTownCostToBuy[i];
+            }
+        }
+        BuyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy for \n(" + totalCost + "PLN)";
     }
     
     
@@ -134,13 +159,13 @@ public class BuyingTabUIScript : MonoBehaviour
         foreach(int cost in townAllLevelsCost)
         {
             currentTownCostToBuy.Add(cost);
-
         }
         for(int i=0;i<5;i++)
         {
             Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
         }
         currentTileScript = tileScript;
+        RefreshBuyButtonText();
         for (int i=0;i<townLevel;i++)
         {
             Levels[i].GetComponent<RawImage>().color = Color.gray;
@@ -158,6 +183,8 @@ public class BuyingTabUIScript : MonoBehaviour
             Levels[i].GetComponent<RawImage>().color = Color.gray;
             LevelsOfToggle[i].interactable = false;
         }
+        currentTownLevel = townLevel;
+        currentMaxTownLevelThanCanBeBuy = maxTownLevelThatCanBeBuy;
     }
 
     public void Hide()

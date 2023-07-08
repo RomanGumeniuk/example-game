@@ -145,16 +145,13 @@ public class BiddingTabUIScript : NetworkBehaviour
         ChangeTimeLeftServerRpc(15);
         RefreshOnNewBid();
         startBidValue = currentCostOfProperty;
-        transform.GetChild(0).gameObject.SetActive(true);
+        
         this.playerIndexThatNotBuyProperti = playerIndexThatNotBuyProperti;
         if (playerIndexThatNotBuyProperti != PlayerScript.LocalInstance.playerIndex && PlayerScript.LocalInstance.amountOfMoney.Value >= currentCostOfProperty)
         {
             TextLabel.text = "How much do you wanna bid?";
             AddPlayerToListServerRpc(PlayerScript.LocalInstance.playerIndex);
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(true);
-            }
+            
         }
         for (int i = 0; i < currentPlayersIndexInAuction.Count; i++)
         {
@@ -225,7 +222,15 @@ public class BiddingTabUIScript : NetworkBehaviour
 
     IEnumerator Timer(int currentCostOfProperty)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
+        transform.GetChild(0).gameObject.SetActive(true);
+        if (playerIndexThatNotBuyProperti != PlayerScript.LocalInstance.playerIndex && PlayerScript.LocalInstance.amountOfMoney.Value >= currentCostOfProperty)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
         while (true)
         {
             if ((timeLeft.Value <= 0 || currentPlayersIndexInAuction.Count  < 2) &&IsServer)
