@@ -24,27 +24,29 @@ public class TileScript : NetworkBehaviour
 
     public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1);
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
-    int curentMaxTownLevelThatCanBeBuy = 1;
+    int curentMaxTownLevelThatCanBeBuy = 0;
     public int amountMoneyOnPlayerStep = 0;
+    public DisplayPropertyUI displayPropertyUI;
     // -1 means that town has no owner
 
     private void Start()
     {
+        displayPropertyUI = transform.GetComponentInChildren<DisplayPropertyUI>();
+        if (tileType != 0) return;
+
+        if (townCostToBuy.Count == 0) return;
+        //townLevel.Value = -1;
         
-        if(tileType==0)
-        {
-            if (townCostToBuy.Count == 0) return;
-            //townLevel.Value = -1;
-            townCostToBuy.Add(townCostToBuy[0]);
-            townCostToBuy.Add(townCostToBuy[0] * 2);
-            townCostToBuy.Add(townCostToBuy[0] * 4);
-            townCostToBuy.Add(townCostToBuy[0] * 6);
-            townCostToPay.Add(townCostToBuy[0]/2);
-            townCostToPay.Add(townCostToBuy[0] );
-            townCostToPay.Add(townCostToBuy[0] * 2);
-            townCostToPay.Add(townCostToBuy[0] * 4);
-            townCostToPay.Add(townCostToBuy[0] * 6);
-        }
+        townCostToBuy.Add(townCostToBuy[0]);
+        townCostToBuy.Add(townCostToBuy[0] * 2);
+        townCostToBuy.Add(townCostToBuy[0] * 4);
+        townCostToBuy.Add(townCostToBuy[0] * 6);
+        townCostToPay.Add(townCostToBuy[0]/2);
+        townCostToPay.Add(townCostToBuy[0] );
+        townCostToPay.Add(townCostToBuy[0] * 2);
+        townCostToPay.Add(townCostToBuy[0] * 4);
+        townCostToPay.Add(townCostToBuy[0] * 6);
+        
     }
 
 
@@ -91,24 +93,25 @@ public class TileScript : NetworkBehaviour
                 if(playerAmountOfMoney >= townCostToPay[townLevel.Value])
                 {
                     //player can pay for visiting town
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1,true,true);
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 else
                 {
                     //player cant aford visiting town there for needs to sold some of his properite to pay for it
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(0,PlayerScript.LocalInstance.playerIndex);
-                    GameUIScript.OnNextPlayerTurn.Invoke();
+                    PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value]);
+                    //GameLogic.Instance.UpdateMoneyForPlayerServerRpc(0,PlayerScript.LocalInstance.playerIndex);
+                    //GameUIScript.OnNextPlayerTurn.Invoke();
                 }
                 break;
             case 1:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2,true,true);
                 if(!passTheStartTile)GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
             case 5:
             case 8:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1,true,true);
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
 
@@ -123,7 +126,7 @@ public class TileScript : NetworkBehaviour
                 }
                 if(ownerId.Value != PlayerScript.LocalInstance.playerIndex)
                 {
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1,true,true);
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2,false);
                 }
                 GameUIScript.OnNextPlayerTurn.Invoke();
@@ -140,7 +143,6 @@ public class TileScript : NetworkBehaviour
     public void UpgradeTownServerRpc(int addedLevels,int ownerId)
     {
         this.ownerId.Value = ownerId;
-        
         townLevel.Value += addedLevels+1;
         UpdateOwnerTextClientRpc(ownerId, townLevel.Value);
         if (curentMaxTownLevelThatCanBeBuy != 5) curentMaxTownLevelThatCanBeBuy++;
@@ -149,9 +151,48 @@ public class TileScript : NetworkBehaviour
     [ClientRpc]
     public void UpdateOwnerTextClientRpc(int ownerId,int townLevel)
     {
-        gameObject.GetComponentInChildren<TextMeshPro>().text = ownerId.ToString() + "   L:" + townLevel;
+        if(displayPropertyUI==null)
+        {
+            Debug.LogError("No displayPropertyUI script found on:" + this.name);
+            return;
+        }
+        Debug.Log(townLevel);
+        displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
     }
 
+    [ServerRpc]
+    public void SellingTownServerRpc(int playerIndex)
+    {
+        int townTotalValue = GetCurrentPropertyValue();
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townTotalValue, playerIndex, 2);
+        ownerId.Value = -1;
+        townLevel.Value = -1;
+        curentMaxTownLevelThatCanBeBuy = 0;
+        UpdateOwnerTextClientRpc(-1, -1);
+    }
+
+
+    public void ShowSellingView()
+    {
+        if (displayPropertyUI == null)
+        {
+            Debug.LogError("No displayPropertyUI script found on:" + this.name);
+            return;
+        }
+        int totalPropertyValue = GetCurrentPropertyValue();
+        displayPropertyUI.ShowSellingView(totalPropertyValue);
+    }
+
+    public int GetCurrentPropertyValue()
+    {
+        int totalPropertyValue = 0;
+        for (int i = 0; i < townLevel.Value; i++)
+        {
+            totalPropertyValue += townCostToBuy[i];
+        }
+        totalPropertyValue += townCostToBuy[0];
+        return totalPropertyValue;
+    }
 
 
 

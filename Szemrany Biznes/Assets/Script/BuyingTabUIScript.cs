@@ -26,7 +26,6 @@ public class BuyingTabUIScript : MonoBehaviour
         DontBuyButton.onClick.AddListener(() =>
         {
             Hide();
-            //ShowBuyingUI(3, 4, new List<int>());
         });
         
         BuyButton.onClick.AddListener(() =>

@@ -28,6 +28,7 @@ public class BiddingTabUIScript : NetworkBehaviour
     public NetworkVariable<float> timeLeft = new NetworkVariable<float>(15);
 
     public int playerIndexThatNotBuyProperti = -1;
+    public int startBidValue = 0;
 
     public static BiddingTabUIScript Instance { get; private set; }
 
@@ -141,6 +142,7 @@ public class BiddingTabUIScript : NetworkBehaviour
         ChangeCurrentBidWinnerPlayerIndexServerRpc(-1);
         ChangeTimeLeftServerRpc(15);
         RefreshOnNewBid();
+        startBidValue = currentCostOfProperty;
         transform.GetChild(0).gameObject.SetActive(true);
         this.playerIndexThatNotBuyProperti = playerIndexThatNotBuyProperti;
         if (playerIndexThatNotBuyProperti != PlayerScript.LocalInstance.playerIndex && PlayerScript.LocalInstance.amountOfMoney.Value >= currentCostOfProperty)
@@ -245,7 +247,7 @@ public class BiddingTabUIScript : NetworkBehaviour
         hide();
         if (currentBidWinnerPlayerIndex.Value != -1 && PlayerScript.LocalInstance.playerIndex == playerIndexThatNotBuyProperti)
         {
-            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value);
+            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value, startBidValue);
         }
         if(currentBidWinnerPlayerIndex.Value == PlayerScript.LocalInstance.playerIndex) StartCoroutine(WinnerOfAuction());
     }

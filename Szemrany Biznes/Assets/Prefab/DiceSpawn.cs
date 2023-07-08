@@ -34,6 +34,12 @@ public class DiceSpawn : NetworkBehaviour
                 CheckZone.Instance.test(rb.gameObject, playerIndex);
                 yield break;
             }
+            if(rb.transform.position.y < -2 || rb.transform.position.x < -10 || rb.transform.position.x > 10 || rb.transform.position.z > 10 || rb.transform.position.z < -10)
+            {
+                Destroy(rb.gameObject);
+                RollTheDiceServerRpc(playerIndex);
+                yield break;
+            }
         }
     }
     [ServerRpc(RequireOwnership =false)]

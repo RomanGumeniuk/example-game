@@ -144,20 +144,23 @@ public class GameLogic : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void UpdateMoneyForPlayerServerRpc(int newMoney,int playerIndex,int type =0,bool hide = true) // type 0-> set 1-> subtract 2->add
+    public void UpdateMoneyForPlayerServerRpc(int newMoney,int playerIndex,int type =0,bool hide = true,bool changeTotalAmountOfMoney = false) // type 0-> set 1-> subtract 2->add
     {
         switch(type)
         {
             case 0:
                 NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value = newMoney;
+                if(changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value = newMoney;
                 playerIndex = -1;
                 break;
             case 1:
                 NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value -= newMoney;
+                if (changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value -= newMoney;
                 newMoney = newMoney * (-1);
                 break;
             case 2:
                 NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value += newMoney;
+                if (changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value += newMoney;
                 break;
         }
         

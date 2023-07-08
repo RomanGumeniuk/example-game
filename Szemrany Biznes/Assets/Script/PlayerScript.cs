@@ -11,6 +11,9 @@ public class PlayerScript : NetworkBehaviour
     public int playerIndex;
     public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>( 3000);
     public int playerId;
+    public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
+    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
+
     public static PlayerScript LocalInstance { get; private set; }
 
     public override void OnNetworkSpawn()
@@ -27,7 +30,7 @@ public class PlayerScript : NetworkBehaviour
         if (!IsOwner) return;
         if(Input.GetKey(KeyCode.A))
         {
-            transform.position = new Vector3(transform.position.x - (1 * Time.deltaTime), transform.position.y, transform.position.z);
+            ShowSellingTab(3000);
         }
     }
 
@@ -79,6 +82,20 @@ public class PlayerScript : NetworkBehaviour
         }
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
         
+    }
+
+    public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid)
+    {
+        if(amountOfMoneyThatNeedsToBePaid>totalAmountOfMoney.Value)
+        {
+            Debug.Log("Bankrut!!!");
+            return;
+        }
+        SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value);
+        foreach (TileScript tile in tilesThatPlayerOwnList)
+        {
+            tile.ShowSellingView();
+        }
     }
 
 

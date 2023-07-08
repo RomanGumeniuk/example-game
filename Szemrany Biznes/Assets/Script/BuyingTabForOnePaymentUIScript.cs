@@ -35,14 +35,16 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
 
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.UpgradeTownServerRpc(0, PlayerScript.LocalInstance.playerIndex);
+            PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(currentTileScript);
             Hide();
             
         });
     }
 
-    public void BuyTownForOtherPlayer(int playerIndex,int currentBid)
+    public void BuyTownForOtherPlayer(int playerIndex,int currentBid,int startPrice)
     {
-        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid, playerIndex, 1);
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid-startPrice, playerIndex, 1,true,true);
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(startPrice, playerIndex, 1);
         currentTileScript.UpgradeTownServerRpc(0, playerIndex);
     }
 
