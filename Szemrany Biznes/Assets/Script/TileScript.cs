@@ -94,17 +94,14 @@ public class TileScript : NetworkBehaviour
                 {
                     //player can pay for visiting town
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1,true,true);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false);
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false,true);
                     GameUIScript.OnNextPlayerTurn.Invoke();
+                    return;
                 }
-                else
-                {
-                    //player cant aford visiting town there for needs to sold some of his properite to pay for it
-                    PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value]);
-                    //GameLogic.Instance.UpdateMoneyForPlayerServerRpc(0,PlayerScript.LocalInstance.playerIndex);
-                    //GameUIScript.OnNextPlayerTurn.Invoke();
-                }
-                break;
+                
+                //player cant aford visiting town there for needs to sold some of his properite to pay for it
+                PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value],ownerId.Value);
+                return;
             case 1:
                 GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2,true,true);
                 if(!passTheStartTile)GameUIScript.OnNextPlayerTurn.Invoke();
@@ -126,8 +123,17 @@ public class TileScript : NetworkBehaviour
                 }
                 if(ownerId.Value != PlayerScript.LocalInstance.playerIndex)
                 {
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1,true,true);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2,false);
+                    if(playerAmountOfMoney >= townCostToPay[0])
+                    {
+                        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1, true, true);
+                        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2, false, true);
+                    }
+                    else
+                    {
+                        PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value], ownerId.Value);
+                        return;
+                    }
+                    
                 }
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
@@ -148,6 +154,12 @@ public class TileScript : NetworkBehaviour
         if (curentMaxTownLevelThatCanBeBuy != 5) curentMaxTownLevelThatCanBeBuy++;
     }
 
+    [ServerRpc(RequireOwnership =false)]
+    public void UpdateOwnerTextServerRpc()
+    {
+        UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value);
+    }
+
     [ClientRpc]
     public void UpdateOwnerTextClientRpc(int ownerId,int townLevel)
     {
@@ -156,8 +168,8 @@ public class TileScript : NetworkBehaviour
             Debug.LogError("No displayPropertyUI script found on:" + this.name);
             return;
         }
-        Debug.Log(townLevel);
-        displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
+        if(townLevel<0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0);
+        else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
     }
 
     [ServerRpc]

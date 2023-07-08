@@ -30,6 +30,8 @@ public class BiddingTabUIScript : NetworkBehaviour
     public int playerIndexThatNotBuyProperti = -1;
     public int startBidValue = 0;
 
+    private bool moneyForBank = true;
+
     public static BiddingTabUIScript Instance { get; private set; }
 
     private void Awake()
@@ -122,16 +124,16 @@ public class BiddingTabUIScript : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void StartServerRpc(int currentCostOfProperty, string currentPropertiName, int playerIndexThatNotBuyProperti)
+    public void StartAuctionServerRpc(int currentCostOfProperty, string currentPropertiName, int playerIndexThatNotBuyProperti,bool moneyForBank = true)
     {
         currentPlayersIndexInAuction.Clear();
-        StartAuctionClientRpc(currentCostOfProperty, currentPropertiName, playerIndexThatNotBuyProperti);
+        StartAuctionClientRpc(currentCostOfProperty, currentPropertiName, playerIndexThatNotBuyProperti,moneyForBank);
     }
 
     [ClientRpc]
-    public void StartAuctionClientRpc(int currentCostOfProperty, string currentPropertiName, int playerIndexThatNotBuyProperti)
+    public void StartAuctionClientRpc(int currentCostOfProperty, string currentPropertiName, int playerIndexThatNotBuyProperti,bool moneyForBank)
     {
-        Debug.Log("startAukcji");
+        this.moneyForBank = moneyForBank;
         NameOfProperti.text = currentPropertiName;
         RegularCost.text = currentCostOfProperty.ToString() + "PLN";
         ChangeCurrentBidServerRpc(currentCostOfProperty - 10);
@@ -245,11 +247,25 @@ public class BiddingTabUIScript : NetworkBehaviour
     {
         Debug.Log(currentPlayersIndexInAuction.Count);
         hide();
-        if (currentBidWinnerPlayerIndex.Value != -1 && PlayerScript.LocalInstance.playerIndex == playerIndexThatNotBuyProperti)
+        if(currentBidWinnerPlayerIndex.Value==-1)
         {
-            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value, startBidValue);
+            if (!moneyForBank) SellingTabUI.Instance.AuctionEnd(false);
+            return;
+        }
+        if (PlayerScript.LocalInstance.playerIndex == playerIndexThatNotBuyProperti)
+        {
+            BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value, startBidValue, moneyForBank);
+            if (!moneyForBank) 
+            {
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(startBidValue, playerIndexThatNotBuyProperti, 1,true,true);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid.Value, playerIndexThatNotBuyProperti, 2, true, true);
+                SellingTabUI.Instance.UpdatePayButton();
+                SellingTabUI.Instance.AuctionEnd(true);
+            }
+            
         }
         if(currentBidWinnerPlayerIndex.Value == PlayerScript.LocalInstance.playerIndex) StartCoroutine(WinnerOfAuction());
+        
     }
 
     IEnumerator WinnerOfAuction()

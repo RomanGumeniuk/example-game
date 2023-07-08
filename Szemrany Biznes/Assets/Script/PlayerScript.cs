@@ -30,7 +30,7 @@ public class PlayerScript : NetworkBehaviour
         if (!IsOwner) return;
         if(Input.GetKey(KeyCode.A))
         {
-            ShowSellingTab(3000);
+            //ShowSellingTab(3000);
         }
     }
 
@@ -84,14 +84,14 @@ public class PlayerScript : NetworkBehaviour
         
     }
 
-    public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid)
+    public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid,int playerIndexThatGetsPaid)
     {
         if(amountOfMoneyThatNeedsToBePaid>totalAmountOfMoney.Value)
         {
             Debug.Log("Bankrut!!!");
             return;
         }
-        SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value);
+        SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value,playerIndexThatGetsPaid);
         foreach (TileScript tile in tilesThatPlayerOwnList)
         {
             tile.ShowSellingView();

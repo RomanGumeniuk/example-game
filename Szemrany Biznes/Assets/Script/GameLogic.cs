@@ -112,36 +112,9 @@ public class GameLogic : NetworkBehaviour
         content.parent.parent.parent.gameObject.SetActive(true);
     }
 
-    [ServerRpc(RequireOwnership =false)]
-    public void RefreshAllPlayerPrefbListServerRpc(int playerIndex = -1,int moneyChanged = 0,bool hide=true)
-    {
-        for(int i=0;i<allPlayersListPrefab.Count;i++)
-        {
-            //allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value + "PLN";
-            if(playerIndex == (int)PlayersOrder[i].ClientId)
-            {
-                SetUIMoneyOfPlayerClientRpc(i, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value,moneyChanged,hide);
-            }
-            else SetUIMoneyOfPlayerClientRpc(i, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value,0,hide);
-            
-        }
-    }
+    
 
-    [ClientRpc]
-    public void SetUIMoneyOfPlayerClientRpc(int i,int money,int moneyDiff =0,bool hide =true)
-    {
-        allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = money + "PLN";
-        if (moneyDiff != 0)
-        {
-            allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().text = moneyDiff.ToString();
-            if (moneyDiff < 0) allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().color = Color.red;
-            else allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().color = Color.green;
-        }
-        else
-        {
-            if(hide)allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
-        }
-    }
+    
 
     [ServerRpc(RequireOwnership = false)]
     public void UpdateMoneyForPlayerServerRpc(int newMoney,int playerIndex,int type =0,bool hide = true,bool changeTotalAmountOfMoney = false) // type 0-> set 1-> subtract 2->add
@@ -166,7 +139,38 @@ public class GameLogic : NetworkBehaviour
         
         RefreshAllPlayerPrefbListServerRpc(playerIndex,newMoney, hide);
     }
-   
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RefreshAllPlayerPrefbListServerRpc(int playerIndex = -1, int moneyChanged = 0, bool hide = true)
+    {
+        for (int i = 0; i < allPlayersListPrefab.Count; i++)
+        {
+            //allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value + "PLN";
+            if (playerIndex == (int)PlayersOrder[i].ClientId)
+            {
+                SetUIMoneyOfPlayerClientRpc(i, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value, moneyChanged, hide);
+            }
+            else SetUIMoneyOfPlayerClientRpc(i, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value, 0, hide);
+
+        }
+    }
+
+    [ClientRpc]
+    public void SetUIMoneyOfPlayerClientRpc(int i, int money, int moneyDiff = 0, bool hide = true)
+    {
+        allPlayersListPrefab[i].GetComponentInChildren<TextMeshProUGUI>().text = money + "PLN";
+        if (moneyDiff != 0)
+        {
+            allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().text = moneyDiff.ToString();
+            if (moneyDiff < 0) allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().color = Color.red;
+            else allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().color = Color.green;
+        }
+        else
+        {
+            if (hide) allPlayersListPrefab[i].GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
+        }
+    }
+
 
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)
