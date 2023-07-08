@@ -48,6 +48,15 @@ public class DisplayPropertyUI : MonoBehaviour
     public void ShowNormalView(int ownerId, int townLevel, int townCostToPay)
     {
         if(ownerId==-1)
+        {
+            backgroundImage.gameObject.SetActive(false);
+            backgroundOfToggle.SetActive(false);
+            toggle.enabled = false;
+            this.ownerId.text = "";
+            this.townLevel.text = "";
+            this.townCostToPay.text = "";
+            return;
+        }
         backgroundImage.gameObject.SetActive(false);
         backgroundOfToggle.SetActive(false);
         toggle.enabled = false;
