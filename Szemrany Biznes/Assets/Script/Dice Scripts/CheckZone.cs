@@ -25,27 +25,27 @@ public class CheckZone : NetworkBehaviour
         {
             case "Number1":
                 diceNumber = 6;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             case "Number2":
                 diceNumber = 5;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             case "Number3":
                 diceNumber = 4;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             case "Number4":
                 diceNumber = 3;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             case "Number5":
                 diceNumber = 2;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             case "Number6":
                 diceNumber = 1;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
+                Debug.Log("Wylosowano liczbê: " + diceNumber);
                 break;
             default:
                 diceNumber = 0;

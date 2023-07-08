@@ -11,6 +11,8 @@ public class DiceSpawn : NetworkBehaviour
     public GameObject Dice;
 
     [SerializeField] Vector3 offsetPosition, offsetRotation;
+
+
     [SerializeField] int backOrForward;
     [SerializeField] private float rollForce = 20;
     public int diceNumber;
@@ -19,6 +21,21 @@ public class DiceSpawn : NetworkBehaviour
     void Awake()
     {
         Instance = this;
+    }
+    public float RandomNumber(float from, float to)
+    {
+       return Random.Range(to, from);
+    }
+
+    public Vector3 RandomDirectionVertical()
+    {
+        if (Random.Range(1, 3) == 1) return Vector3.up;
+        else return Vector3.down;
+    }
+    public Vector3 RandomDirectionHorizontal()
+    {
+        if (Random.Range(1, 3) == 1) return Vector3.forward;
+        else return Vector3.back;
     }
     // Update is called once per frame
     IEnumerator CheckVelocity(Rigidbody rb,int playerIndex)
@@ -42,18 +59,20 @@ public class DiceSpawn : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void RollTheDiceServerRpc(int playerIndex)
     {
-
+        offsetPosition = new Vector3(RandomNumber(-3,3), RandomNumber(1,6),RandomNumber(-3,3));
+        offsetRotation = new Vector3(RandomNumber(-180, 180), RandomNumber(-180, 180), RandomNumber(-180, 180));
         GameObject prefabInstance = Instantiate(Dice, offsetPosition, Quaternion.Euler(offsetRotation));
         Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
         prefabInstance.GetComponent<NetworkObject>().Spawn();
-        rb.AddForce(Vector3.forward * Random.Range(rollForce,rollForce*5), ForceMode.Impulse);
-        rb.AddForce(Vector3.down * Random.Range(rollForce, rollForce * 5), ForceMode.Impulse);
+        rb.AddForce(RandomDirectionHorizontal() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
+        rb.AddForce(RandomDirectionVertical() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
         StartCoroutine(CheckVelocity(rb,playerIndex));
 
     }
+
 }
 
 
