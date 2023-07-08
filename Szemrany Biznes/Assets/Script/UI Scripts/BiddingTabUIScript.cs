@@ -257,9 +257,9 @@ public class BiddingTabUIScript : NetworkBehaviour
             BuyingTabForOnePaymentUIScript.Instance.BuyTownForOtherPlayer(currentBidWinnerPlayerIndex.Value,currentBid.Value, startBidValue, moneyForBank);
             if (!moneyForBank) 
             {
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(startBidValue, playerIndexThatNotBuyProperti, 1,true,true);
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid.Value, playerIndexThatNotBuyProperti, 2, true, true);
-                SellingTabUI.Instance.UpdatePayButton();
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(startBidValue, playerIndexThatNotBuyProperti, 1,false,true);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid.Value, playerIndexThatNotBuyProperti, 2, false, true);
+                StartCoroutine(SellingTabUI.Instance.UpdatePayButton());
                 SellingTabUI.Instance.AuctionEnd(true);
             }
             

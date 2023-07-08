@@ -33,17 +33,19 @@ public class SellingTabUI : MonoBehaviour
             }
             selectedTiles.Clear();
             SellButton.interactable = false;
-            UpdatePayButton();
+            SellAtAuctionButton.interactable = false;
+            StartCoroutine(UpdatePayButton());
         });
         SellAtAuctionButton.onClick.AddListener(() =>
         {
             BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].GetCurrentPropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
             SellAtAuctionButton.interactable = false;
+            SellButton.interactable = false;
         });
         PayButton.onClick.AddListener(() =>
         {
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, PlayerScript.LocalInstance.playerIndex, 1, true, true);
-            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, currentPlayerIndexThatGetsPaid,2,false,true);
+            if(currentPlayerIndexThatGetsPaid!=-1) GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, currentPlayerIndexThatGetsPaid,2,false,true);
             Hide();
             foreach(TileScript tileScript in PlayerScript.LocalInstance.tilesThatPlayerOwnList)
             {
@@ -67,9 +69,9 @@ public class SellingTabUI : MonoBehaviour
     }
 
 
-    public void UpdatePayButton()
+    public IEnumerator UpdatePayButton()
     {
-        
+        yield return new WaitForSeconds(0.1f);
         currentAmountOfPlayerMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentAmountMoneyToPay)
         {

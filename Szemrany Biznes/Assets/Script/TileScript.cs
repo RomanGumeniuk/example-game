@@ -108,9 +108,15 @@ public class TileScript : NetworkBehaviour
                 break;
             case 5:
             case 8:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1,true,true);
-                GameUIScript.OnNextPlayerTurn.Invoke();
-                break;
+                if (playerAmountOfMoney >= amountMoneyOnPlayerStep)
+                {
+                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1, true, true);
+                    GameUIScript.OnNextPlayerTurn.Invoke();
+                    return;
+                }
+                PlayerScript.LocalInstance.ShowSellingTab(amountMoneyOnPlayerStep, -1);
+                return;
+                
 
             case 4:
             case 6:
@@ -172,7 +178,7 @@ public class TileScript : NetworkBehaviour
         else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership =false)]
     public void SellingTownServerRpc(int playerIndex)
     {
         int townTotalValue = GetCurrentPropertyValue();
