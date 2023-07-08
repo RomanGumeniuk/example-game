@@ -18,6 +18,7 @@ public class SellingTabUI : MonoBehaviour
 
     public int currentAmountOfPlayerMoney;
     public int currentAmountMoneyToPay;
+    public int currentPlayerIndexThatGetsPaid;
 
     private void Awake()
     {
@@ -25,24 +26,60 @@ public class SellingTabUI : MonoBehaviour
 
         SellButton.onClick.AddListener(() =>
         {
-            foreach(TileScript tileScript in PlayerScript.LocalInstance.tilesThatPlayerOwnList)
+            foreach(TileScript tileScript in selectedTiles)
             {
-                if (selectedTiles.Contains(tileScript))
-                {
-                    tileScript.SellingTownServerRpc(PlayerScript.LocalInstance.playerIndex);
-                    PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(tileScript);
-                }
+                tileScript.SellingTownServerRpc(PlayerScript.LocalInstance.playerIndex);
+                PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(tileScript);
             }
+            selectedTiles.Clear();
             SellButton.interactable = false;
+            UpdatePayButton();
         });
         SellAtAuctionButton.onClick.AddListener(() =>
         {
-
+            BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].GetCurrentPropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
+            SellAtAuctionButton.interactable = false;
         });
         PayButton.onClick.AddListener(() =>
         {
-
+            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, PlayerScript.LocalInstance.playerIndex, 1, true, true);
+            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, currentPlayerIndexThatGetsPaid,2,false,true);
+            Hide();
+            foreach(TileScript tileScript in PlayerScript.LocalInstance.tilesThatPlayerOwnList)
+            {
+                tileScript.UpdateOwnerTextServerRpc();
+            }
+            GameUIScript.OnNextPlayerTurn.Invoke();
         });
+    }
+
+    public void AuctionEnd(bool bought) // bought means true -> someone buy property false -> no one buy property
+    {
+        if(bought)
+        {
+            PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(selectedTiles[0]);
+            selectedTiles.Clear();
+        }
+        else
+        {
+            SellAtAuctionButton.interactable = true;
+        }
+    }
+
+
+    public void UpdatePayButton()
+    {
+        
+        currentAmountOfPlayerMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
+        if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentAmountMoneyToPay)
+        {
+            PayButton.interactable = true;
+        }
+        else
+        {
+            PayButton.interactable = false;
+        }
+
     }
 
     public void UpdateSelectedTileList(TileScript tileScript,bool selected)
@@ -78,10 +115,12 @@ public class SellingTabUI : MonoBehaviour
     }
 
 
-    public void Show(int amountToPay,int amountThatPlayerHas)
+    public void Show(int amountToPay,int amountThatPlayerHas,int playerIndexThatGetsPaid)
     {
         currentAmountMoneyToPay = amountToPay;
         currentAmountOfPlayerMoney = amountThatPlayerHas;
+        currentPlayerIndexThatGetsPaid = playerIndexThatGetsPaid;
+        selectedTiles.Clear();
         foreach(Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -90,5 +129,13 @@ public class SellingTabUI : MonoBehaviour
         PayButton.interactable = false;
         SellButton.interactable = false;
         SellAtAuctionButton.interactable = false;
+    }
+
+    public void Hide()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 }
