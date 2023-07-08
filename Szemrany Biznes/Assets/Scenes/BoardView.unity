@@ -1477,7 +1477,7 @@ GameObject:
   - component: {fileID: 46440027}
   - component: {fileID: 46440028}
   m_Layer: 0
-  m_Name: Miejscowosc 5-C
+  m_Name: "Pozna\u0144 - \u0141azarz"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2491,7 +2491,7 @@ GameObject:
   - component: {fileID: 93440069}
   - component: {fileID: 93440070}
   m_Layer: 0
-  m_Name: Miejscowosc 6-C
+  m_Name: "Krak\xF3w - Krowodrza"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6868,7 +6868,7 @@ GameObject:
   - component: {fileID: 322965122}
   - component: {fileID: 322965123}
   m_Layer: 0
-  m_Name: Miejscowosc 4-B
+  m_Name: "Gda\u0144sk - Orunia"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8545,7 +8545,7 @@ GameObject:
   - component: {fileID: 446312042}
   - component: {fileID: 446312043}
   m_Layer: 0
-  m_Name: Miejscowosc 7-B
+  m_Name: "Warszawa - \u015Ar\xF3dmie\u015Bcie"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11039,7 +11039,7 @@ GameObject:
   - component: {fileID: 617577413}
   - component: {fileID: 617577414}
   m_Layer: 0
-  m_Name: Miejscowosc 5-B
+  m_Name: "Pozna\u0144 - Rataje"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15925,7 +15925,7 @@ GameObject:
   - component: {fileID: 876903476}
   - component: {fileID: 876903477}
   m_Layer: 0
-  m_Name: Miejscowosc 3-B
+  m_Name: "\u0141\xF3d\u017A - Radogoszcz"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16226,7 +16226,7 @@ GameObject:
   - component: {fileID: 884165574}
   - component: {fileID: 884165575}
   m_Layer: 0
-  m_Name: Miejscowosc 3-C
+  m_Name: "\u0141\xF3d\u017A - Widzew"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20205,7 +20205,7 @@ GameObject:
   - component: {fileID: 1079120170}
   - component: {fileID: 1079120171}
   m_Layer: 0
-  m_Name: Miejscowosc 4-B
+  m_Name: "Wroc\u0142aw - Paw\u0142owice"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21857,7 +21857,7 @@ GameObject:
   - component: {fileID: 1132903545}
   - component: {fileID: 1132903546}
   m_Layer: 0
-  m_Name: Miejscowosc 7-A
+  m_Name: "Warszawa - Praga-P\xF3\u0142noc"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22992,7 +22992,7 @@ GameObject:
   - component: {fileID: 1212966762}
   - component: {fileID: 1212966763}
   m_Layer: 0
-  m_Name: Miejscowosc 6-A
+  m_Name: "Krak\xF3w - D\u0119bniki"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25967,7 +25967,7 @@ GameObject:
   - component: {fileID: 1342720361}
   - component: {fileID: 1342720362}
   m_Layer: 0
-  m_Name: Miejscowosc 4-C
+  m_Name: "Wroc\u0142aw - Kowale"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26118,7 +26118,7 @@ GameObject:
   - component: {fileID: 1346953075}
   - component: {fileID: 1346953076}
   m_Layer: 0
-  m_Name: Miejscowosc 4-A
+  m_Name: "Gda\u0144sk - Nowy Port"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26269,7 +26269,7 @@ GameObject:
   - component: {fileID: 1347945030}
   - component: {fileID: 1347945031}
   m_Layer: 0
-  m_Name: Miejscowosc 3-A
+  m_Name: "\u0141\xF3d\u017A - Retkinia"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26767,7 +26767,7 @@ GameObject:
   - component: {fileID: 1380939272}
   - component: {fileID: 1380939273}
   m_Layer: 0
-  m_Name: Miejscowosc 5-A
+  m_Name: " Pozna\u0144 - Wilda"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27371,7 +27371,7 @@ GameObject:
   - component: {fileID: 1393701519}
   - component: {fileID: 1393701520}
   m_Layer: 0
-  m_Name: Miejscowosc 2-A
+  m_Name: "Szczecin - \u015Ar\xF3dmie\u015Bcie"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27945,7 +27945,7 @@ GameObject:
   - component: {fileID: 1418124836}
   - component: {fileID: 1418124837}
   m_Layer: 0
-  m_Name: Miejscowosc 2-B
+  m_Name: Szczecin - Niebuszewo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30426,7 +30426,7 @@ GameObject:
   - component: {fileID: 1550375332}
   - component: {fileID: 1550375333}
   m_Layer: 0
-  m_Name: Miejscowosc 6-B
+  m_Name: "Krak\xF3w - Nowa Huta"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34197,7 +34197,7 @@ GameObject:
   - component: {fileID: 1708358580}
   - component: {fileID: 1708358581}
   m_Layer: 0
-  m_Name: Miejscowosc 4-C
+  m_Name: "Gda\u0144sk - Letnica"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41082,7 +41082,7 @@ GameObject:
   - component: {fileID: 2037842679}
   - component: {fileID: 2037842680}
   m_Layer: 0
-  m_Name: Miejscowosc 2-C
+  m_Name: "Szczecin - \u015Awierczewo"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42208,7 +42208,7 @@ GameObject:
   - component: {fileID: 2115745485}
   - component: {fileID: 2115745486}
   m_Layer: 0
-  m_Name: Miejscowosc 5-A
+  m_Name: "Wroc\u0142aw - O\u0142taszyn"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
