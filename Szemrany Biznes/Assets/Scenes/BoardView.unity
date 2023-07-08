@@ -31882,7 +31882,7 @@ GameObject:
   - component: {fileID: 1633467541}
   - component: {fileID: 1633467542}
   m_Layer: 0
-  m_Name: Miejscowosc 1-B
+  m_Name: Bydgoszcz - Szwederowo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41882,7 +41882,7 @@ GameObject:
   - component: {fileID: 2085603641}
   - component: {fileID: 2085603642}
   m_Layer: 0
-  m_Name: Miejscowosc 1-A
+  m_Name: "Bydgoszcz - \u015Ar\xF3dmie\u015Bcie"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
