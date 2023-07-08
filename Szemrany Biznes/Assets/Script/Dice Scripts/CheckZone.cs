@@ -21,6 +21,12 @@ public class CheckZone : NetworkBehaviour
     }
     public void test(GameObject prefabGameObject,int playerIndex)
     {
+        if (diceSide == null)
+        {
+            Destroy(prefabGameObject);
+            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex);
+        }
+
         switch (diceSide.name)
         {
             case "Number1":

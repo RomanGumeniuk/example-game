@@ -24,7 +24,7 @@ public class DiceSpawn : NetworkBehaviour
     }
     public float RandomNumber(float from, float to)
     {
-       return Random.Range(to, from);
+       return Random.Range(from, to);
     }
 
     public Vector3 RandomDirectionVertical()
@@ -69,6 +69,7 @@ public class DiceSpawn : NetworkBehaviour
         prefabInstance.GetComponent<NetworkObject>().Spawn();
         rb.AddForce(RandomDirectionHorizontal() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
         rb.AddForce(RandomDirectionVertical() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
+        rb.AddTorque(transform.up * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
         StartCoroutine(CheckVelocity(rb,playerIndex));
 
     }
