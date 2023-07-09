@@ -67,6 +67,7 @@ public class TileScript : NetworkBehaviour
                             BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0], this);
                             return;
                         }
+                        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 3.5f);
                         GameUIScript.OnNextPlayerTurn.Invoke();
                         return;
                     }
@@ -91,7 +92,7 @@ public class TileScript : NetworkBehaviour
                         BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford+townLevel.Value, townCostToBuy,this, currentAvailableTownUpgrade);
                         return;
                     }
-                    if (maxLevelThatPlayerCanAfford != 0) AlertTabForPlayerUI.Instance.ShowTab("You can't aford any upgrade!", 3.5f);
+                    if (maxLevelThatPlayerCanAfford == 0) AlertTabForPlayerUI.Instance.ShowTab("You can't aford any upgrade!", 3.5f);
                     else AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
                     //no option of buying return and go to next player
                     GameUIScript.OnNextPlayerTurn.Invoke();
@@ -101,7 +102,7 @@ public class TileScript : NetworkBehaviour
                 if(playerAmountOfMoney >= townCostToPay[townLevel.Value])
                 {
                     //player can pay for visiting town
-                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {townCostToPay[townLevel.Value]}", 2);
+                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {townCostToPay[townLevel.Value]}PLN", 2);
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1,true,true);
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false,true);
                     GameUIScript.OnNextPlayerTurn.Invoke();
@@ -118,7 +119,7 @@ public class TileScript : NetworkBehaviour
             case 8:
                 if (playerAmountOfMoney >= amountMoneyOnPlayerStep)
                 {
-                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {amountMoneyOnPlayerStep}", 2);
+                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {amountMoneyOnPlayerStep}PLN", 2);
                     GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1, true, true);
                     GameUIScript.OnNextPlayerTurn.Invoke();
                     return;
@@ -132,8 +133,12 @@ public class TileScript : NetworkBehaviour
             case 7:
                 if (ownerId.Value == -1)
                 {
-                    if(playerAmountOfMoney < townCostToBuy[0]) GameUIScript.OnNextPlayerTurn.Invoke();
-                    else BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0],  this);
+                    if (playerAmountOfMoney < townCostToBuy[0])
+                    {
+                        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 2);
+                        GameUIScript.OnNextPlayerTurn.Invoke();
+                    }
+                    else BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0], this);
                     return;
                 }
                 if(ownerId.Value != PlayerScript.LocalInstance.playerIndex)

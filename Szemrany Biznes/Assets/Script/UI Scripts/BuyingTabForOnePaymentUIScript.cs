@@ -25,7 +25,6 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
 
         DontBuyButton.onClick.AddListener(() =>
         {
-            Debug.Log("dontBuy");
             BiddingTabUIScript.Instance.StartAuctionServerRpc(currentTileScript.townCostToBuy[0],currentTileScript.name,PlayerScript.LocalInstance.playerIndex);
             Hide();
         });
