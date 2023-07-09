@@ -5,8 +5,6 @@ using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GameLobby : MonoBehaviour
@@ -17,6 +15,9 @@ public class GameLobby : MonoBehaviour
     private float heartbeatTimer;
     private float lobbiesUpdaterTimer;
     private string playerName;
+
+    public List<Lobby> listOfAllLobbies = new List<Lobby>();
+
     private void Update()
     {
         HandleLobbyHeartBeat();
@@ -134,9 +135,11 @@ public class GameLobby : MonoBehaviour
             QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions);
 
             Debug.Log("Lobbies found " + queryResponse.Results.Count);
+            listOfAllLobbies.Clear();
             foreach (Lobby lobby in queryResponse.Results)
             {
                 //return lobby.Name lobby.MaxPlayers lobby.Id
+                listOfAllLobbies.Add(lobby);
             }
         }
         catch (LobbyServiceException e)
@@ -161,6 +164,26 @@ public class GameLobby : MonoBehaviour
                 Debug.Log(e);
             }
     }
+
+    public async void JoinLobbyById(string lobbyId) //Dolacza do lobby po id
+    {
+        try
+        {
+            JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
+            {
+                Player = GetPlayer()
+            };
+            Lobby lobby = await Lobbies.Instance.JoinLobbyByIdAsync(lobbyId);
+            joinedLobby = lobby;
+            Debug.Log("Joined Lobby with Id " + lobbyId);
+            PrintPlayers(joinedLobby);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
 
     public async void QuickJoinLobby() //Dolacza do pierwszego znalezionego lobby
     {

@@ -830,9 +830,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createLobbyButton: {fileID: 22022376}
   joinLobbyButton: {fileID: 1673327455}
-  settingsButton: {fileID: 0}
-  creditsButton: {fileID: 0}
-  exitButton: {fileID: 0}
+  settingsButton: {fileID: 347637923}
+  creditsButton: {fileID: 837864839}
+  exitButton: {fileID: 693499393}
 --- !u!1 &495874632
 GameObject:
   m_ObjectHideFlags: 0

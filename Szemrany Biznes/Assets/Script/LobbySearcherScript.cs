@@ -14,7 +14,7 @@ public class LobbySearcherScript : MonoBehaviour
     [SerializeField] private Button searchByLobbyNameButton;
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null)
         {
             Destroy(this.gameObject);
         }
