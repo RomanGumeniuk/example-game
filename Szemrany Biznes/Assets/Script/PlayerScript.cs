@@ -13,6 +13,8 @@ public class PlayerScript : NetworkBehaviour
     public int playerId;
     public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
     public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
+    public int currentAvailableTownUpgrade = 2;
+    public int minTownLevel=1;
 
     public static PlayerScript LocalInstance { get; private set; }
 
@@ -76,11 +78,11 @@ public class PlayerScript : NetworkBehaviour
                 currentTileIndex = 0;
                 if (i + 1 < diceValue)
                 {
-                    GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(true);
+                    GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
                 }
             }
         }
-        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter();
+        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
         
     }
 
@@ -96,6 +98,17 @@ public class PlayerScript : NetworkBehaviour
         {
             tile.ShowSellingView();
         }
+    }
+
+    public void OnTownUpgrade()
+    {
+        minTownLevel = 6;
+        foreach(TileScript tileScript in tilesThatPlayerOwnList)
+        {
+            if (tileScript.townLevel.Value == 0) continue;
+            if (minTownLevel > tileScript.townLevel.Value) minTownLevel = tileScript.townLevel.Value;
+        }
+        currentAvailableTownUpgrade = minTownLevel;
     }
 
 

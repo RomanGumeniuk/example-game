@@ -25,7 +25,6 @@ public class GameLogic : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        Debug.Log("Spawned");
         GetSpawnPointFromServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
@@ -44,14 +43,12 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { playerId }
             }
         };
-        Debug.Log("Server");
         GiveClientSpawnPositionClientRpc(/*SpawnPoints[index].position*/SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, clientRpcParams);
     }
 
     [ClientRpc]
     public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex, ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("Client");
         PlayerScript.LocalInstance.playerIndex = playerIndex;
         PlayerScript.LocalInstance.GoTo(spawnPostion);
     }
@@ -97,7 +94,6 @@ public class GameLogic : NetworkBehaviour
     [ClientRpc]
     public void AddAllPlayerPrefabListClientRpc(ulong index,int startMoney)
     {
-        Debug.Log(index);
         GameObject playerPrefabList = Instantiate(playerListPrefab, content);
         allPlayersListPrefab.Add(playerPrefabList.transform);
 

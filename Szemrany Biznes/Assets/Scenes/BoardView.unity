@@ -1011,7 +1011,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &28046726
@@ -1590,7 +1589,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &46440028
@@ -2228,7 +2226,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &85422484
@@ -2604,7 +2601,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &93440070
@@ -5973,7 +5969,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &269857801
@@ -6258,7 +6253,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &289552068
@@ -6981,7 +6975,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &322965123
@@ -8658,7 +8651,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &446312043
@@ -10457,7 +10449,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &576808556
@@ -10804,7 +10795,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &597181529
@@ -11152,7 +11142,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &617577414
@@ -13714,7 +13703,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &785244382
@@ -14289,7 +14277,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &793658151
@@ -16038,7 +16025,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &876903477
@@ -16188,7 +16174,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &879980741
@@ -16339,7 +16324,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &884165575
@@ -20091,7 +20075,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 200
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1078993333
@@ -20318,7 +20301,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1079120171
@@ -20693,7 +20675,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1090377569
@@ -21970,7 +21951,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1132903546
@@ -23105,7 +23085,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1212966763
@@ -23164,7 +23143,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 700, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1223213247
 MonoBehaviour:
@@ -23964,7 +23943,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 757, y: -150}
+  m_AnchoredPosition: {x: 757, y: 0}
   m_SizeDelta: {x: 1514, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249600819
@@ -26080,7 +26059,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1342720362
@@ -26231,7 +26209,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1346953076
@@ -26382,7 +26359,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1347945031
@@ -26880,7 +26856,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1380939273
@@ -27484,7 +27459,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1393701520
@@ -28058,7 +28032,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1418124837
@@ -30539,7 +30512,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1550375333
@@ -30795,7 +30767,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 400
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1557446315
@@ -31876,7 +31847,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1617990464
@@ -32027,7 +31997,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1633467542
@@ -32748,7 +32717,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 400
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1651830895
@@ -33246,7 +33214,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 700, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669708023
 MonoBehaviour:
@@ -34310,7 +34278,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1708358581
@@ -35408,7 +35375,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1772689446
@@ -38349,7 +38315,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &1929775201
@@ -41195,7 +41160,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2037842680
@@ -41470,7 +41434,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2059712907
@@ -41492,7 +41455,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: 0
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2059712908
@@ -42035,7 +41997,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2085603642
@@ -42321,7 +42282,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2115745486
@@ -42631,7 +42591,6 @@ MonoBehaviour:
     m_InternalValue: -1
   townLevel:
     m_InternalValue: -1
-  curentMaxTownLevelThatCanBeBuy: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
 --- !u!114 &2140257110
