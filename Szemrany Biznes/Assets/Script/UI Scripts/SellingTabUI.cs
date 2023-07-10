@@ -38,7 +38,7 @@ public class SellingTabUI : MonoBehaviour
         });
         SellAtAuctionButton.onClick.AddListener(() =>
         {
-            BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].GetCurrentPropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
+            BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].CaluculatePropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
             SellAtAuctionButton.interactable = false;
             SellButton.interactable = false;
         });
@@ -91,7 +91,7 @@ public class SellingTabUI : MonoBehaviour
         int totalValueOfAllRealEstates = 0;
         foreach(TileScript tileScript1 in selectedTiles)
         {
-            totalValueOfAllRealEstates += tileScript1.GetCurrentPropertyValue();
+            totalValueOfAllRealEstates += tileScript1.CaluculatePropertyValue();
         }
         if (selectedTiles.Count>1)
         {

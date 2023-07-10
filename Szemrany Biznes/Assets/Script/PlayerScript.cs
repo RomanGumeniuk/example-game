@@ -13,8 +13,8 @@ public class PlayerScript : NetworkBehaviour
     public int playerId;
     public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
     public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
-    public int currentAvailableTownUpgrade = 2;
-    public int minTownLevel=1;
+    public byte currentAvailableTownUpgrade = 2;
+    public byte minTownLevel=1;
 
     public static PlayerScript LocalInstance { get; private set; }
 
@@ -106,7 +106,7 @@ public class PlayerScript : NetworkBehaviour
         foreach(TileScript tileScript in tilesThatPlayerOwnList)
         {
             if (tileScript.townLevel.Value == 0) continue;
-            if (minTownLevel > tileScript.townLevel.Value) minTownLevel = tileScript.townLevel.Value;
+            if (minTownLevel > tileScript.townLevel.Value) minTownLevel = (byte)tileScript.townLevel.Value;
         }
         currentAvailableTownUpgrade = minTownLevel;
     }

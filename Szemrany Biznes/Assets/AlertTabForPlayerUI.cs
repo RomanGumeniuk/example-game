@@ -14,11 +14,17 @@ public class AlertTabForPlayerUI : MonoBehaviour
         Instance = this;
     }
 
-    public IEnumerator ShowTab(string alertText, float secondsIsVisible)
+    public void ShowTab(string alertText, float secondsIsVisible, bool invokeNextPlayer = true)
+    {
+        StartCoroutine(Show(alertText,secondsIsVisible,invokeNextPlayer));
+    }
+
+    private IEnumerator Show(string alertText, float secondsIsVisible,bool invokeNextPlayer=true)
     {
         this.alertText.text = alertText;
         foreach (Transform child in transform) child.gameObject.SetActive(true);
         yield return new WaitForSeconds(secondsIsVisible);
+        if(invokeNextPlayer) GameUIScript.OnNextPlayerTurn.Invoke();
         foreach (Transform child in transform) child.gameObject.SetActive(false);
     }
 }

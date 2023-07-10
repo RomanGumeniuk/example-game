@@ -25,8 +25,8 @@ public class CheckZone : NetworkBehaviour
         {
             Destroy(prefabGameObject);
             DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex);
+            return;
         }
-
         switch (diceSide.name)
         {
             case "Number1":
@@ -66,7 +66,7 @@ public class CheckZone : NetworkBehaviour
         };
         GameUIScript.Instance.OnDiceNumberReturnClientRpc(diceNumber,clientRpcParams);
         Destroy(prefabGameObject);
-        
+        diceSide = null;
 
     }
 

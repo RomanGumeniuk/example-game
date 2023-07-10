@@ -5,28 +5,30 @@ using Unity.Netcode;
 using TMPro;
 public class TileScript : NetworkBehaviour
 {
-    public int tileType = 0;
-    // 0-> town tile
-    // 1-> Start tile
-    // 2-> chance tile#1
-    // 3-> chance tile#2
-    // 4-> train tile
-    // 5-> parking tile
-    // 6-> lightbulb tile
-    // 7-> waterpipes tile
-    // 8 -> ring tile
-    // 9 -> custody tile
-    // 10 -> patrol tile
-    // 11 -> party tile
+    public byte tileType = 0;
+
+
+    const byte TOWN_TILE = 0;
+    const byte START_TILE = 1;
+    const byte CHANCE_TILE1 = 2;
+    const byte CHANCE_TILE2 = 3;
+    const byte TRAIN_TILE = 4;
+    const byte PARKING_TILE = 5;
+    const byte LIGHBULB_TILE = 6;
+    const byte WATERPIEPES_TILE = 7;
+    const byte RING_TILE = 8;
+    const byte CUSTODY_TILE = 9;
+    const byte PATROL_TILE = 10;
+    const byte PARTY_TILE = 11;
 
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
 
-    public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1);
+    public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1); // -1 means that town has no owner
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
     public int amountMoneyOnPlayerStep = 0;
     public DisplayPropertyUI displayPropertyUI;
-    // -1 means that town has no owner
+    
 
     private void Start()
     {
@@ -34,7 +36,6 @@ public class TileScript : NetworkBehaviour
         if (tileType != 0) return;
 
         if (townCostToBuy.Count == 0) return;
-        //townLevel.Value = -1;
         
         townCostToBuy.Add((int)(townCostToBuy[0] * 1.5f));
         townCostToBuy.Add(townCostToBuy[0] * 3);
@@ -49,122 +50,104 @@ public class TileScript : NetworkBehaviour
 
     }
 
+    private void Buy(int playerAmountOfMoney,int Cost,bool isUpgrading=false,byte maxLevelThatPlayerCanAfford = 0,byte currentAvailableTownUpgrade=0) 
+    {
+        if(isUpgrading)
+        {
+            if (maxLevelThatPlayerCanAfford == 0)
+            {
+                AlertTabForPlayerUI.Instance.ShowTab("You can't aford any upgrade!", 3.5f);
+                return;
+            }
+            if(currentAvailableTownUpgrade <= townLevel.Value)
+            {
+                AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
+                return;
+            }
+            BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, townCostToBuy, this, currentAvailableTownUpgrade);
+            return;
+        }
+        if (playerAmountOfMoney >= Cost)
+        {
+            BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
+            return;
+        }
+        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 3.5f);
+    }
 
-    public void OnPlayerEnter(int currentAvailableTownUpgrade, bool passTheStartTile = false)
+    private void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true)
+    {
+        if (playerAmountOfMoney >= amountOfMoneyToPay)
+        {
+            AlertTabForPlayerUI.Instance.ShowTab($"You paid {amountOfMoneyToPay}PLN", 2);
+            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountOfMoneyToPay, PlayerScript.LocalInstance.playerIndex, 1, true, true);
+            if(payToPlayer) GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountOfMoneyToPay, ownerId.Value, 2, false, true);
+            return;
+        }
+        if(payToPlayer) PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, ownerId.Value);
+        else PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, -1);
+    }
+
+    private void UpgradeTown(int playerAmountOfMoney, byte currentAvailableTownUpgrade)
+    {
+        byte maxLevelThatPlayerCanAfford = 0;
+        for (int i = townLevel.Value; i < townLevel.Value + 3; i++)
+        {
+            if (i > 4) continue;
+            if (playerAmountOfMoney >= CaluculatePropertyValue(townLevel.Value,i+1)) maxLevelThatPlayerCanAfford++;
+        }
+        Buy(playerAmountOfMoney,0,true, maxLevelThatPlayerCanAfford, currentAvailableTownUpgrade);
+    }
+
+    private void OnTownEnter(int playerAmountOfMoney,byte currentAvailableTownUpgrade,bool isNonUpgradingTown = false)
+    {
+        if (townLevel.Value == -1)
+        {
+            Buy(playerAmountOfMoney, townCostToBuy[0]);
+            return;
+        }
+        if (ownerId.Value != PlayerScript.LocalInstance.playerIndex)
+        {
+            Pay(playerAmountOfMoney, townCostToPay[townLevel.Value]);
+            return;
+        }
+        if(isNonUpgradingTown) GameUIScript.OnNextPlayerTurn.Invoke();
+        UpgradeTown(playerAmountOfMoney, currentAvailableTownUpgrade);
+    }
+
+    private void OnStartEnter(bool passTheStartTile)
+    {
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2, true, true);
+        if (!passTheStartTile) GameUIScript.OnNextPlayerTurn.Invoke();
+    }
+
+    public void OnPlayerEnter(byte currentAvailableTownUpgrade, bool passTheStartTile = false)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         switch (tileType)
         {
-            case 0:
-                if (ownerId.Value == -1 || ownerId.Value == PlayerScript.LocalInstance.playerIndex) 
-                {
-                    int maxLevelThatPlayerCanAfford = 0;
-                    //option to buy town
-                    if (townLevel.Value == -1)
-                    {
-                        if (playerAmountOfMoney>=townCostToBuy[0])
-                        {
-                            BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0], this);
-                            return;
-                        }
-                        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 3.5f);
-                        GameUIScript.OnNextPlayerTurn.Invoke();
-                        return;
-                    }
-                    for (int i= townLevel.Value; i< townLevel.Value+3; i++)
-                    {
-                        if (i > 4) continue;
-                        int currentTownCost = 0;
-                        for(int j=townLevel.Value;j<i+1;j++)
-                        {
-                            currentTownCost += townCostToBuy[j];
-                        }
-                        if (playerAmountOfMoney >= currentTownCost)
-                        {
-                            //counting how many town levels can player buy
-                            maxLevelThatPlayerCanAfford++;
-                        }
-                    }
-                    if(maxLevelThatPlayerCanAfford!=0 && currentAvailableTownUpgrade>townLevel.Value)
-                    {
-                        //can buy at lest 1 level town
-                        
-                        BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford+townLevel.Value, townCostToBuy,this, currentAvailableTownUpgrade);
-                        return;
-                    }
-                    if (maxLevelThatPlayerCanAfford == 0) AlertTabForPlayerUI.Instance.ShowTab("You can't aford any upgrade!", 3.5f);
-                    else AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
-                    //no option of buying return and go to next player
-                    GameUIScript.OnNextPlayerTurn.Invoke();
-                    return;
-                }
-                //paying someone for visiting town
-                if(playerAmountOfMoney >= townCostToPay[townLevel.Value])
-                {
-                    //player can pay for visiting town
-                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {townCostToPay[townLevel.Value]}PLN", 2);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[townLevel.Value], PlayerScript.LocalInstance.playerIndex,1,true,true);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc( townCostToPay[townLevel.Value], ownerId.Value, 2, false,true);
-                    GameUIScript.OnNextPlayerTurn.Invoke();
-                    return;
-                }
-                //player cant aford visiting town there for needs to sold some of his properite to pay for it
-                PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value],ownerId.Value);
+            case TOWN_TILE:
+                OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
                 return;
-            case 1:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 2,true,true);
-                if(!passTheStartTile)GameUIScript.OnNextPlayerTurn.Invoke();
-                break;
-            case 5:
-            case 8:
-                if (playerAmountOfMoney >= amountMoneyOnPlayerStep)
-                {
-                    AlertTabForPlayerUI.Instance.ShowTab($"You paid {amountMoneyOnPlayerStep}PLN", 2);
-                    GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountMoneyOnPlayerStep, PlayerScript.LocalInstance.playerIndex, 1, true, true);
-                    GameUIScript.OnNextPlayerTurn.Invoke();
-                    return;
-                }
-                PlayerScript.LocalInstance.ShowSellingTab(amountMoneyOnPlayerStep, -1);
+            case START_TILE:
+                OnStartEnter(passTheStartTile);
                 return;
-                
-
-            case 4:
-            case 6:
-            case 7:
-                if (ownerId.Value == -1)
-                {
-                    if (playerAmountOfMoney < townCostToBuy[0])
-                    {
-                        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 2);
-                        GameUIScript.OnNextPlayerTurn.Invoke();
-                    }
-                    else BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(townCostToBuy[0], this);
-                    return;
-                }
-                if(ownerId.Value != PlayerScript.LocalInstance.playerIndex)
-                {
-                    if(playerAmountOfMoney >= townCostToPay[0])
-                    {
-                        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], PlayerScript.LocalInstance.playerIndex, 1, true, true);
-                        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townCostToPay[0], ownerId.Value, 2, false, true);
-                    }
-                    else
-                    {
-                        PlayerScript.LocalInstance.ShowSellingTab(townCostToPay[townLevel.Value], ownerId.Value);
-                        return;
-                    }
-                    
-                }
-                GameUIScript.OnNextPlayerTurn.Invoke();
-                break;
+            case PARKING_TILE:
+            case RING_TILE:
+                Pay(playerAmountOfMoney, amountMoneyOnPlayerStep, false);
+                return;
+            case TRAIN_TILE:
+            case LIGHBULB_TILE:
+            case WATERPIEPES_TILE:
+                OnTownEnter(playerAmountOfMoney, 0, false);
+                return;
             default:
                 GameUIScript.OnNextPlayerTurn.Invoke();
-                break;
-
-
+                return;
         }
 
     }
+
     [ServerRpc(RequireOwnership = false)]
     public void UpgradeTownServerRpc(int currentNewLevel,int ownerId)
     {
@@ -179,51 +162,42 @@ public class TileScript : NetworkBehaviour
         UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value);
     }
 
-    [ClientRpc]
-    public void UpdateOwnerTextClientRpc(int ownerId,int townLevel)
-    {
-        if(displayPropertyUI==null)
-        {
-            Debug.LogError("No displayPropertyUI script found on:" + this.name);
-            return;
-        }
-        if(townLevel<0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0);
-        else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
-    }
 
     [ServerRpc(RequireOwnership =false)]
     public void SellingTownServerRpc(int playerIndex)
     {
-        int townTotalValue = GetCurrentPropertyValue();
+        int townTotalValue = CaluculatePropertyValue();
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townTotalValue, playerIndex, 2);
         ownerId.Value = -1;
         townLevel.Value = -1;
         UpdateOwnerTextClientRpc(-1, -1);
     }
 
+    [ClientRpc]
+    public void UpdateOwnerTextClientRpc(int ownerId, int townLevel)
+    {
+        if (townLevel < 0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0);
+        else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
+    }
 
     public void ShowSellingView()
     {
-        if (displayPropertyUI == null)
-        {
-            Debug.LogError("No displayPropertyUI script found on:" + this.name);
-            return;
-        }
-        int totalPropertyValue = GetCurrentPropertyValue();
+        int totalPropertyValue = CaluculatePropertyValue();
         displayPropertyUI.ShowSellingView(totalPropertyValue);
     }
 
-    public int GetCurrentPropertyValue()
+    public int CaluculatePropertyValue(int start =0,int stop= -1)
     {
         int totalPropertyValue = 0;
-        for (int i = 0; i < townLevel.Value; i++)
+        if (stop == -1)
+        {
+            totalPropertyValue += townCostToBuy[0];
+            stop = townLevel.Value;
+        }
+        for (int i = start; i < stop; i++)
         {
             totalPropertyValue += townCostToBuy[i];
         }
-        totalPropertyValue += townCostToBuy[0];
         return totalPropertyValue;
     }
-
-
-
 }
