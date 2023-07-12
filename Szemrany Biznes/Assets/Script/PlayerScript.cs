@@ -10,7 +10,6 @@ public class PlayerScript : NetworkBehaviour
     public int currentTileIndex = 0;
     public int playerIndex;
     public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>( 3000);
-    public int playerId;
     public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
     public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
     public byte currentAvailableTownUpgrade = 2;
@@ -26,61 +25,65 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        if (!IsOwner) return;
-        if(Input.GetKey(KeyCode.A))
-        {
-            //ShowSellingTab(3000);
-        }
-    }
-
     public void GoTo(Vector3 postition)
     {
         transform.position = postition;
     }
 
+    private void CheckForSteppingOnEdge()
+    {
+        if (currentTileIndex % 10 != 0)
+        {
+            return;
+        }
+
+        switch (currentTileIndex)
+        {
+            case 0:
+                directionX = -1;
+                directionZ = 0;
+                transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
+                break;
+            case 10:
+                directionX = 0;
+                directionZ = 1;
+                transform.position = GameLogic.Instance.SpawnPoints[1].GetChild(playerIndex).transform.position;
+                break;
+            case 20:
+                directionX = 1;
+                directionZ = 0;
+                transform.position = GameLogic.Instance.SpawnPoints[2].GetChild(playerIndex).transform.position;
+                break;
+            case 30:
+                directionX = 0;
+                directionZ = -1;
+                transform.position = GameLogic.Instance.SpawnPoints[3].GetChild(playerIndex).transform.position;
+                break;
+        }
+    }
+
+    private void ChangeCurrentTileIndex(int diceValue,int i)
+    {
+        transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
+        if (currentTileIndex != (9 * 4) + 3)
+        {
+            currentTileIndex++;
+            return;
+        }
+        currentTileIndex = 0;
+        if (i + 1 < diceValue)
+        {
+            GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
+        }
+    }
+
+
     public void Move(int diceValue)
     {
         for(int i=0;i<diceValue;i++)
         {
-            if(currentTileIndex%10==0)
-            {
-                switch (currentTileIndex)
-                {
-                    case 0:
-                        directionX = -1;
-                        directionZ = 0;
-                        transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
-                        break;
-                    case 10:
-                        directionX = 0;
-                        directionZ = 1;
-                        transform.position = GameLogic.Instance.SpawnPoints[1].GetChild(playerIndex).transform.position;
-                        break;
-                    case 20:
-                        directionX = 1;
-                        directionZ = 0;
-                        transform.position = GameLogic.Instance.SpawnPoints[2].GetChild(playerIndex).transform.position;
-                        break;
-                    case 30:
-                        directionX = 0;
-                        directionZ = -1;
-                        transform.position = GameLogic.Instance.SpawnPoints[3].GetChild(playerIndex).transform.position;
-                        break;
-                }
-            }
-            transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
-            if (currentTileIndex != (9 * 4) + 3) currentTileIndex++;
-            else
-            {
-                currentTileIndex = 0;
-                if (i + 1 < diceValue)
-                {
-                    GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
-                }
-            }
+            CheckForSteppingOnEdge();
+            ChangeCurrentTileIndex(diceValue,i);
         }
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
         

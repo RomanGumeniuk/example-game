@@ -45,16 +45,32 @@ public class DisplayPropertyUI : MonoBehaviour
         townCostToPay.text = totalPropertyValue + "PLN";
     }
 
-    public void ShowNormalView(int ownerId, int townLevel, int townCostToPay)
+    public void ShowNormalView(int ownerId, int townLevel, int townCostToPay,bool onlyChangeText = false)
     {
+        
+
         if(ownerId==-1)
         {
+            if (onlyChangeText)
+            {
+                this.ownerId.text = "";
+                this.townLevel.text = "";
+                this.townCostToPay.text = "";
+                return;
+            }
             backgroundImage.gameObject.SetActive(false);
             backgroundOfToggle.SetActive(false);
             toggle.enabled = false;
             this.ownerId.text = "";
             this.townLevel.text = "";
             this.townCostToPay.text = "";
+            return;
+        }
+        if (onlyChangeText)
+        {
+            this.ownerId.text = ownerId.ToString();
+            this.townLevel.text = "Lvl:" + townLevel;
+            this.townCostToPay.text = townCostToPay + "PLN";
             return;
         }
         backgroundImage.gameObject.SetActive(false);

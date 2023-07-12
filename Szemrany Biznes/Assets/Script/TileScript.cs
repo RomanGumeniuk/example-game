@@ -24,11 +24,14 @@ public class TileScript : NetworkBehaviour
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
 
-    public NetworkVariable<int> ownerId = new NetworkVariable<int>( -1); // -1 means that town has no owner
+    public NetworkVariable<int> ownerId = new NetworkVariable<int>(-1); // -1 means that town has no owner
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
     public int amountMoneyOnPlayerStep = 0;
     public DisplayPropertyUI displayPropertyUI;
-    
+
+    public bool monopol = false;
+
+    public List<TileScript> AllTownsToGetMonopol = new List<TileScript>();
 
     private void Start()
     {
@@ -36,19 +39,81 @@ public class TileScript : NetworkBehaviour
         if (tileType != 0) return;
 
         if (townCostToBuy.Count == 0) return;
-        
+
         townCostToBuy.Add((int)(townCostToBuy[0] * 1.5f));
         townCostToBuy.Add(townCostToBuy[0] * 3);
         townCostToBuy.Add((int)(townCostToBuy[0] * 4.5f));
         townCostToBuy.Add((int)(townCostToBuy[0] * 6));
-        townCostToPay.Add(townCostToBuy[0]/2);
-        townCostToPay.Add(townCostToBuy[0] );
+        townCostToPay.Add(townCostToBuy[0] / 2);
+        townCostToPay.Add(townCostToBuy[0]);
         townCostToPay.Add((int)(townCostToBuy[0] * 1.5f));
         townCostToPay.Add(townCostToBuy[0] * 3);
         townCostToPay.Add((int)(townCostToBuy[0] * 4.5f));
         townCostToPay.Add((int)(townCostToBuy[0] * 6.5f));
 
     }
+
+    public override void OnNetworkSpawn()
+    {
+        ownerId.OnValueChanged += OnOwnerValueChanged;
+    }
+
+    public void OnOwnerValueChanged(int prevValue, int newValue)
+    {
+        if (tileType != 0) return;
+
+        if (prevValue == -1)
+        {
+            if(CheckOtherTownsOwner())
+            {
+                SetMonopolyServerRpc(true);
+            }
+            return;
+        }
+        if (newValue == -1)
+        {
+            if (monopol)
+            {
+                SetMonopolyServerRpc(false);
+            }
+            return;
+        }
+        
+    }
+
+    private bool CheckOtherTownsOwner()
+    {
+        foreach (TileScript town in AllTownsToGetMonopol)
+        {
+            if (town.ownerId.Value != this.ownerId.Value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    [ServerRpc]
+    public void SetMonopolyServerRpc(bool Value)
+    {
+        SetMonopolyClientRpc(Value);
+    }
+    [ClientRpc]
+    public void SetMonopolyClientRpc(bool Value)
+    {
+        foreach (TileScript town in AllTownsToGetMonopol)
+        {
+            town.monopol = Value;
+            for (int i = 0; i < town.townCostToPay.Count; i++)
+            {
+                if (Value) town.townCostToPay[i] *= 2;
+                else town.townCostToPay[i] /= 2;
+            }
+            town.UpdateOwnerTextServerRpc(true);
+        }
+        
+    }
+
 
     private void Buy(int playerAmountOfMoney,int Cost,bool isUpgrading=false,byte maxLevelThatPlayerCanAfford = 0,byte currentAvailableTownUpgrade=0) 
     {
@@ -157,9 +222,9 @@ public class TileScript : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership =false)]
-    public void UpdateOwnerTextServerRpc()
+    public void UpdateOwnerTextServerRpc(bool onlyChangeText=false)
     {
-        UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value);
+        UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value,onlyChangeText);
     }
 
 
@@ -174,10 +239,10 @@ public class TileScript : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void UpdateOwnerTextClientRpc(int ownerId, int townLevel)
+    public void UpdateOwnerTextClientRpc(int ownerId, int townLevel,bool onlyChangeText=false)
     {
-        if (townLevel < 0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0);
-        else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel]);
+        if (townLevel < 0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0, onlyChangeText);
+        else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel], onlyChangeText);
     }
 
     public void ShowSellingView()

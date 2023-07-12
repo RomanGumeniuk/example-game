@@ -1013,6 +1013,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &28046726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,6 +1593,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1380939272}
+  - {fileID: 617577413}
+  - {fileID: 46440027}
 --- !u!114 &46440028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2228,6 +2235,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &85422484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2603,6 +2612,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1212966762}
+  - {fileID: 1550375332}
+  - {fileID: 93440069}
 --- !u!114 &93440070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5971,6 +5985,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &269857801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6255,6 +6271,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &289552068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6977,6 +6995,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1346953075}
+  - {fileID: 322965122}
+  - {fileID: 1708358580}
 --- !u!114 &322965123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8788,6 +8811,10 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1132903545}
+  - {fileID: 446312042}
 --- !u!114 &446312043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10586,6 +10613,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &576808556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10932,6 +10961,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &597181529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11279,6 +11310,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1380939272}
+  - {fileID: 617577413}
+  - {fileID: 46440027}
 --- !u!114 &617577414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13864,6 +13900,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &785244382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14438,6 +14476,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &793658151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16186,6 +16226,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1347945030}
+  - {fileID: 876903476}
+  - {fileID: 884165574}
 --- !u!114 &876903477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16335,6 +16380,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &879980741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16485,6 +16532,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1347945030}
+  - {fileID: 876903476}
+  - {fileID: 884165574}
 --- !u!114 &884165575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20399,6 +20451,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 200
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1078993333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20625,6 +20679,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 2115745485}
+  - {fileID: 1079120170}
+  - {fileID: 1342720361}
 --- !u!114 &1079120171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20999,6 +21058,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1090377569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22275,6 +22336,10 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1132903545}
+  - {fileID: 446312042}
 --- !u!114 &1132903546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23410,6 +23475,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1212966762}
+  - {fileID: 1550375332}
+  - {fileID: 93440069}
 --- !u!114 &1212966763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26384,6 +26454,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 2115745485}
+  - {fileID: 1079120170}
+  - {fileID: 1342720361}
 --- !u!114 &1342720362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26534,6 +26609,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1346953075}
+  - {fileID: 322965122}
+  - {fileID: 1708358580}
 --- !u!114 &1346953076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26684,6 +26764,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1347945030}
+  - {fileID: 876903476}
+  - {fileID: 884165574}
 --- !u!114 &1347945031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27181,6 +27266,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1380939272}
+  - {fileID: 617577413}
+  - {fileID: 46440027}
 --- !u!114 &1380939273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27784,6 +27874,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1393701519}
+  - {fileID: 1418124836}
+  - {fileID: 2037842679}
 --- !u!114 &1393701520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28357,6 +28452,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1393701519}
+  - {fileID: 1418124836}
+  - {fileID: 2037842679}
 --- !u!114 &1418124837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30837,6 +30937,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1212966762}
+  - {fileID: 1550375332}
+  - {fileID: 93440069}
 --- !u!114 &1550375333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31092,6 +31197,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 400
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1557446315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32172,6 +32279,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1617990464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32322,6 +32431,10 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 2085603641}
+  - {fileID: 1633467541}
 --- !u!114 &1633467542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33042,6 +33155,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 400
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1651830895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34604,6 +34719,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1346953075}
+  - {fileID: 322965122}
+  - {fileID: 1708358580}
 --- !u!114 &1708358581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35701,6 +35821,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1772689446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38641,6 +38763,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &1929775201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41562,6 +41686,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 1393701519}
+  - {fileID: 1418124836}
+  - {fileID: 2037842679}
 --- !u!114 &2037842680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41836,6 +41965,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &2059712907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41857,6 +41988,8 @@ MonoBehaviour:
     m_InternalValue: 0
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &2059712908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42399,6 +42532,10 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 2085603641}
+  - {fileID: 1633467541}
 --- !u!114 &2085603642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42684,6 +42821,11 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol:
+  - {fileID: 2115745485}
+  - {fileID: 1079120170}
+  - {fileID: 1342720361}
 --- !u!114 &2115745486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43038,6 +43180,8 @@ MonoBehaviour:
     m_InternalValue: -1
   amountMoneyOnPlayerStep: 0
   displayPropertyUI: {fileID: 0}
+  monopol: 0
+  AllTownsToGetMonopol: []
 --- !u!114 &2140257110
 MonoBehaviour:
   m_ObjectHideFlags: 0

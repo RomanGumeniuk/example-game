@@ -72,9 +72,9 @@ public class GameLogic : NetworkBehaviour
         if (!IsServer) return;
         allPlayerAmount = NetworkManager.Singleton.ConnectedClientsList.Count;
         List<ulong> allPlayerIndex = new List<ulong>();
-        for(int i=0;i<allPlayerAmount;i++)
+        for(ulong i=0;i<(ulong)allPlayerAmount;i++)
         {
-            allPlayerIndex.Add((ulong)i);
+            allPlayerIndex.Add(i);
         }
         
         for (int i = 0; i < allPlayerAmount; i++)
@@ -83,10 +83,8 @@ public class GameLogic : NetworkBehaviour
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
             allPlayerIndex.RemoveAt(currentIndex);
             AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value);
-            //PlayersListUI.Instance.AddPlayerToListServerRpc(allPlayersListPrefab.Count - 1);
 
         }
-        
         index = 0;
         OnNextPlayerTurnServerRpc();
     }
