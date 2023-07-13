@@ -28632,6 +28632,43 @@ MonoBehaviour:
   - {fileID: 1078993332}
   - {fileID: 446312042}
   allPlayersListPrefab: []
+  chanceList:
+  - "Podczas szalonej imprezy  zosta\u0142e\u015B przy\u0142apany na u\u017Cywaniu
+    nielegalnych substancji.\\nP\u0142acisz mandat w wysoko\u015Bci 200 z\u0142otych."
+  - "Twoje lokale ciesz\u0105 si\u0119 ogromnym powodzeniem!\\nOtrzymujesz 300 z\u0142otych
+    zysku z z ka\u017Cdego klubu kt\xF3ry posiadasz"
+  - "Wygra\u0142e\u015B konkurs piwny.\\nOtrzymujesz 200 z\u0142."
+  - "Impreza by\u0142a tak ha\u0142a\u015Bliwa, \u017Ce zg\u0142osi\u0142o ci\u0119
+    s\u0105siedztwo.\\nP\u0142acisz 150 z\u0142otych mandatu za naruszenie ciszy
+    nocnej."
+  - "Wracaj\u0105c z imprezy zrzyga\u0142e\u015B si\u0119 na \u0142ysego kibola.
+    Tracisz 300z\u0142 i 1 kolejke"
+  - "W czasie hucznego wieczoru potkn\u0105\u0142e\u015B si\u0119 i rozbi\u0142e\u015B
+    doniczk\u0119.\\nP\u0142acisz 100 z\u0142otych za napraw\u0119 szkody."
+  - "Organizujesz wielk\u0105 imprez\u0119 w plenerze.\\nPobierz 50 z\u0142otych
+    op\u0142aty od ka\u017Cdego gracza jako wk\u0142ad na organizacj\u0119 imprezy."
+  - "Wpad\u0142e\u015B na kontrol\u0119 policji.\\nPrzechodzisz na pole wi\u0119zienia"
+  - "W wyniku konkursu na najlepszy drink, otrzymujesz nagrod\u0119 w wysoko\u015Bci
+    200 z\u0142otych za swoje barma\u0144skie umiej\u0119tno\u015Bci."
+  - "Podczas imprezy zapomnia\u0142e\u015B zap\u0142aci\u0107 rachunek w klubie.\\nP\u0142acisz
+    50 z\u0142otych kary za op\xF3\u017Anienie w regulacji p\u0142atno\u015Bci."
+  - "By\u0142e\u015B tak pijany \u017Ce rozbi\u0142e\u015B lustro bo my\u015Bla\u0142e\u015B,
+    \u017Ce kto\u015B ci\u0119 papuguje.\\nZap\u0142a\u0107 150z\u0142 za napraw\u0119
+    szkody"
+  - "Podczas imprezy znalaz\u0142e\u015B ukryt\u0105 skrzynk\u0119 z nieznanych substancji.\\nSprzeda\u0142e\u015B
+    j\u0105 dilerowi za 200 z\u0142otych."
+  - "Tw\xF3j lokal w centrum imprezowej dzielnicy cieszy si\u0119 rekordow\u0105
+    frekwencj\u0105!\\nOtrzymujesz 50 z\u0142otych zysku za ka\u017Cdy posiadany
+    lokal."
+  - "Twoja impreza przej\u0119\u0142a kontrole nad ulicami!\\nOtrzymujesz 100 z\u0142otych
+    od ka\u017Cdego gracza za organizacj\u0119 najbardziej epickiej imprezy w mie\u015Bcie."
+  - "Wpad\u0142e\u015B w szpony znajomego dilera kt\xF3remu wisia\u0142e\u015B pieni\u0105dze.\\nSerdecznie
+    go przepraszasz i dajesz mu 400z\u0142."
+  - "Wpad\u0142e\u015B na wyj\u0105tkow\u0105 promocj\u0119 w barze. Kupujesz ka\u017Cdemu
+    graczowi drinka.\\nZap\u0142a\u0107 50 z\u0142 za ka\u017Cdego gracza."
+  - "W czasie imprezy na dachu budynku  zostajesz zatrzymany przez policj\u0119 za
+    zak\u0142\xF3canie porz\u0105dku publicznego.\\nP\u0142acisz mandat w wysoko\u015Bci
+    100 z\u0142otych."
   index: 0
   allPlayerAmount: 0
   content: {fileID: 50737031}

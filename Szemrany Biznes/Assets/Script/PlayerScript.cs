@@ -14,6 +14,7 @@ public class PlayerScript : NetworkBehaviour
     public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
     public byte currentAvailableTownUpgrade = 2;
     public byte minTownLevel=1;
+    public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
 
     public static PlayerScript LocalInstance { get; private set; }
 

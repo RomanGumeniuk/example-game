@@ -16,6 +16,8 @@ public class GameLogic : NetworkBehaviour
 
     public List<Transform> allPlayersListPrefab = new List<Transform>();
 
+    public List<string> chanceList = new List<string>();
+
     public int index = 0;
     public int allPlayerAmount = 0;
 
@@ -184,13 +186,27 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { PlayersOrder[index].ClientId }
             }
         };
+        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value>0)
+        {
+            PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value--;
+            if (allPlayerAmount == index + 1)
+            {
+                index = 0;
+            }
+            else index++;
+            OnNextPlayerTurnServerRpc();
+            return;
+        }
+
         if (allPlayerAmount == index + 1)
         {
-
             index = 0;
         }
         else index++;
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
+        
+        
+        
     }
 
 }
