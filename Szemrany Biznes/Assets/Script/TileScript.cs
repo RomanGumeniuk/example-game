@@ -6,7 +6,7 @@ using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 public class TileScript : NetworkBehaviour
 {
-    public byte tileType = 0;
+    public TileType tileType = 0;
 
 
     const byte TOWN_TILE = 0;
@@ -21,6 +21,23 @@ public class TileScript : NetworkBehaviour
     const byte CUSTODY_TILE = 9;
     const byte PATROL_TILE = 10;
     const byte PARTY_TILE = 11;
+
+    public enum TileType
+    { 
+        TownTile,
+        StartTile,
+        ChanceTile1,
+        ChnaceTile2,
+        TrainTile,
+        ParkingTile,
+        LightbulbTile,
+        WaterPiepesTile,
+        TaxReliefTile,
+        CustodyTile,
+        PatrolTile,
+        PartyTile
+    }
+
 
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
@@ -125,7 +142,7 @@ public class TileScript : NetworkBehaviour
         {
             if (maxLevelThatPlayerCanAfford == 0)
             {
-                AlertTabForPlayerUI.Instance.ShowTab("You can't aford any upgrade!", 3.5f);
+                AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 3.5f);
                 return;
             }
             if(currentAvailableTownUpgrade <= townLevel.Value)
@@ -141,14 +158,14 @@ public class TileScript : NetworkBehaviour
             BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
             return;
         }
-        AlertTabForPlayerUI.Instance.ShowTab($"You can't aford this property it costs: {townCostToBuy[0]}PLN!", 3.5f);
+        AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {townCostToBuy[0]}PLN!", 3.5f);
     }
 
     private void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true)
     {
         if (playerAmountOfMoney >= amountOfMoneyToPay)
         {
-            AlertTabForPlayerUI.Instance.ShowTab($"You paid {amountOfMoneyToPay}PLN", 2);
+            AlertTabForPlayerUI.Instance.ShowTab($"Zap³aci³eœ {amountOfMoneyToPay}PLN", 2);
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountOfMoneyToPay, PlayerScript.LocalInstance.playerIndex, 1, true, true);
             if (payToPlayer) GiveMoney(amountOfMoneyToPay, ownerId.Value,false); 
             return;
@@ -233,20 +250,27 @@ public class TileScript : NetworkBehaviour
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         switch (tileType)
         {
-            case START_TILE:
+            case TileType.StartTile:
                 OnStartEnter(passTheStartTile);
                 return;
-            case TOWN_TILE:
+            case TileType.TownTile:
                 OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
                 return;
-            case PARKING_TILE:
-            case RING_TILE:
+            case TileType.ParkingTile:
                 Pay(playerAmountOfMoney, amountMoneyOnPlayerStep, false);
                 return;
-            case TRAIN_TILE:
-            case LIGHBULB_TILE:
-            case WATERPIEPES_TILE:
+            case TileType.TaxReliefTile:
+                AlertTabForPlayerUI.Instance.ShowTab($"Dosta³eœ {amountMoneyOnPlayerStep}PLN", 2);
+                GiveMoney(amountMoneyOnPlayerStep);
+                return;
+            case TileType.TrainTile:
+            case TileType.LightbulbTile:
+            case TileType.WaterPiepesTile:
                 OnTownEnter(playerAmountOfMoney, 0, true);
+                return;
+            case TileType.PartyTile:
+                AlertTabForPlayerUI.Instance.ShowTab($"Wprosi³eœ siê na impreze z darmowym alkocholem, jesteœ 400 PLN do przodu", 3.5f);
+                GiveMoney(amountMoneyOnPlayerStep);
                 return;
             default:
                 GameUIScript.OnNextPlayerTurn.Invoke();
@@ -258,6 +282,7 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpgradeTownServerRpc(int currentNewLevel,int ownerId)
     {
+        
         this.ownerId.Value = ownerId;
 
         townLevel.Value = currentNewLevel;
@@ -286,6 +311,24 @@ public class TileScript : NetworkBehaviour
     {
         if (ownerId != -1) GetComponent<MeshRenderer>().material = GameLogic.Instance.PlayerColors[ownerId];
         else GetComponent<MeshRenderer>().material = startMaterial;
+        if (tileType == TileType.TrainTile)
+        {
+            Debug.Log("Oa O");
+            int amount = 0;
+            foreach (TileScript tile in AllTownsToGetMonopol)
+            {
+                if (tile.ownerId.Value == (int)NetworkManager.Singleton.LocalClient.ClientId) amount++;
+            }
+            foreach (TileScript tile in AllTownsToGetMonopol)
+            {
+                if (tile.ownerId.Value != (int)NetworkManager.Singleton.LocalClient.ClientId) continue;
+                tile.townLevel.Value = amount - 1;
+                tile.displayPropertyUI.ShowNormalView(ownerId, tile.townLevel.Value, townCostToPay[tile.townLevel.Value], onlyChangeText);
+                Debug.Log(tile.name);
+            }
+            return;
+        }
+        
         if (townLevel < 0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0, onlyChangeText);
         else displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay[townLevel], onlyChangeText);
     }
