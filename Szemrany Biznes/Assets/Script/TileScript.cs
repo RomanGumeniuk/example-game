@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
+using static UnityEngine.Rendering.DebugUI;
 public class TileScript : NetworkBehaviour
 {
     public TileType tileType = 0;
@@ -272,11 +273,26 @@ public class TileScript : NetworkBehaviour
                 AlertTabForPlayerUI.Instance.ShowTab($"Wprosi³eœ siê na impreze z darmowym alkocholem, jesteœ 400 PLN do przodu", 3.5f);
                 GiveMoney(amountMoneyOnPlayerStep);
                 return;
+            case TileType.PatrolTile:
+                UpdatePlayerCantMoveVariableServerRpc(2);
+                GameUIScript.OnNextPlayerTurn.Invoke();
+                return;
+            case TileType.CustodyTile:
+                UpdatePlayerCantMoveVariableServerRpc(2);
+                Pay(playerAmountOfMoney, amountMoneyOnPlayerStep, false);
+                return;
+
             default:
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 return;
         }
 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdatePlayerCantMoveVariableServerRpc(int value)
+    {
+        PlayerScript.LocalInstance.cantMoveFor.Value += value;
     }
 
     [ServerRpc(RequireOwnership = false)]

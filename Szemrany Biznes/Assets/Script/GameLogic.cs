@@ -35,6 +35,8 @@ public class GameLogic : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+        Application.targetFrameRate = 60;
+
     }
 
     [ServerRpc(RequireOwnership = false)]
