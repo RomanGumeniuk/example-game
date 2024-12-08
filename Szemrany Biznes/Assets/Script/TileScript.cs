@@ -23,7 +23,18 @@ public class TileScript : NetworkBehaviour
         TaxReliefTile,
         CustodyTile,
         PatrolTile,
-        PartyTile
+        PartyTile,
+
+
+        ShopTile,
+        PrisonTile,
+        GangTile,
+        ChanceTile,
+        BonusTile,
+        SpecialTile,
+        BillTile,
+        MelangeTile
+
     }
 
     public enum PropertyType
@@ -35,7 +46,7 @@ public class TileScript : NetworkBehaviour
         Gambling
     }
 
-
+    public int index;
     public List<int> townCostToBuy = new List<int>();
     public List<int> townCostToPay = new List<int>();
 

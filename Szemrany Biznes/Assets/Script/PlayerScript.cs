@@ -32,7 +32,7 @@ public class PlayerScript : NetworkBehaviour
         transform.position = postition;
     }
 
-    private void CheckForSteppingOnEdge()
+    protected void CheckForSteppingOnEdge()
     {
         if (currentTileIndex % 10 != 0)
         {
@@ -64,7 +64,7 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
-    private void ChangeCurrentTileIndex(int diceValue,int i)
+    protected void ChangeCurrentTileIndex(int diceValue,int i)
     {
         transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
         if (currentTileIndex != (9 * 4) + 3)
