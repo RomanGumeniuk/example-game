@@ -8,20 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class TileScript : NetworkBehaviour
 {
     public TileType tileType = 0;
-
-
-    const byte TOWN_TILE = 0;
-    const byte START_TILE = 1;
-    const byte CHANCE_TILE1 = 2;
-    const byte CHANCE_TILE2 = 3;
-    const byte TRAIN_TILE = 4;
-    const byte PARKING_TILE = 5;
-    const byte LIGHBULB_TILE = 6;
-    const byte WATERPIEPES_TILE = 7;
-    const byte RING_TILE = 8;
-    const byte CUSTODY_TILE = 9;
-    const byte PATROL_TILE = 10;
-    const byte PARTY_TILE = 11;
+    public PropertyType propertyType = 0;
 
     public enum TileType
     { 
@@ -37,6 +24,15 @@ public class TileScript : NetworkBehaviour
         CustodyTile,
         PatrolTile,
         PartyTile
+    }
+
+    public enum PropertyType
+    {
+        None,
+        Alcohol,
+        Drugs,
+        Prostitution,
+        Gambling
     }
 
 
@@ -151,7 +147,8 @@ public class TileScript : NetworkBehaviour
                 AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
                 return;
             }
-            BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, townCostToBuy, this, currentAvailableTownUpgrade);
+            if (propertyType == PropertyType.None) ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
+            else BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, townCostToBuy, this, currentAvailableTownUpgrade);
             return;
         }
         if (playerAmountOfMoney >= Cost)
@@ -199,7 +196,7 @@ public class TileScript : NetworkBehaviour
             return;
         }
         if(isNonUpgradingTown) GameUIScript.OnNextPlayerTurn.Invoke();
-        UpgradeTown(playerAmountOfMoney, currentAvailableTownUpgrade);
+        else UpgradeTown(playerAmountOfMoney, currentAvailableTownUpgrade);
     }
 
     private void OnStartEnter(bool passTheStartTile)
@@ -296,11 +293,17 @@ public class TileScript : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
+    public void SetPropertyTypeServerRpc(PropertyType choosenPropertyType)
+    {
+        propertyType = choosenPropertyType;
+    }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
     public void UpgradeTownServerRpc(int currentNewLevel,int ownerId)
     {
-        
         this.ownerId.Value = ownerId;
-
         townLevel.Value = currentNewLevel;
         UpdateOwnerTextClientRpc(ownerId, townLevel.Value);
     }
@@ -329,7 +332,6 @@ public class TileScript : NetworkBehaviour
         else GetComponent<MeshRenderer>().material = startMaterial;
         if (tileType == TileType.TrainTile)
         {
-            Debug.Log("Oa O");
             int amount = 0;
             foreach (TileScript tile in AllTownsToGetMonopol)
             {

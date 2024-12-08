@@ -12,4 +12,4 @@ PhysicsMaterial:
   m_StaticFriction: 0
   m_Bounciness: 1
   m_FrictionCombine: 2
-  m_BounceCombine: 1
+  m_BounceCombine: 2
