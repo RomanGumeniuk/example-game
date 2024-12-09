@@ -30,7 +30,7 @@ public class GameUIScript : NetworkBehaviour
         RollDiceButton.onClick.AddListener(() =>
         {
             RollDiceButton.gameObject.SetActive(false);
-            DiceSpawn.Instance.RollTheDiceServerRpc(PlayerScript.LocalInstance.playerIndex);
+            DiceSpawn.Instance.RollTheDiceServerRpc(PlayerScript.LocalInstance.playerIndex,2);
         });
         if (!IsServer)return;
         
