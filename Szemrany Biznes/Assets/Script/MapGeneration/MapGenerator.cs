@@ -30,29 +30,36 @@ public class MapGenerator : ScriptableObject
     private GameObject otherTilesCanvas;
     [SerializeField]
     private GameObject townTilesCanvas;
+    [SerializeField]
+    private GameObject boardPrefab;
+
+    private GameObject board;
     public void Generate()
     {
         FindAnyObjectByType<GameLogic>().SpawnPoints = new List<Transform>();
-        GameObject board = new GameObject("Board");
-        board.transform.position = new Vector3(0,0,0);
+        GameObject boardMesh = Instantiate(boardPrefab,new Vector3(cornerTileSize.x/20+ tileSize.x / 10 * (width - 2)/2, 0, cornerTileSize.x / 20 + tileSize.x / 10 * (width - 2) / 2),Quaternion.identity);
+        boardMesh.transform.localScale = new Vector3(tileSize.x/100*(width-2), tileSize.x/100 * (width - 2), tileSize.x/100 * (width - 2));
+        boardMesh.name = "Board collider";
+        board = new GameObject("Board");
+        board.transform.position = Vector3.zero;
         //Fist corner
         Vector3 startPosition = new Vector3((tileSize.x / 10) * (width - 2) + cornerTileSize.x/10, 0, (tileSize.x / 10) * (height - 2) + cornerTileSize.y/10);
-        CreateCornerTileInWorld(0, startPosition, ref board,0);
+        CreateCornerTileInWorld(0, startPosition,0);
         //Second corner
         startPosition = new Vector3((tileSize.x / 10) * (height - 2) + cornerTileSize.y / 10, 0, 0);
-        CreateCornerTileInWorld(1, startPosition, ref board,90);
+        CreateCornerTileInWorld(1, startPosition,90);
         //Third corner
         startPosition = new Vector3(0, 0, 0);
-        CreateCornerTileInWorld(2, startPosition, ref board,180);
+        CreateCornerTileInWorld(2, startPosition,180);
         //Fourth corner
         startPosition = new Vector3(0, 0, (tileSize.x / 10) * (height-2) + cornerTileSize.y / 10);
-        CreateCornerTileInWorld(3, startPosition, ref board,-90);
+        CreateCornerTileInWorld(3, startPosition,-90);
         int index = 4;
         startPosition = new Vector3(tileSize.x / 10 * (width - 2) + cornerTileSize.x / 10, 0, tileSize.x / 10 * (width - 2) + cornerTileSize.x / 10 - ((cornerTileSize.y / 20) + (tileSize.x / 20)));
         for (int i = 0; i < height - 2; i++)
         {
 
-            CreateTileInWorld(90, startPosition, tiles[index], ref board);
+            CreateTileInWorld(90, startPosition, tiles[index]);
             startPosition -= new Vector3(0, 0, tileSize.x / 10);
             index++;
         }
@@ -60,7 +67,7 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < width - 2; i++)
         {
 
-            CreateTileInWorld(0, startPosition, tiles[index], ref board);
+            CreateTileInWorld(0, startPosition, tiles[index]);
             startPosition -= new Vector3(tileSize.x / 10, 0, 0);
             index++;
         }
@@ -68,7 +75,7 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < height - 2; i++)
         {
 
-            CreateTileInWorld(-90, startPosition, tiles[index], ref board);
+            CreateTileInWorld(-90, startPosition, tiles[index]);
             startPosition += new Vector3(0, 0, tileSize.x / 10);
             index++;
         }
@@ -76,17 +83,20 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < height - 2; i++)
         {
 
-            CreateTileInWorld(0, startPosition, tiles[index],ref board);
+            CreateTileInWorld(0, startPosition, tiles[index]);
             startPosition += new Vector3(tileSize.x / 10, 0,0) ;
             index++;
         }
 
-        SetMonopolsForAllTiles(board);
+        SetMonopolsForAllTiles();
 
-        board.AddComponent<NavMeshSurface>().BuildNavMesh();
+        NavMeshSurface navMesh = board.AddComponent<NavMeshSurface>();
+        navMesh.layerMask = 1 << 0;
+        navMesh.BuildNavMesh();
+        GameLogic.Instance.board = board;
     }
 
-    private void CreateTileInWorld(float rotation, Vector3 position,Tile tile,ref GameObject board)
+    private void CreateTileInWorld(float rotation, Vector3 position,Tile tile)
     {
         GameObject tileObject = Instantiate(tilePrefab, position, Quaternion.Euler(new Vector3(0, rotation, 0)), board.transform);
         tileObject.name = tile.GetName();
@@ -114,7 +124,7 @@ public class MapGenerator : ScriptableObject
 
     }
 
-    private void CreateCornerTileInWorld(int index, Vector3 startPosition, ref GameObject board,float rotation)
+    private void CreateCornerTileInWorld(int index, Vector3 startPosition,float rotation)
     {
         GameObject tile = Instantiate(tilePrefab, startPosition, Quaternion.identity, board.transform);
         tile.GetComponent<MeshRenderer>().material = tiles[index].GetMaterial();
@@ -139,7 +149,7 @@ public class MapGenerator : ScriptableObject
         FindAnyObjectByType<GameLogic>().SpawnPoints.Add(playerSpawnPoints.transform);
     }
 
-    private void SetMonopolsForAllTiles(GameObject board)
+    private void SetMonopolsForAllTiles()
     {
         foreach (Transform child in board.transform)
         {
@@ -151,6 +161,23 @@ public class MapGenerator : ScriptableObject
             
         }
 
+    }
+
+    
+
+    public int GetSize()
+    {
+        return width;
+    }
+
+    public Vector2 GetTileSize()
+    {
+        return tileSize;
+    }
+
+    public Vector2 GetCornerTileSize()
+    {
+        return cornerTileSize;
     }
 
 }

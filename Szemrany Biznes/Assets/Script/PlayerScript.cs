@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using UnityEngine.AI;
+using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -19,76 +22,71 @@ public class PlayerScript : NetworkBehaviour
 
     public static PlayerScript LocalInstance { get; private set; }
 
+    public NavMeshAgent navMeshAgent;
     public override void OnNetworkSpawn()
     {
         if(IsOwner)
         {
             LocalInstance = this;
+            navMeshAgent = GetComponent<NavMeshAgent>();
         }
     }
 
     public void GoTo(Vector3 postition)
     {
         transform.position = postition;
+        navMeshAgent.enabled = true;
     }
 
-    protected void CheckForSteppingOnEdge()
+
+    protected async Task ChangeCurrentTileIndex(int diceValue, int i)
     {
-        if (currentTileIndex % 10 != 0)
+        int index = 0;
+        if (currentTileIndex > GameLogic.Instance.mapGenerator.GetSize() - 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 2)
         {
-            return;
+            index = 1;
+        }
+        else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 1 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 3)
+        {
+            index = 2;
+        }
+        else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 4 + 4)
+        {
+            index = 3;
         }
 
-        switch (currentTileIndex)
-        {
-            case 0:
-                directionX = -1;
-                directionZ = 0;
-                transform.position = GameLogic.Instance.SpawnPoints[0].GetChild(playerIndex).transform.position;
-                break;
-            case 10:
-                directionX = 0;
-                directionZ = 1;
-                transform.position = GameLogic.Instance.SpawnPoints[1].GetChild(playerIndex).transform.position;
-                break;
-            case 20:
-                directionX = 1;
-                directionZ = 0;
-                transform.position = GameLogic.Instance.SpawnPoints[2].GetChild(playerIndex).transform.position;
-                break;
-            case 30:
-                directionX = 0;
-                directionZ = -1;
-                transform.position = GameLogic.Instance.SpawnPoints[3].GetChild(playerIndex).transform.position;
-                break;
-        }
-    }
 
-    protected void ChangeCurrentTileIndex(int diceValue,int i)
-    {
-        transform.position = new Vector3(transform.position.x + 1.17f * directionX, transform.position.y, transform.position.z + 1.17f * directionZ);
-        if (currentTileIndex != (9 * 4) + 3)
+        if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4)-1)
         {
             currentTileIndex++;
-            return;
         }
-        currentTileIndex = 0;
-        if (i + 1 < diceValue)
+        else currentTileIndex = 0;
+        
+        navMeshAgent.destination = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.board.transform.GetChild(index).transform.position - GameLogic.Instance.SpawnPoints[index].GetChild(playerIndex).transform.position);
+        while (true)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+            if (navMeshAgent.remainingDistance < 0.1f) break;
+        }
+
+        
+        if (i + 1 < diceValue && currentTileIndex==0)
         {
             GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
         }
     }
 
 
-    public void Move(int diceValue)
+    public async void Move(int diceValue)
     {
-        for(int i=0;i<diceValue;i++)
+        navMeshAgent.isStopped = false;
+        for (int i=0;i<diceValue;i++)
         {
-            CheckForSteppingOnEdge();
-            ChangeCurrentTileIndex(diceValue,i);
+            await ChangeCurrentTileIndex(diceValue,i);
         }
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
-        
+        navMeshAgent.isStopped = true;
+
     }
 
     public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid,int playerIndexThatGetsPaid)

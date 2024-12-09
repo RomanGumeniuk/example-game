@@ -45,13 +45,14 @@ public class DiceSpawn : NetworkBehaviour
         { 
             diceVelocity = rb.linearVelocity;
             yield return null;
-            if (diceVelocity == new Vector3(0,0,0))
+            if (Mathf.Abs(diceVelocity.x)<0.05f && Mathf.Abs(diceVelocity.y)<0.05f && Mathf.Abs(diceVelocity.z) <0.05f)
             {
                 //Debug.Log("ZATRZYMANO KUROTINA KURWE");
+                yield return new WaitForSeconds(0.1f);
                 CheckZone.Instance.test(rb.gameObject, playerIndex);
                 yield break;
             }
-            if(rb.transform.position.y < -2 || rb.transform.position.x < -10 || rb.transform.position.x > 10 || rb.transform.position.z > 10 || rb.transform.position.z < -10)
+            if(rb.transform.position.y < -2)
             {
                 Destroy(rb.gameObject);
                 RollTheDiceServerRpc(playerIndex);

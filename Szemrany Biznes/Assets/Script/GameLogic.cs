@@ -8,7 +8,9 @@ using TMPro;
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic Instance { get; private set; }
-    
+    public MapGenerator mapGenerator;
+    public GameObject board;
+
     public List<Transform> SpawnPoints = new List<Transform>();
     public List<NetworkClient> PlayersOrder = new List<NetworkClient>();
 
@@ -36,8 +38,12 @@ public class GameLogic : NetworkBehaviour
     {
         Instance = this;
         Application.targetFrameRate = 60;
-
+        allTileScripts = GetAllTileScriptFromBoard();
     }
+
+
+
+    
 
     [ServerRpc(RequireOwnership = false)]
     public void GetSpawnPointFromServerRpc(ulong playerId)
@@ -212,6 +218,37 @@ public class GameLogic : NetworkBehaviour
         
         
         
+    }
+
+    public List<TileScript> GetAllTileScriptFromBoard()
+    {
+        List<TileScript> tileScripts = new List<TileScript>();
+        tileScripts.Add(board.transform.GetChild(0).GetComponent<TileScript>());
+        int index = 4;
+        for (int i = 0; i < mapGenerator.GetSize() - 2; i++)
+        {
+            tileScripts.Add(board.transform.GetChild(index).GetComponent<TileScript>());
+            index++;
+        }
+        tileScripts.Add(board.transform.GetChild(1).GetComponent<TileScript>());
+        for (int i = 0; i < mapGenerator.GetSize() - 2; i++)
+        {
+            tileScripts.Add(board.transform.GetChild(index).GetComponent<TileScript>());
+            index++;
+        }
+        tileScripts.Add(board.transform.GetChild(2).GetComponent<TileScript>());
+        for (int i = 0; i < mapGenerator.GetSize() - 2; i++)
+        {
+            tileScripts.Add(board.transform.GetChild(index).GetComponent<TileScript>());
+            index++;
+        }
+        tileScripts.Add(board.transform.GetChild(3).GetComponent<TileScript>());
+        for (int i = 0; i < mapGenerator.GetSize() - 2; i++)
+        {
+            tileScripts.Add(board.transform.GetChild(index).GetComponent<TileScript>());
+            index++;
+        }
+        return tileScripts;
     }
 
 }
