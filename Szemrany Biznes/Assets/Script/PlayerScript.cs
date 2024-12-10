@@ -5,36 +5,47 @@ using Unity.Netcode;
 using System;
 using UnityEngine.AI;
 using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
+using Unity.Cinemachine;
 
-public class PlayerScript : NetworkBehaviour
+public abstract class PlayerScript : NetworkBehaviour
 {
     public int directionX = 1;
     public int directionZ = 0;
     public int currentTileIndex = 0;
     public int playerIndex;
-    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>( 3000);
+    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(5000);
     public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
-    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(3000);
+    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(5000);
     public byte currentAvailableTownUpgrade = 2;
     public byte minTownLevel=1;
     public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
 
-    public static PlayerScript LocalInstance { get; private set; }
+    public static PlayerScript LocalInstance { get; protected set; }
 
     public NavMeshAgent navMeshAgent;
+
+    private CinemachineCamera camera;
+
+
+    public GameLogic.CharacterType characterType;
     public override void OnNetworkSpawn()
     {
         if(IsOwner)
         {
             LocalInstance = this;
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            Debug.Log("AAA" +PlayerScript.LocalInstance.playerIndex);
+            /*camera = FindAnyObjectByType<CinemachineCamera>();
+            CameraTarget target = new CameraTarget();
+            target.TrackingTarget = transform;
+            camera.Target = target;
+            camera.LookAt = transform;*/
         }
     }
 
     public void GoTo(Vector3 postition)
     {
         transform.position = postition;
+        navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.enabled = true;
     }
 
@@ -77,7 +88,7 @@ public class PlayerScript : NetworkBehaviour
     }
 
 
-    public async void Move(int diceValue)
+    public virtual async void Move(int diceValue)
     {
         navMeshAgent.isStopped = false;
         for (int i=0;i<diceValue;i++)

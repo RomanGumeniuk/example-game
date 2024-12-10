@@ -100,7 +100,7 @@ public class DiceSpawn : NetworkBehaviour
         if (diceLeft == 0) Debug.LogWarning("there are no more dices");
         combineDiceNumber += diceNumber;
         diceLeft--;
-        Debug.Log("Dice decrease" + " "+ diceLeft);
+        //Debug.Log("Dice decrease" + " "+ diceLeft);
     }
 
     public async Task WaitForAllDiceToRoll()

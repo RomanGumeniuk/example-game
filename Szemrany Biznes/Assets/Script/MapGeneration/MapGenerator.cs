@@ -2,7 +2,6 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using UnityEditor.AI;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 

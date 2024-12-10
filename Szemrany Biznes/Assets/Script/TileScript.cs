@@ -283,11 +283,11 @@ public class TileScript : NetworkBehaviour
                 GiveMoney(amountMoneyOnPlayerStep);
                 return;
             case TileType.PatrolTile:
-                UpdatePlayerCantMoveVariableServerRpc(2);
+                UpdatePlayerCantMoveVariableServerRpc(2, PlayerScript.LocalInstance.playerIndex);
                 GameUIScript.OnNextPlayerTurn.Invoke();
                 return;
             case TileType.CustodyTile:
-                UpdatePlayerCantMoveVariableServerRpc(2);
+                UpdatePlayerCantMoveVariableServerRpc(1, PlayerScript.LocalInstance.playerIndex);
                 Pay(playerAmountOfMoney, amountMoneyOnPlayerStep, false);
                 return;
 
@@ -299,9 +299,9 @@ public class TileScript : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void UpdatePlayerCantMoveVariableServerRpc(int value)
+    public void UpdatePlayerCantMoveVariableServerRpc(int value,int playerId)
     {
-        PlayerScript.LocalInstance.cantMoveFor.Value += value;
+        NetworkManager.Singleton.ConnectedClientsList[playerId].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value = value;
     }
 
     [ServerRpc(RequireOwnership = false)]

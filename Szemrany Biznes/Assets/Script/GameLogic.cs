@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Events;
 using TMPro;
+using Unity.Cinemachine;
+using Unity.VisualScripting;
 
 public class GameLogic : NetworkBehaviour
 {
@@ -13,6 +15,8 @@ public class GameLogic : NetworkBehaviour
 
     public List<Transform> SpawnPoints = new List<Transform>();
     public List<NetworkClient> PlayersOrder = new List<NetworkClient>();
+
+    
 
     public List<TileScript> allTileScripts = new List<TileScript>();
 
@@ -28,11 +32,21 @@ public class GameLogic : NetworkBehaviour
 
     public List<Material> PlayerColors;
 
+    public List<CharacterType> allCharacters = new List<CharacterType>();
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         GetSpawnPointFromServerRpc(NetworkManager.Singleton.LocalClientId);
     }
+
+    public enum CharacterType
+    {
+        Homeless,
+        ThickWoman,
+        NPC
+    
+    }
+
 
     private void Awake()
     {
@@ -40,10 +54,6 @@ public class GameLogic : NetworkBehaviour
         Application.targetFrameRate = 60;
         allTileScripts = GetAllTileScriptFromBoard();
     }
-
-
-
-    
 
     [ServerRpc(RequireOwnership = false)]
     public void GetSpawnPointFromServerRpc(ulong playerId)
@@ -55,14 +65,32 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { playerId }
             }
         };
-        GiveClientSpawnPositionClientRpc(/*SpawnPoints[index].position*/SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, clientRpcParams);
+        CharacterType character = allCharacters[0];
+        allCharacters.RemoveAt(0);
+        GiveClientSpawnPositionClientRpc(SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, character, clientRpcParams);
     }
 
     [ClientRpc]
-    public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex, ClientRpcParams clientRpcParams = default)
+    public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex,CharacterType characterType,  ClientRpcParams clientRpcParams = default)
     {
-        PlayerScript.LocalInstance.playerIndex = playerIndex;
-        PlayerScript.LocalInstance.GoTo(spawnPostion);
+        switch (characterType)
+        { 
+            case CharacterType.Homeless:
+                Homeless homeless = NetworkManager.Singleton.LocalClient.PlayerObject.AddComponent<Homeless>();
+                homeless.playerIndex = playerIndex;
+                homeless.GoTo(spawnPostion);
+                homeless.characterType = characterType;
+                break;
+            case CharacterType.ThickWoman:
+                ThickWoman thickWoman = NetworkManager.Singleton.LocalClient.PlayerObject.AddComponent<ThickWoman>();
+                thickWoman.playerIndex = playerIndex;
+                thickWoman.GoTo(spawnPostion);
+                thickWoman.characterType = characterType;
+                break;
+        
+        }
+
+        
     }
     
     void Start()
