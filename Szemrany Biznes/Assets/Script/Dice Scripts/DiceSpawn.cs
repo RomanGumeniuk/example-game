@@ -118,7 +118,7 @@ public class DiceSpawn : NetworkBehaviour
                 TargetClientIds = new ulong[] { (ulong)currentPlayerIndex }
             }
         };
-        GameUIScript.Instance.OnDiceNumberReturnClientRpc(combineDiceNumber, clientRpcParams);
+        PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber, clientRpcParams);
         combineDiceNumber = 0;
         CheckZone.Instance.DestroyAllDices();
         isWaitingForAllDicesToRoll = false;

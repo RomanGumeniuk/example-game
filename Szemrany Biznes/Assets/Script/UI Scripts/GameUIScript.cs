@@ -19,12 +19,12 @@ public class GameUIScript : NetworkBehaviour
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
 
-    [ClientRpc]
-    public void OnDiceNumberReturnClientRpc(int diceNumber, ClientRpcParams clientRpcParams = default)
+    public void OnDiceNumberReturn(int diceNumber)
     {
         TextAboutStateOfGame.text = "You rolled " + diceNumber;
-        PlayerScript.LocalInstance.Move(diceNumber);
+        //PlayerScript.LocalInstance.Move(diceNumber);
     }
+
     public override void OnNetworkSpawn()
     {
         RollDiceButton.onClick.AddListener(() =>

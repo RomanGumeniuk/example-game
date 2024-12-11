@@ -22,7 +22,7 @@ public class MapGenerator : ScriptableObject
     [SerializeField]
     private Vector2 cornerTileSize;
     [SerializeField]
-    private List<Tile> tiles;
+    private List<TileProperties> tiles;
     [SerializeField]
     private GameObject tilePrefab;
     [SerializeField]
@@ -58,7 +58,7 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < height - 2; i++)
         {
 
-            CreateTileInWorld(90, startPosition, tiles[index]);
+            CreateTileInWorld(-90, startPosition, tiles[index]);
             startPosition -= new Vector3(0, 0, tileSize.x / 10);
             index++;
         }
@@ -92,10 +92,10 @@ public class MapGenerator : ScriptableObject
         NavMeshSurface navMesh = board.AddComponent<NavMeshSurface>();
         navMesh.layerMask = 1 << 0;
         navMesh.BuildNavMesh();
-        GameLogic.Instance.board = board;
+        FindAnyObjectByType<GameLogic>().board = board;
     }
 
-    private void CreateTileInWorld(float rotation, Vector3 position,Tile tile)
+    private void CreateTileInWorld(float rotation, Vector3 position, TileProperties tile)
     {
         GameObject tileObject = Instantiate(tilePrefab, position, Quaternion.Euler(new Vector3(0, rotation, 0)), board.transform);
         tileObject.name = tile.GetName();
@@ -134,6 +134,7 @@ public class MapGenerator : ScriptableObject
         tileScript.tileType = tiles[index].GetTileType();
         tileScript.townLevel.Value = 0;
         tileScript.index = tiles[index].GetIndex();
+        tileScript.specialTileScript = SetSpecialTileScript(tiles[index].GetTileType(),ref tileScript);
         Instantiate(otherTilesCanvas, tile.transform);
 
         GameObject playerSpawnPoints = new GameObject("PlayerSpawnPoints");
@@ -147,6 +148,26 @@ public class MapGenerator : ScriptableObject
         }
         FindAnyObjectByType<GameLogic>().SpawnPoints.Add(playerSpawnPoints.transform);
     }
+
+    private Tile SetSpecialTileScript(TileScript.TileType type,ref TileScript tileScript)
+    {
+        switch (type)
+        {
+            case TileScript.TileType.GangTile:
+                return new GangTile(tileScript);
+            case TileScript.TileType.PatrolTile:
+                return new PatrolTile(tileScript);
+            default: 
+                return null;
+        }
+
+    }
+
+
+
+
+
+
 
     private void SetMonopolsForAllTiles()
     {
@@ -182,7 +203,7 @@ public class MapGenerator : ScriptableObject
 }
 
 [Serializable]
-public class Tile
+public class TileProperties
 {
     [SerializeField] private int index;
     [SerializeField] private string name;

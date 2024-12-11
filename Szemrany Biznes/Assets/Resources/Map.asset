@@ -99,9 +99,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 080000000a0000000b000000
     material: {fileID: 2100000, guid: 5a3acfe25088809439fdd17a3b23359d, type: 2}
   - index: 9
-    name: Gang 1
+    name: Yakuza
     type: 14
-    townCostToBuy: 
+    townCostToBuy: dc050000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 

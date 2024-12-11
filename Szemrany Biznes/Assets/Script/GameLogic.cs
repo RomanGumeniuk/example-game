@@ -32,19 +32,28 @@ public class GameLogic : NetworkBehaviour
 
     public List<Material> PlayerColors;
 
-    public List<CharacterType> allCharacters = new List<CharacterType>();
+    public List<Character> allCharacters = new List<Character>();
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         GetSpawnPointFromServerRpc(NetworkManager.Singleton.LocalClientId);
-    }
+        if (GameUIScript.OnStartGame == null)
+            GameUIScript.OnStartGame = new UnityEvent();
 
-    public enum CharacterType
-    {
-        Homeless,
-        ThickWoman,
-        NPC
-    
+        GameUIScript.OnStartGame.AddListener(OnGameStarted);
+
+        if (GameUIScript.OnNextPlayerTurn == null)
+            GameUIScript.OnNextPlayerTurn = new UnityEvent();
+
+        GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
+        allCharacters.Add(new ThickWoman());
+        allCharacters.Add(new Homeless());
+        /*allCharacters.Add(new NPC());
+        allCharacters.Add(new BrothelKeeper());
+        allCharacters.Add(new Seba());
+        allCharacters.Add(new Jew());
+        allCharacters.Add(new Jamal());
+        allCharacters.Add(new Student());*/
     }
 
 
@@ -65,46 +74,24 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { playerId }
             }
         };
-        CharacterType character = allCharacters[0];
-        allCharacters.RemoveAt(0);
-        GiveClientSpawnPositionClientRpc(SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, character, clientRpcParams);
+        
+        GiveClientSpawnPositionClientRpc(SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, clientRpcParams);
+        
     }
+
+
+    
+
+    
+
 
     [ClientRpc]
-    public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex,CharacterType characterType,  ClientRpcParams clientRpcParams = default)
+    public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex,  ClientRpcParams clientRpcParams = default)
     {
-        switch (characterType)
-        { 
-            case CharacterType.Homeless:
-                Homeless homeless = NetworkManager.Singleton.LocalClient.PlayerObject.AddComponent<Homeless>();
-                homeless.playerIndex = playerIndex;
-                homeless.GoTo(spawnPostion);
-                homeless.characterType = characterType;
-                break;
-            case CharacterType.ThickWoman:
-                ThickWoman thickWoman = NetworkManager.Singleton.LocalClient.PlayerObject.AddComponent<ThickWoman>();
-                thickWoman.playerIndex = playerIndex;
-                thickWoman.GoTo(spawnPostion);
-                thickWoman.characterType = characterType;
-                break;
-        
-        }
-
-        
+        PlayerScript.LocalInstance.GoTo(spawnPostion);
+        PlayerScript.LocalInstance.playerIndex = playerIndex;
     }
     
-    void Start()
-    {
-        if (GameUIScript.OnStartGame == null)
-            GameUIScript.OnStartGame = new UnityEvent();
-
-        GameUIScript.OnStartGame.AddListener(OnGameStarted);
-
-        if (GameUIScript.OnNextPlayerTurn == null)
-            GameUIScript.OnNextPlayerTurn = new UnityEvent();
-
-        GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
-    }
     
 
     void OnGameStarted()
@@ -120,14 +107,27 @@ public class GameLogic : NetworkBehaviour
         for (int i = 0; i < allPlayerAmount; i++)
         {
             int currentIndex = Random.Range(0, allPlayerAmount - i);
-            PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));            
+            PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));
             allPlayerIndex.RemoveAt(currentIndex);
             AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value);
+            //Debug.Log(PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>());//.SetMaterialClientRpc();
             PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().SetMaterialClientRpc();
         }
         index = 0;
-        
+        List<int> charatersIds = new List<int>() { 0, 1/*, 2, 3, 4, 5, 6, 7 */};
+        IListExtensions.Shuffle(charatersIds);
+        for (int i = 0; i < PlayersOrder.Count; i++)
+        {
+            SetAllCharactersClientRpc(charatersIds[i], (int)PlayersOrder[i].ClientId);
+        }
         OnNextPlayerTurnServerRpc();
+    }
+
+    [ClientRpc]
+    public void SetAllCharactersClientRpc(int i, int playerIndex)
+    {
+        NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>().character = allCharacters[i];
+        NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>().character.Greetings();
     }
 
     [ClientRpc]
@@ -279,4 +279,23 @@ public class GameLogic : NetworkBehaviour
         return tileScripts;
     }
 
+}
+
+public static class IListExtensions
+{
+    /// <summary>
+    /// Shuffles the element order of the specified list.
+    /// </summary>
+    public static void Shuffle<T>(this IList<T> ts)
+    {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = ts[i];
+            ts[i] = ts[r];
+            ts[r] = tmp;
+        }
+    }
 }

@@ -1,16 +1,18 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class ThickWoman : PlayerScript
+public class ThickWoman : Character
 {
-    public override async void Move(int diceValue)
+
+    public override int OnDiceRolled(int diceValue)
     {
-        diceValue--;
-        navMeshAgent.isStopped = false;
-        for (int i = 0; i < diceValue; i++)
-        {
-            await ChangeCurrentTileIndex(diceValue, i);
-        }
-        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
-        navMeshAgent.isStopped = true;
+        Debug.Log("Roll decresed by one");
+        return diceValue-1;
     }
+
+    public override void Greetings()
+    {
+        Debug.Log("ThickWoman");
+    }
+
 }

@@ -7,10 +7,8 @@ using UnityEngine.AI;
 using System.Threading.Tasks;
 using Unity.Cinemachine;
 
-public abstract class PlayerScript : NetworkBehaviour
+public class PlayerScript : NetworkBehaviour
 {
-    public int directionX = 1;
-    public int directionZ = 0;
     public int currentTileIndex = 0;
     public int playerIndex;
     public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(5000);
@@ -20,20 +18,25 @@ public abstract class PlayerScript : NetworkBehaviour
     public byte minTownLevel=1;
     public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
 
-    public static PlayerScript LocalInstance { get; protected set; }
+    public static PlayerScript LocalInstance;
 
     public NavMeshAgent navMeshAgent;
 
     private CinemachineCamera camera;
 
+    public Character character;
 
-    public GameLogic.CharacterType characterType;
+    public Tile tileType;
+    
+
     public override void OnNetworkSpawn()
     {
-        if(IsOwner)
+        
+        if (IsOwner)
         {
             LocalInstance = this;
-            Debug.Log("AAA" +PlayerScript.LocalInstance.playerIndex);
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            //Debug.Log("AAA" +PlayerScript.LocalInstance.playerIndex);
             /*camera = FindAnyObjectByType<CinemachineCamera>();
             CameraTarget target = new CameraTarget();
             target.TrackingTarget = transform;
@@ -45,7 +48,6 @@ public abstract class PlayerScript : NetworkBehaviour
     public void GoTo(Vector3 postition)
     {
         transform.position = postition;
-        navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.enabled = true;
     }
 
@@ -55,15 +57,15 @@ public abstract class PlayerScript : NetworkBehaviour
         int index = 0;
         if (currentTileIndex > GameLogic.Instance.mapGenerator.GetSize() - 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 2)
         {
-            index = 1;
+            index = GameLogic.Instance.mapGenerator.GetSize()-1;
         }
         else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 1 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 3)
         {
-            index = 2;
+            index = (GameLogic.Instance.mapGenerator.GetSize() - 1)*2;
         }
         else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 4 + 4)
         {
-            index = 3;
+            index = (GameLogic.Instance.mapGenerator.GetSize() - 1) * 3;
         }
 
 
@@ -73,7 +75,7 @@ public abstract class PlayerScript : NetworkBehaviour
         }
         else currentTileIndex = 0;
         
-        navMeshAgent.destination = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.board.transform.GetChild(index).transform.position - GameLogic.Instance.SpawnPoints[index].GetChild(playerIndex).transform.position);
+        navMeshAgent.destination = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index/ (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
         while (true)
         {
             await Awaitable.WaitForSecondsAsync(0.1f);
@@ -86,9 +88,16 @@ public abstract class PlayerScript : NetworkBehaviour
             GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
         }
     }
+    [ClientRpc]
+    public void OnDiceNumberReturnClientRpc(int diceValue, ClientRpcParams clientRpcParams = default)
+    {
+        diceValue = LocalInstance.character.OnDiceRolled(diceValue);
+        GameUIScript.Instance.OnDiceNumberReturn(diceValue);
+        LocalInstance.Move(diceValue);
+    }
 
 
-    public virtual async void Move(int diceValue)
+    public async void Move(int diceValue)
     {
         navMeshAgent.isStopped = false;
         for (int i=0;i<diceValue;i++)
@@ -124,7 +133,6 @@ public abstract class PlayerScript : NetworkBehaviour
         }
         currentAvailableTownUpgrade = minTownLevel;
     }
-
     [ClientRpc]
     public void SetMaterialClientRpc()
     {

@@ -62,6 +62,8 @@ public class TileScript : NetworkBehaviour
 
     private Material startMaterial;
 
+    public Tile specialTileScript;
+
     private void Start()
     {
         displayPropertyUI = transform.GetComponentInChildren<DisplayPropertyUI>();
@@ -276,6 +278,9 @@ public class TileScript : NetworkBehaviour
             case TileType.TrainTile:
             case TileType.LightbulbTile:
             case TileType.WaterPiepesTile:
+                OnTownEnter(playerAmountOfMoney, 0, true);
+                return;
+            case TileType.GangTile:
                 OnTownEnter(playerAmountOfMoney, 0, true);
                 return;
             case TileType.PartyTile:
