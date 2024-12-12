@@ -29,7 +29,6 @@ public class SellingTabUI : MonoBehaviour
             foreach(TileScript tileScript in selectedTiles)
             {
                 tileScript.SellingTownServerRpc(PlayerScript.LocalInstance.playerIndex);
-                PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(tileScript);
             }
             selectedTiles.Clear();
             SellButton.interactable = false;
@@ -38,7 +37,7 @@ public class SellingTabUI : MonoBehaviour
         });
         SellAtAuctionButton.onClick.AddListener(() =>
         {
-            BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].CaluculatePropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
+            BiddingTabUIScript.Instance.StartAuctionServerRpc(selectedTiles[0].specialTileScript.CaluculatePropertyValue() / 2, selectedTiles[0].name, PlayerScript.LocalInstance.playerIndex, false);
             SellAtAuctionButton.interactable = false;
             SellButton.interactable = false;
         });
@@ -71,7 +70,7 @@ public class SellingTabUI : MonoBehaviour
 
     public IEnumerator UpdatePayButton()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         currentAmountOfPlayerMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         if (PlayerScript.LocalInstance.amountOfMoney.Value >= currentAmountMoneyToPay)
         {
@@ -91,7 +90,7 @@ public class SellingTabUI : MonoBehaviour
         int totalValueOfAllRealEstates = 0;
         foreach(TileScript tileScript1 in selectedTiles)
         {
-            totalValueOfAllRealEstates += tileScript1.CaluculatePropertyValue();
+            totalValueOfAllRealEstates += tileScript1.specialTileScript.CaluculatePropertyValue();
         }
         if (selectedTiles.Count>1)
         {

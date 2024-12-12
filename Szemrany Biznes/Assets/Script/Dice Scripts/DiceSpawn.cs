@@ -71,12 +71,12 @@ public class DiceSpawn : NetworkBehaviour
             StartCoroutine(CheckVelocity(SpawnDice(), playerIndex));
         }
         if(addDiceLeft) diceLeft += diceAmount;
-        if(!isWaitingForAllDicesToRoll)WaitForAllDiceToRoll();
+        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll();
     }
 
     private Rigidbody SpawnDice()
     {
-        offsetPosition = new Vector3(RandomNumber(-3, 3), RandomNumber(1, 6), RandomNumber(-3, 3));
+        offsetPosition = new Vector3(RandomNumber(3, 17), RandomNumber(1, 6), RandomNumber(3, 17));
         offsetRotation = new Vector3(RandomNumber(-180, 180), RandomNumber(-180, 180), RandomNumber(-180, 180));
         GameObject prefabInstance = Instantiate(Dice, offsetPosition, Quaternion.Euler(offsetRotation));
         Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
@@ -103,7 +103,7 @@ public class DiceSpawn : NetworkBehaviour
         //Debug.Log("Dice decrease" + " "+ diceLeft);
     }
 
-    public async Task WaitForAllDiceToRoll()
+    public async void WaitForAllDiceToRoll()
     {
         isWaitingForAllDicesToRoll = true;
         while (true)

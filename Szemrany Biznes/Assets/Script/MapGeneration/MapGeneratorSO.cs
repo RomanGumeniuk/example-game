@@ -3,10 +3,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
+
 
 [CreateAssetMenu(fileName = "MapGenerator", menuName = "Scriptable Objects/MapGenerator")]
-public class MapGenerator : ScriptableObject
+public class MapGeneratorSO : ScriptableObject
 {
     [SerializeField]
     private int height;
@@ -103,10 +103,9 @@ public class MapGenerator : ScriptableObject
         tileObject.GetComponent<MeshRenderer>().material = tile.GetMaterial();
         switch (tile.GetTileType())
         {
-            case TileScript.TileType.TrainTile:
-            case TileScript.TileType.LightbulbTile:
-            case TileScript.TileType.WaterPiepesTile:
-            case TileScript.TileType.TownTile:
+            case TileType.TownTile:
+            case TileType.GangTile:
+            case TileType.SpecialTile:
                 Instantiate(townTilesCanvas, tileObject.transform);
                 break;
             default:
@@ -118,8 +117,8 @@ public class MapGenerator : ScriptableObject
         tileScript.amountMoneyOnPlayerStep = tile.GetAmountOfMoneyOnStep();
         tileScript.tileType = tile.GetTileType();
         tileScript.index = tile.GetIndex();
-        tileScript.townCostToBuy = tile.GetTownCostToBuy();
-        tileScript.townCostToPay = tile.GetTownCostToPay();
+        tileScript.townCostToBuy = new List<int> (tile.GetTownCostToBuy());
+        tileScript.townCostToPay = new List<int> (tile.GetTownCostToPay());
 
     }
 
@@ -134,7 +133,6 @@ public class MapGenerator : ScriptableObject
         tileScript.tileType = tiles[index].GetTileType();
         tileScript.townLevel.Value = 0;
         tileScript.index = tiles[index].GetIndex();
-        tileScript.specialTileScript = SetSpecialTileScript(tiles[index].GetTileType(),ref tileScript);
         Instantiate(otherTilesCanvas, tile.transform);
 
         GameObject playerSpawnPoints = new GameObject("PlayerSpawnPoints");
@@ -149,19 +147,7 @@ public class MapGenerator : ScriptableObject
         FindAnyObjectByType<GameLogic>().SpawnPoints.Add(playerSpawnPoints.transform);
     }
 
-    private Tile SetSpecialTileScript(TileScript.TileType type,ref TileScript tileScript)
-    {
-        switch (type)
-        {
-            case TileScript.TileType.GangTile:
-                return new GangTile(tileScript);
-            case TileScript.TileType.PatrolTile:
-                return new PatrolTile(tileScript);
-            default: 
-                return null;
-        }
-
-    }
+    
 
 
 
@@ -200,6 +186,21 @@ public class MapGenerator : ScriptableObject
         return cornerTileSize;
     }
 
+    public void ClearLists()
+    {
+        foreach(TileProperties tile in tiles)
+        {
+            for(int i=2;i<tile.GetTownCostToBuy().Count;i++)
+            {
+                tile.RemoveBuyCost(i);
+            }
+            for (int i = 0; i < tile.GetTownCostToPay().Count; i++)
+            {
+                tile.RemovePayCost(i);
+            }
+        }
+    }
+
 }
 
 [Serializable]
@@ -207,7 +208,7 @@ public class TileProperties
 {
     [SerializeField] private int index;
     [SerializeField] private string name;
-    [SerializeField] private TileScript.TileType type;
+    [SerializeField] private TileType type;
     [SerializeField] private List<int> townCostToBuy;
     [SerializeField] private List<int> townCostToPay;
     [SerializeField] private int amountOfMoneyOnStep;
@@ -215,7 +216,7 @@ public class TileProperties
     [SerializeField] private Material material;
 
 
-    public TileScript.TileType GetTileType()
+    public TileType GetTileType()
     {
         return type;
     }
@@ -254,4 +255,13 @@ public class TileProperties
         return material;
     }
 
+    public void RemoveBuyCost(int index)
+    {
+        townCostToBuy.RemoveAt(index);
+    }
+
+    public void RemovePayCost(int index)
+    {
+        townCostToPay.RemoveAt(index);
+    }
 }

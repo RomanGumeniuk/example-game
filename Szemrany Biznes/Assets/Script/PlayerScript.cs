@@ -83,9 +83,9 @@ public class PlayerScript : NetworkBehaviour
         }
 
         
-        if (i + 1 < diceValue && currentTileIndex==0)
+        if (i + 1 < diceValue)
         {
-            GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade, true);
+            GameLogic.Instance.allTileScripts[currentTileIndex].specialTileScript?.OnPlayerPassBy();
         }
     }
     [ClientRpc]

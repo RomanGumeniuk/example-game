@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 public class AlertTabForPlayerUI : MonoBehaviour
 {
@@ -14,12 +16,8 @@ public class AlertTabForPlayerUI : MonoBehaviour
         Instance = this;
     }
 
-    public void ShowTab(string alertText, float secondsIsVisible, bool invokeNextPlayer = true)
-    {
-        StartCoroutine(Show(alertText,secondsIsVisible,invokeNextPlayer));
-    }
 
-    private IEnumerator Show(string alertText, float secondsIsVisible,bool invokeNextPlayer=true)
+    public async Task ShowTab(string alertText, float secondsIsVisible,bool invokeNextPlayer=true)
     {
         if (invokeNextPlayer) GameUIScript.OnNextPlayerTurn.Invoke();
         try
@@ -31,7 +29,7 @@ public class AlertTabForPlayerUI : MonoBehaviour
             Debug.Log(this.alertText);
         }
         foreach (Transform child in transform) child.gameObject.SetActive(true);
-        yield return new WaitForSeconds(secondsIsVisible);
+        await Awaitable.WaitForSecondsAsync(secondsIsVisible);
         foreach (Transform child in transform) child.gameObject.SetActive(false);
     }
 }

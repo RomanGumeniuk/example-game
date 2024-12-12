@@ -105,7 +105,7 @@ public class BuyingTabUIScript : MonoBehaviour
         currentTownCostToBuy.Clear();
         foreach(int levelCost in townAllLevelsCost) currentTownCostToBuy.Add(levelCost);
         this.currentAvailableTownUpgrade = currentAvailableTownUpgrade;
-        Debug.Log($"maxTownLevel: {maxTownLevelThatCanBeBuy}, currentAvailable:{currentAvailableTownUpgrade}");
+        //Debug.Log($"maxTownLevel: {maxTownLevelThatCanBeBuy}, currentAvailable:{currentAvailableTownUpgrade}");
         for (int i = 0; i < 5; i++) Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
         for(int i=0;i<5;i++)
         {

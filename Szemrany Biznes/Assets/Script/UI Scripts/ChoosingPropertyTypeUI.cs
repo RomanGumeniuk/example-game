@@ -28,7 +28,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
         {
             int totalCost = 200; //here will be some script that calculates cost
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalCost, PlayerScript.LocalInstance.playerIndex, 1);
-            currentTileScript.SetPropertyTypeServerRpc((TileScript.PropertyType)(selectedOption+1));
+            currentTileScript.SetPropertyTypeServerRpc((PropertyType)(selectedOption+1));
             currentTileScript.UpgradeTownServerRpc(1, PlayerScript.LocalInstance.playerIndex);
             Hide();
         });

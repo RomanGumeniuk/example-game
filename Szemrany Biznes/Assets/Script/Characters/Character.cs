@@ -6,7 +6,7 @@ public abstract class Character
     string name;
     public virtual int OnDiceRolled(int diceRoll)
     {
-        Debug.Log("Nie powinienes tego widziec");
+        //Debug.Log("Nie powinienes tego widziec");
         return diceRoll;
     }
 

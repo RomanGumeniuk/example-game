@@ -13,11 +13,13 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
     public Button BuyButton;
     public TextMeshProUGUI TextLable;
     public TextMeshProUGUI Cost;
+    public TextMeshProUGUI TitleScreen;
 
     public int currentCost=0;
 
     public TileScript currentTileScript = null;
 
+    bool isBuyingFromOtherPlayer=false;
 
     private void Awake()
     {
@@ -34,7 +36,12 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
 
         BuyButton.onClick.AddListener(() =>
         {
-
+            if(isBuyingFromOtherPlayer)
+            {
+                currentTileScript.TownBuyoutServerRpc(PlayerScript.LocalInstance.playerIndex,currentCost);
+                Hide();
+                return;
+            }
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.UpgradeTownServerRpc(0, PlayerScript.LocalInstance.playerIndex);
             PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(currentTileScript);
@@ -52,18 +59,19 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
         PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(currentTileScript);
     }
 
-    public void ShowBuyingUI(int Cost, TileScript tileScript)
+    public void ShowBuyingUI(int Cost, TileScript tileScript,string titleScreen = "Do you want to buy this?",bool isBuyingFromOtherPlayer = false)
     {
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(true);
-        }
+        this.isBuyingFromOtherPlayer = isBuyingFromOtherPlayer;
+        TitleScreen.text = titleScreen;
         currentTileScript = tileScript;
         currentCost = Cost;
         this.Cost.text = Cost + "PLN";
         this.TextLable.text = tileScript.name;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
-
 
 
     public void Hide()

@@ -10,13 +10,13 @@ using Unity.VisualScripting;
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic Instance { get; private set; }
-    public MapGenerator mapGenerator;
+    public MapGeneratorSO mapGenerator;
     public GameObject board;
 
     public List<Transform> SpawnPoints = new List<Transform>();
     public List<NetworkClient> PlayersOrder = new List<NetworkClient>();
 
-    
+    public ChancesSO chancesSO;
 
     public List<TileScript> allTileScripts = new List<TileScript>();
 
@@ -48,12 +48,12 @@ public class GameLogic : NetworkBehaviour
         GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
         allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
-        /*allCharacters.Add(new NPC());
+        allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Seba());
         allCharacters.Add(new Jew());
         allCharacters.Add(new Jamal());
-        allCharacters.Add(new Student());*/
+        allCharacters.Add(new Student());
     }
 
 
@@ -114,7 +114,8 @@ public class GameLogic : NetworkBehaviour
             PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().SetMaterialClientRpc();
         }
         index = 0;
-        List<int> charatersIds = new List<int>() { 0, 1/*, 2, 3, 4, 5, 6, 7 */};
+        List<int> charatersIds = new List<int>();
+        for (int i = 0; i < allCharacters.Count; i++) charatersIds.Add(i);
         IListExtensions.Shuffle(charatersIds);
         for (int i = 0; i < PlayersOrder.Count; i++)
         {
