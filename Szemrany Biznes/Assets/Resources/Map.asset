@@ -59,9 +59,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 0}
   - index: 4
-    name: Lublin - Tatry
+    name: "Toru\u0144 - Bielawy"
     type: 0
-    townCostToBuy: e8030000c4090000
+    townCostToBuy: 20030000e8030000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 0400000006000000
@@ -75,9 +75,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 6f53ee40aad50064bbfddfb10b3672d1, type: 2}
   - index: 6
-    name: Lublin - Kalina
+    name: "Toru\u0144 - Stawki"
     type: 0
-    townCostToBuy: b0040000b80b0000
+    townCostToBuy: e8030000b0040000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 0400000006000000
@@ -93,7 +93,7 @@ MonoBehaviour:
   - index: 8
     name: "Rrzesz\xF3w - Baran\xF3wka"
     type: 0
-    townCostToBuy: dc050000ac0d0000
+    townCostToBuy: d60600003a070000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 080000000a0000000b000000
@@ -109,7 +109,7 @@ MonoBehaviour:
   - index: 10
     name: "Rzesz\xF3w - Za\u0142\u0119\u017Ce"
     type: 0
-    townCostToBuy: 40060000740e0000
+    townCostToBuy: 3a070000d0070000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 080000000a0000000b000000
@@ -117,7 +117,7 @@ MonoBehaviour:
   - index: 11
     name: "Rzesz\xF3w - Nowe Miasto"
     type: 0
-    townCostToBuy: a4060000a00f0000
+    townCostToBuy: d0070000c4090000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 080000000a0000000b000000
@@ -139,33 +139,33 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 73dc4507f0c45e04b81d0fec0bcf6834, type: 2}
   - index: 14
-    name: "Gda\u0144sk - Zatorze"
+    name: Bydgoszcz - Fordon
     type: 0
-    townCostToBuy: 08070000a00f0000
+    townCostToBuy: b004000078050000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 0e0000000f000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 15
-    name: "Gda\u0144sk - Wrzeszcz"
+    name: Bydgoszcz - Szwederowo
     type: 0
-    townCostToBuy: d007000094110000
+    townCostToBuy: 14050000dc050000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 0e0000000f000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 16
-    name: "Krak\xF3w - Nowa Huta"
+    name: "Gda\u0144sk - Zatorze"
     type: 0
-    townCostToBuy: c40900007c150000
+    townCostToBuy: 34080000fc080000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 100000001100000013000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 17
-    name: "Krak\xF3w - Krowodrza"
+    name: "Gda\u0144sk - Rudniki"
     type: 0
-    townCostToBuy: b80b000070170000
+    townCostToBuy: 98080000c4090000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 100000001100000013000000
@@ -179,9 +179,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 6f53ee40aad50064bbfddfb10b3672d1, type: 2}
   - index: 19
-    name: "Krak\xF3w - Podg\xF3rze"
+    name: "Gda\u0144sk - Wrzeszcz"
     type: 0
-    townCostToBuy: ac0d0000581b0000
+    townCostToBuy: fc0800008c0a0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 100000001100000013000000
@@ -189,7 +189,7 @@ MonoBehaviour:
   - index: 20
     name: Szczecin - Pomorzany
     type: 0
-    townCostToBuy: dc050000
+    townCostToBuy: dc050000a4060000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 1400000016000000
@@ -205,7 +205,7 @@ MonoBehaviour:
   - index: 22
     name: "Szczecin - D\u0105bie"
     type: 0
-    townCostToBuy: a4060000
+    townCostToBuy: a4060000d0070000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 1600000014000000
@@ -219,9 +219,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 3cbce973e95733740973ae7a8cc17c34, type: 2}
   - index: 24
-    name: Bydgoszcz - Unnamed
+    name: Gdynia - Oksywie
     type: 0
-    townCostToBuy: 78050000800c0000
+    townCostToBuy: fc080000fc080000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 1a000000180000001b000000
@@ -235,28 +235,28 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 8d4c24abba419bc40a1b70e595942d8a, type: 2}
   - index: 26
-    name: Bydgoszcz -  Fordon
+    name: "Gdynia - \u015Ar\xF3dmie\u015Bcie"
     type: 0
-    townCostToBuy: 140500001c0c0000
+    townCostToBuy: 2e0900002e090000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 1a0000001b00000018000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 27
-    name: Bydgoszcz - Szwederowo
+    name: "Gdynia - Grab\xF3wek"
     type: 0
-    townCostToBuy: dc050000ac0d0000
+    townCostToBuy: 6009000060090000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 1a0000001b00000018000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 28
-    name: "\u0141\xF3d\u017A - Widzew"
+    name: "Krak\xF3w - Nowa Huta"
     type: 0
-    townCostToBuy: d007000094110000
+    townCostToBuy: f00a0000800c0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 1c0000001e00000020000000
+    indexOfTileWhichMakesMonopol: 1c0000001e0000002000000022000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 29
     name: "Melan\u017C"
@@ -267,12 +267,12 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 8f53207ebc4100f4aa87649c9235f393, type: 2}
   - index: 30
-    name: "\u0141\xF3d\u017A - Polesie"
+    name: "Krak\xF3w - Krowodrza"
     type: 0
-    townCostToBuy: 9808000088130000
+    townCostToBuy: b80b0000480d0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 1c0000001e00000020000000
+    indexOfTileWhichMakesMonopol: 1c0000001e0000002000000022000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 31
     name: Szansa na szympansa 3
@@ -283,12 +283,12 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 3cbce973e95733740973ae7a8cc17c34, type: 2}
   - index: 32
-    name: "\u0141\xF3d\u017A - Ba\u0142uty"
+    name: "Krak\xF3w - Podg\xF3rze"
     type: 0
-    townCostToBuy: c40900007c150000
+    townCostToBuy: 800c0000100e0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 1c0000001e00000020000000
+    indexOfTileWhichMakesMonopol: 1c0000001e0000002000000022000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 33
     name: Piraci z somali
@@ -299,20 +299,20 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 2100000015000000090000002d000000
     material: {fileID: 2100000, guid: cca301300cf6f5d488dbcfb8843f0098, type: 2}
   - index: 34
-    name: Gdynia - Oksywie
+    name: "Krak\xF3w - Stare Miasto"
     type: 0
-    townCostToBuy: 08070000a00f0000
+    townCostToBuy: 480d0000d80e0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 2200000023000000
+    indexOfTileWhichMakesMonopol: 1c0000001e0000002000000022000000
     material: {fileID: 2100000, guid: 5a3acfe25088809439fdd17a3b23359d, type: 2}
   - index: 35
-    name: "Gdynia - Grab\xF3wek"
+    name: "\u0141\xF3d\u017A - Widzew"
     type: 0
-    townCostToBuy: d007000094110000
+    townCostToBuy: c40900008c0a0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 2200000023000000
+    indexOfTileWhichMakesMonopol: 230000002500000027000000
     material: {fileID: 2100000, guid: 5a3acfe25088809439fdd17a3b23359d, type: 2}
   - index: 36
     name: Bonus 3
@@ -323,12 +323,12 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 6f53ee40aad50064bbfddfb10b3672d1, type: 2}
   - index: 37
-    name: Szczecin - Pomorzany
+    name: "\u0141\xF3d\u017A - Polesie"
     type: 0
-    townCostToBuy: 40060000740e0000
+    townCostToBuy: 5a0a0000220b0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
-    indexOfTileWhichMakesMonopol: 2400000026000000
+    indexOfTileWhichMakesMonopol: 230000002500000027000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 38
     name: Rachunki 2
@@ -339,25 +339,25 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 73dc4507f0c45e04b81d0fec0bcf6834, type: 2}
   - index: 39
-    name: "Szczecin - D\u0105bie"
+    name: "\u0141\xF3d\u017A - Ba\u0142uty"
     type: 0
-    townCostToBuy: a4060000a00f0000
+    townCostToBuy: 220b0000ea0b0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 2500000027000000
     material: {fileID: 2100000, guid: b161290c36bf2444f80140e707349654, type: 2}
   - index: 40
-    name: "Warszawa - Praga P\xF3\u0142noc"
+    name: "Pozna\u0144 - Je\u017Cyce"
     type: 0
-    townCostToBuy: b80b000064190000
+    townCostToBuy: 420e0000d80e0000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 28000000290000002b0000002c000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 41
-    name: "Warszawa - Mokot\xF3w"
+    name: "Pozna\u0144 - Wilda"
     type: 0
-    townCostToBuy: ac0d0000581b0000
+    townCostToBuy: 3c0f000004100000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 28000000290000002b0000002c000000
@@ -371,17 +371,17 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 8d4c24abba419bc40a1b70e595942d8a, type: 2}
   - index: 43
-    name: "Warszawa - \u015Ar\xF3dmie\u015Bcie"
+    name: "Pozna\u0144 - Grunwald"
     type: 0
-    townCostToBuy: 9411000028230000
+    townCostToBuy: a00f000068100000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 28000000290000002b0000002c000000
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 44
-    name: Warszawa - Wola
+    name: "Pozna\u0144 - Rataje"
     type: 0
-    townCostToBuy: 8813000010270000
+    townCostToBuy: 6810000030110000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 28000000290000002b0000002c000000
@@ -395,9 +395,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 0900000015000000210000002d000000
     material: {fileID: 2100000, guid: cca301300cf6f5d488dbcfb8843f0098, type: 2}
   - index: 46
-    name: "Pozna\u0144 - Je\u017Cyce"
+    name: "Warszawa - Praga P\xF3\u0142noc"
     type: 0
-    townCostToBuy: f00a000070170000
+    townCostToBuy: a00f000030110000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 2e000000300000003200000033000000
@@ -411,9 +411,9 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 3cbce973e95733740973ae7a8cc17c34, type: 2}
   - index: 48
-    name: "Pozna\u0144 - Wilda"
+    name: "Warszawa - Mokot\xF3w"
     type: 0
-    townCostToBuy: 800c0000581b0000
+    townCostToBuy: 9a1000002a120000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 2e000000300000003200000033000000
@@ -427,17 +427,17 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 6f53ee40aad50064bbfddfb10b3672d1, type: 2}
   - index: 50
-    name: "Pozna\u0144 - Grunwald"
+    name: "Warszawa - \u015Ar\xF3dmie\u015Bcie"
     type: 0
-    townCostToBuy: ac0d00004c1d0000
+    townCostToBuy: 9411000024130000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 2e000000300000003200000033000000
     material: {fileID: 2100000, guid: 5a3acfe25088809439fdd17a3b23359d, type: 2}
   - index: 51
-    name: "Pozna\u0144 - Rataje"
+    name: Warszawa - Wola
     type: 0
-    townCostToBuy: a00f000034210000
+    townCostToBuy: 881300007c150000
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 2e000000300000003200000033000000
