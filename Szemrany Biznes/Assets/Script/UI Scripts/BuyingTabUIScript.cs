@@ -22,6 +22,16 @@ public class BuyingTabUIScript : MonoBehaviour
     public int currentMaxTownLevelThanCanBeBuy;
     public int currentAvailableTownUpgrade;
 
+    [SerializeField]
+    private List<string> drugsTownNames = new List<string>();
+    [SerializeField]
+    private List<string> prostitutionTownNames = new List<string>();
+    [SerializeField]
+    private List<string> alcoholTownNames = new List<string>();
+    [SerializeField]
+    private List<string> gamblingTownNames = new List<string>();
+
+
     private void Awake()
     {
         Instance = this;
@@ -99,17 +109,33 @@ public class BuyingTabUIScript : MonoBehaviour
     
     public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript,int currentAvailableTownUpgrade)
     {
-        currentTownLevel = townLevel;
-        currentMaxTownLevelThanCanBeBuy = maxTownLevelThatCanBeBuy;
+        currentTownLevel = townLevel-1;
+        currentMaxTownLevelThanCanBeBuy = maxTownLevelThatCanBeBuy-1;
         currentTileScript = tileScript;
         currentTownCostToBuy.Clear();
         foreach(int levelCost in townAllLevelsCost) currentTownCostToBuy.Add(levelCost);
         this.currentAvailableTownUpgrade = currentAvailableTownUpgrade;
         //Debug.Log($"maxTownLevel: {maxTownLevelThatCanBeBuy}, currentAvailable:{currentAvailableTownUpgrade}");
-        for (int i = 0; i < 5; i++) Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i].ToString() + "PLN";
+        for (int i = 0; i < 5; i++) Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i+2].ToString() + "PLN";
         for(int i=0;i<5;i++)
         {
             Levels[i].GetComponent<RawImage>().color = Color.gray;
+            switch (tileScript.propertyType)
+            {
+                case PropertyType.Prostitution:
+                    Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = prostitutionTownNames[i]; break;
+                case PropertyType.Gambling:
+                    Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gamblingTownNames[i]; break;
+                case PropertyType.Alcohol:
+                    Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = alcoholTownNames[i]; break;
+                case PropertyType.Drugs:
+                    Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = drugsTownNames[i]; break;
+                default:
+                    Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Level " + i;
+                    break;
+            }
+
+            
             LevelsOfToggle[i].isOn = false;
             LevelsOfToggle[i].interactable = false;
         }
@@ -133,7 +159,7 @@ public class BuyingTabUIScript : MonoBehaviour
     {
         int currentIndex = 0;
         for(int i=currentTownLevel;i<5;i++) if (LevelsOfToggle[i].isOn) currentIndex = i;
-        return currentIndex+1;
+        return currentIndex+2;
     }
 
     public int GetTotalAmountOfMoneyToPayForTown()
@@ -141,7 +167,7 @@ public class BuyingTabUIScript : MonoBehaviour
         int totalCost = 0;
         for (int i = currentTownLevel; i < Mathf.Min(currentMaxTownLevelThanCanBeBuy, currentAvailableTownUpgrade+1); i++)
         {
-            if (LevelsOfToggle[i].isOn) totalCost += currentTownCostToBuy[i];
+            if (LevelsOfToggle[i].isOn) totalCost += currentTownCostToBuy[i+2];
         }
         return totalCost;
     }

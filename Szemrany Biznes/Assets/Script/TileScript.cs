@@ -18,6 +18,7 @@ public class TileScript : NetworkBehaviour
 
     public NetworkVariable<int> ownerId = new NetworkVariable<int>(-1); // -1 means that town has no owner
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
+    const int MAX_TOWN_LEVEL = 6;
     public int amountMoneyOnPlayerStep = 0;
     public DisplayPropertyUI displayPropertyUI;
 
@@ -41,13 +42,14 @@ public class TileScript : NetworkBehaviour
         townCostToBuy.Add(townCostToBuy[0] * 3);
         townCostToBuy.Add((int)(townCostToBuy[0] * 4.5f));
         townCostToBuy.Add((int)(townCostToBuy[0] * 6));
+        townCostToBuy.Add((int)(townCostToBuy[0] * 7.5f));
         townCostToPay.Add(townCostToBuy[0] / 2);
         townCostToPay.Add(townCostToBuy[0]);
         townCostToPay.Add((int)(townCostToBuy[0] * 1.5f));
         townCostToPay.Add(townCostToBuy[0] * 3);
         townCostToPay.Add((int)(townCostToBuy[0] * 4.5f));
         townCostToPay.Add((int)(townCostToBuy[0] * 6.5f));
-
+        townCostToPay.Add((int)(townCostToBuy[0] * 7.5f));
     }
 
     private Tile SetSpecialTileScript()
@@ -145,7 +147,7 @@ public class TileScript : NetworkBehaviour
         {
             if (maxLevelThatPlayerCanAfford == 0)
             {
-                _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 3.5f);
+                _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f);
                 return;
             }
             if(currentAvailableTownUpgrade <= townLevel.Value)
@@ -194,7 +196,7 @@ public class TileScript : NetworkBehaviour
         byte maxLevelThatPlayerCanAfford = 0;
         for (int i = townLevel.Value; i < townLevel.Value + 3; i++)
         {
-            if (i > 4) continue;
+            if (i > 5) break;
             if (playerAmountOfMoney >= specialTileScript.CaluculatePropertyValue(townLevel.Value,i+1)) maxLevelThatPlayerCanAfford++;
         }
         Buy(playerAmountOfMoney,0,true, maxLevelThatPlayerCanAfford, currentAvailableTownUpgrade);
@@ -212,7 +214,7 @@ public class TileScript : NetworkBehaviour
             Pay(playerAmountOfMoney, specialTileScript.GetPayAmount());
             return;
         }
-        if(isNonUpgradingTown) GameUIScript.OnNextPlayerTurn.Invoke();
+        if(isNonUpgradingTown || townLevel.Value == MAX_TOWN_LEVEL) GameUIScript.OnNextPlayerTurn.Invoke();
         else UpgradeTown(playerAmountOfMoney, currentAvailableTownUpgrade);
     }
 

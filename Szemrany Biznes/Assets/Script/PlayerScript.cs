@@ -130,7 +130,7 @@ public class PlayerScript : NetworkBehaviour
         foreach(TileScript tileScript in tilesThatPlayerOwnList)
         {
             if (tileScript.townLevel.Value == 0) continue;
-            if (minTownLevel > tileScript.townLevel.Value) minTownLevel = (byte)tileScript.townLevel.Value;
+            if (minTownLevel > tileScript.townLevel.Value) minTownLevel = (byte)(tileScript.townLevel.Value+1);
         }
         currentAvailableTownUpgrade = minTownLevel;
     }
