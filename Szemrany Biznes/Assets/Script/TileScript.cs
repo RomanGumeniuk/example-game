@@ -155,7 +155,16 @@ public class TileScript : NetworkBehaviour
                 _ = AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
                 return;
             }
-            if (propertyType == PropertyType.None) ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
+            if (propertyType == PropertyType.None)
+            {
+                Debug.Log(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this) + " " + playerAmountOfMoney);
+                if(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this)>playerAmountOfMoney)
+                {
+                    _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f);
+                    return;
+                }
+                ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
+            } 
             else BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, townCostToBuy, this, currentAvailableTownUpgrade);
             return;
         }

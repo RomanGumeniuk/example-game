@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class ChoosingPropertyTypeUI : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
     [SerializeField] private Button DontBuyButton;
     [SerializeField] private Button BuyButton;
     [SerializeField] private List<Toggle> AllOptions;
+    [SerializeField] private List<float> CostMultiplier;
     public TileScript currentTileScript = null;
 
     private int selectedOption = -1;
@@ -26,7 +28,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
     {
         BuyButton.onClick.AddListener(() =>
         {
-            int totalCost = 200; //here will be some script that calculates cost
+            int totalCost = GetCostPrice(selectedOption); //here will be some script that calculates cost
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.SetPropertyTypeServerRpc((PropertyType)(selectedOption+1));
             currentTileScript.UpgradeTownServerRpc(1, PlayerScript.LocalInstance.playerIndex);
@@ -74,7 +76,40 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
     {
         this.currentTileScript = currentTileScript;
         BuyButton.interactable = false;
-        foreach(Toggle toggle in AllOptions) toggle.isOn = false;
-        foreach (Transform child in transform) child.gameObject.SetActive(true);
+        for(int i=0;i<AllOptions.Count;i++)
+        {
+            AllOptions[i].isOn = false;
+            int cost = GetCostPrice(i);
+            AllOptions[i].transform.parent.GetComponentInChildren<TextMeshProUGUI>().text = cost.ToString() + " PLN";
+            if (PlayerScript.LocalInstance.amountOfMoney.Value < cost)
+            {
+                Debug.Log("ok " + AllOptions[i].transform.parent.position.x);
+                AllOptions[i].transform.parent.GetComponent<RawImage>().color = new Color32(100, 100, 100, 255);
+                AllOptions[i].interactable = false;
+            }
+            else
+            {
+                AllOptions[i].transform.parent.GetComponent<RawImage>().color = Color.white;
+                AllOptions[i].interactable = true;
+            }
+        }
+            foreach (Transform child in transform) child.gameObject.SetActive(true);
+    }
+
+
+    public int GetCostPrice(int i)
+    {
+        return (int)(currentTileScript.townCostToBuy[1] * CostMultiplier[i]);
+    }
+
+    public int GetLowestPrice(TileScript currentTileScript)
+    {
+        this.currentTileScript = currentTileScript;
+        int index = 0;
+        for(int i=1;i<CostMultiplier.Count;i++)
+        { 
+            if(CostMultiplier[i] < CostMultiplier[index]) index = i;
+        }
+        return GetCostPrice(index);
     }
 }
