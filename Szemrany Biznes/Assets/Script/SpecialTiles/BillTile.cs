@@ -19,11 +19,11 @@ public class BillTile : Tile
         {
             //podatek za posiad³oœci
             int payAmount = 0;
-            for(int i=0;i<player.tilesThatPlayerOwnList.Count;i++)
+            for(int i=0;i<player.GetTilesThatPlayerOwnList().Count;i++)
             {
                 
-                payAmount += player.tilesThatPlayerOwnList[i].townCostToBuy[0] / 20;
-                Debug.Log(player.tilesThatPlayerOwnList[i].name + " " + payAmount + " " + player.tilesThatPlayerOwnList[i].townCostToBuy[0] / 20);
+                payAmount += player.GetTilesThatPlayerOwnList()[i].townCostToBuy[0] / 20;
+                Debug.Log(player.GetTilesThatPlayerOwnList()[i].name + " " + payAmount + " " + player.GetTilesThatPlayerOwnList()[i].townCostToBuy[0] / 20);
             }
             tileScript.Pay(player.amountOfMoney.Value, payAmount, false);
         }

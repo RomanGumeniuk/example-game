@@ -46,7 +46,7 @@ public class SellingTabUI : MonoBehaviour
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, PlayerScript.LocalInstance.playerIndex, 1, true, true);
             if(currentPlayerIndexThatGetsPaid!=-1) GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentAmountMoneyToPay, currentPlayerIndexThatGetsPaid,2,false,true);
             Hide();
-            foreach(TileScript tileScript in PlayerScript.LocalInstance.tilesThatPlayerOwnList)
+            foreach(TileScript tileScript in PlayerScript.LocalInstance.GetTilesThatPlayerOwnList())
             {
                 tileScript.UpdateOwnerTextServerRpc();
             }
@@ -58,7 +58,7 @@ public class SellingTabUI : MonoBehaviour
     {
         if(bought)
         {
-            PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(selectedTiles[0]);
+            PlayerScript.LocalInstance.RemoveTilesThatPlayerOwnListServerRpc(selectedTiles[0].index);
             selectedTiles.Clear();
         }
         else

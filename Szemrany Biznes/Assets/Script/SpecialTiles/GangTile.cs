@@ -29,6 +29,7 @@ public class GangTile : Tile
         {
             if (tileScript.AllTownsToGetMonopol[i].ownerId.Value == tileScript.ownerId.Value) multiplier++;
         }
+        Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
         return tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep);
     }
 

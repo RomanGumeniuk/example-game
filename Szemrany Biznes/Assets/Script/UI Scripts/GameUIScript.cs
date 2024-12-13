@@ -67,7 +67,10 @@ public class GameUIScript : NetworkBehaviour
         Instance = this;
     }
 
-    
+    public void HideButton()
+    {
+        RollDiceButton.gameObject.SetActive(false);
+    }
 
 
 }

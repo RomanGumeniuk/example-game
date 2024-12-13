@@ -44,7 +44,7 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
             }
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.UpgradeTownServerRpc(0, PlayerScript.LocalInstance.playerIndex);
-            PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(currentTileScript);
+            PlayerScript.LocalInstance.AddTilesThatPlayerOwnListServerRpc(currentTileScript.index);
             Hide();
             
         });
@@ -56,7 +56,7 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(currentBid, playerIndex, 1, true, true);
         if(moneyForBank)currentTileScript.UpgradeTownServerRpc(0, playerIndex);
         else currentTileScript.UpgradeTownServerRpc(-1, playerIndex);
-        PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(currentTileScript);
+        PlayerScript.LocalInstance.AddTilesThatPlayerOwnListServerRpc(currentTileScript.index);
     }
 
     public void ShowBuyingUI(int Cost, TileScript tileScript,string titleScreen = "Do you want to buy this?",bool isBuyingFromOtherPlayer = false)

@@ -11,9 +11,10 @@ public class PlayerScript : NetworkBehaviour
 {
     public int currentTileIndex = 0;
     public int playerIndex;
-    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(5000);
-    public List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
-    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(5000);
+    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(7000);
+    [SerializeField]
+    private List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
+    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(7000);
     public byte currentAvailableTownUpgrade = 2;
     public byte minTownLevel=1;
     public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
@@ -137,6 +138,35 @@ public class PlayerScript : NetworkBehaviour
     public void SetMaterialClientRpc()
     {
         GetComponentInChildren<MeshRenderer>().material = GameLogic.Instance.PlayerColors[(int)GetComponent<NetworkObject>().OwnerClientId];
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    public void AddTilesThatPlayerOwnListServerRpc(int tileIndex)
+    {
+        AddTilesThatPlayerOwnListClientRpc(tileIndex);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveTilesThatPlayerOwnListServerRpc(int tileIndex)
+    {
+        RemoveTilesThatPlayerOwnListClientRpc(tileIndex);
+    }
+
+    [ClientRpc]
+    private void AddTilesThatPlayerOwnListClientRpc(int tileIndex)
+    {
+        tilesThatPlayerOwnList.Add(GameLogic.Instance.board.transform.GetChild(tileIndex).GetComponent<TileScript>());
+    }
+
+    [ClientRpc]
+    private void RemoveTilesThatPlayerOwnListClientRpc(int tileIndex)
+    {
+        tilesThatPlayerOwnList.Remove(GameLogic.Instance.board.transform.GetChild(tileIndex).GetComponent<TileScript>());
+    }
+
+    public List<TileScript> GetTilesThatPlayerOwnList()
+    {
+        return tilesThatPlayerOwnList;
     }
 
 }

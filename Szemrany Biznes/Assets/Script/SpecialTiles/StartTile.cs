@@ -26,9 +26,9 @@ public class StartTile : Tile
         int combineAmount=tileScript.amountMoneyOnPlayerStep;
 
         int gangAmount = 0;
-        for(int i=0;i<PlayerScript.LocalInstance.tilesThatPlayerOwnList.Count;i++)
+        for(int i=0;i<PlayerScript.LocalInstance.GetTilesThatPlayerOwnList().Count;i++)
         {
-            if (PlayerScript.LocalInstance.tilesThatPlayerOwnList[i].tileType == TileType.GangTile) gangAmount++;
+            if (PlayerScript.LocalInstance.GetTilesThatPlayerOwnList()[i].tileType == TileType.GangTile) gangAmount++;
         }
         combineAmount += gangBonus * gangAmount;
 

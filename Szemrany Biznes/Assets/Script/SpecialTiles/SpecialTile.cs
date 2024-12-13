@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class SpecialTile : Tile
 {
-    enum Type
+    public enum Type
     { 
         FieldAirport,
         UnmarkedTrucks,
         PimpCar
 
     }
-    private Type type;
+    public Type type;
 
     public SpecialTile(TileScript tileScript)
     {
@@ -37,13 +37,15 @@ public class SpecialTile : Tile
 
     public int CalculatePayAmount()
     {
-        List<TileScript> ownerProperties = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().tilesThatPlayerOwnList;
+        List<TileScript> ownerProperties = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList();
+        Debug.Log(ownerProperties.Count + " " + type);
         int calculatedAmount = tileScript.townCostToPay[0];
         switch (type)
         {
             case Type.FieldAirport:
                 for (int i = 0;i<ownerProperties.Count;i++)
                 {
+                    Debug.Log(ownerProperties[i].propertyType + " " + ownerProperties[i].name);
                     if (ownerProperties[i].propertyType != PropertyType.Drugs) continue;
                     calculatedAmount += ownerProperties[i].townCostToPay[ownerProperties[i].townLevel.Value]/10;
                 }
@@ -74,5 +76,47 @@ public class SpecialTile : Tile
     public override int GetPayAmount()
     {
         return CalculatePayAmount();
+    }
+
+    public override void OnOwnerIDChanged(int prevValue, int newValue)
+    {
+        Debug.Log("owner id changed " + tileScript.name);
+        if (newValue != -1) FindAndUpdateAllTiles(newValue);
+        if (prevValue != -1) FindAndUpdateAllTiles(prevValue);
+    }
+
+    public override void OnTownLevelChanged(int prevValue, int newValue)
+    {
+        Debug.Log("town level changed " + tileScript.name);
+        FindAndUpdateAllTiles(tileScript.ownerId.Value);
+    }
+
+    private void FindAndUpdateAllTiles(int ownerID)
+    {
+        foreach (TileScript tile in NetworkManager.Singleton.ConnectedClientsList[ownerID].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList())
+        {
+            switch (type)
+            {
+                case Type.PimpCar:
+                    if (tile.propertyType == PropertyType.Prostitution) UpdateTextOnTiles(tile);
+                    break;
+                case Type.FieldAirport:
+                    if (tile.propertyType == PropertyType.Drugs) UpdateTextOnTiles(tile);
+                    break;
+                case Type.UnmarkedTrucks:
+                    if (tile.propertyType == PropertyType.Alcohol) UpdateTextOnTiles(tile);
+                    break;
+
+            }
+
+        }
+    }
+
+
+    private  void UpdateTextOnTiles(TileScript tile)
+    {
+        Debug.Log("update" + tile.name);
+        //await Awaitable.WaitForSecondsAsync(0.2f);
+        tile.UpdateOwnerTextServerRpc();
     }
 }

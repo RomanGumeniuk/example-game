@@ -6,14 +6,11 @@ using Unity.Netcode;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using static UnityEngine.Rendering.DebugUI;
+using System.Threading.Tasks;
 public class TileScript : NetworkBehaviour
 {
     public TileType tileType = 0;
     public PropertyType propertyType = 0;
-
-   
-
-    
 
     public int index;
     public List<int> townCostToBuy = new List<int>();
@@ -80,6 +77,8 @@ public class TileScript : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         ownerId.OnValueChanged += OnOwnerValueChanged;
+        townLevel.OnValueChanged += specialTileScript.OnTownLevelChanged;
+        ownerId.OnValueChanged += specialTileScript.OnOwnerIDChanged;
     }
 
     public void OnOwnerValueChanged(int prevValue, int newValue)
@@ -210,7 +209,7 @@ public class TileScript : NetworkBehaviour
         }
         if (ownerId.Value != PlayerScript.LocalInstance.playerIndex)
         {
-            Pay(playerAmountOfMoney, townCostToPay[townLevel.Value]);
+            Pay(playerAmountOfMoney, specialTileScript.GetPayAmount());
             return;
         }
         if(isNonUpgradingTown) GameUIScript.OnNextPlayerTurn.Invoke();
@@ -295,6 +294,12 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SetPropertyTypeServerRpc(PropertyType choosenPropertyType)
     {
+        SetPropertyTypeClientRpc(choosenPropertyType);
+    }
+
+    [ClientRpc]
+    private void SetPropertyTypeClientRpc(PropertyType choosenPropertyType)
+    {
         propertyType = choosenPropertyType;
     }
 
@@ -305,13 +310,14 @@ public class TileScript : NetworkBehaviour
     {
         this.ownerId.Value = ownerId;
         townLevel.Value = currentNewLevel;
-        UpdateOwnerTextClientRpc(ownerId, townLevel.Value);
+        specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
+        UpdateOwnerText(ownerId, townLevel.Value);
     }
 
     [ServerRpc(RequireOwnership =false)]
     public void UpdateOwnerTextServerRpc(bool onlyChangeText=false)
     {
-        UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value,onlyChangeText);
+        UpdateOwnerText(ownerId.Value, townLevel.Value,onlyChangeText);
     }
 
 
@@ -319,32 +325,40 @@ public class TileScript : NetworkBehaviour
     public void SellingTownServerRpc(int playerIndex)
     {
         int townTotalValue = specialTileScript.CaluculatePropertyValue();
-        PlayerScript.LocalInstance.tilesThatPlayerOwnList.Remove(this);
+        specialTileScript.OnTownSell(playerIndex);
+        PlayerScript.LocalInstance.RemoveTilesThatPlayerOwnListServerRpc(index);
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townTotalValue, playerIndex, 2);
         ownerId.Value = -1;
         townLevel.Value = -1;
-        UpdateOwnerTextClientRpc(-1, -1);
+        UpdateOwnerText(-1, -1);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void TownBuyoutServerRpc(int playerThatBought,int costToBuy)
     {
-        NetworkManager.Singleton.ConnectedClients[(ulong)ownerId.Value].PlayerObject.GetComponent<PlayerScript>().tilesThatPlayerOwnList.Remove(this);
-        PlayerScript.LocalInstance.tilesThatPlayerOwnList.Add(this);
+        specialTileScript.OnTownSell(ownerId.Value, playerThatBought);
+        NetworkManager.Singleton.ConnectedClients[(ulong)ownerId.Value].PlayerObject.GetComponent<PlayerScript>().RemoveTilesThatPlayerOwnListServerRpc(index);
+        NetworkManager.Singleton.ConnectedClients[(ulong)playerThatBought].PlayerObject.GetComponent<PlayerScript>().AddTilesThatPlayerOwnListServerRpc(index);
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(costToBuy, playerThatBought, 1);
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(costToBuy, ownerId.Value, 2,false);
         ownerId.Value = playerThatBought;
-        UpdateOwnerTextClientRpc(ownerId.Value, townLevel.Value);
+        UpdateOwnerText(ownerId.Value, townLevel.Value);
+    }
+
+
+    private void UpdateOwnerText(int ownerId, int townLevel,bool onlyChangeText=false)
+    {
+        if (!IsServer) return;
+        if (townLevel < 0) UpdateOwnerTextClientRpc(ownerId, townLevel,0, onlyChangeText);  
+        else UpdateOwnerTextClientRpc(ownerId, townLevel, specialTileScript.GetPayAmount(), onlyChangeText);
     }
 
     [ClientRpc]
-    public void UpdateOwnerTextClientRpc(int ownerId, int townLevel,bool onlyChangeText=false)
+    private void UpdateOwnerTextClientRpc(int ownerId,int townLevel,int townCostToPay,bool onlyChangeText)
     {
         if (ownerId != -1) GetComponent<MeshRenderer>().material = GameLogic.Instance.PlayerColors[ownerId];
         else GetComponent<MeshRenderer>().material = startMaterial;
-        
-        if (townLevel < 0) displayPropertyUI.ShowNormalView(ownerId, townLevel, 0, onlyChangeText);
-        else displayPropertyUI.ShowNormalView(ownerId, townLevel, specialTileScript.GetPayAmount(), onlyChangeText);
+        displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay, onlyChangeText);
     }
 
     public void ShowSellingView()
