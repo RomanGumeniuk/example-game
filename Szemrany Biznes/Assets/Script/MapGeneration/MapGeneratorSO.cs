@@ -29,6 +29,8 @@ public class MapGeneratorSO : ScriptableObject
     private GameObject otherTilesCanvas;
     [SerializeField]
     private GameObject townTilesCanvas;
+    [SerializeField] 
+    private GameObject townButton;
     [SerializeField]
     private GameObject boardPrefab;
 
@@ -106,7 +108,9 @@ public class MapGeneratorSO : ScriptableObject
             case TileType.TownTile:
             case TileType.GangTile:
             case TileType.SpecialTile:
-                Instantiate(townTilesCanvas, tileObject.transform);
+                GameObject prefabButton = Instantiate(townButton, Vector3.zero,Quaternion.identity,Instantiate(townTilesCanvas, tileObject.transform).transform);
+                prefabButton.transform.localPosition = new Vector3(0, (((GetSize()*4)-4) / 2 >= tile.GetIndex()-1?-6.5f:6.5f), -0.0001f);
+                prefabButton.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
             default:
                 Instantiate(otherTilesCanvas, tileObject.transform);

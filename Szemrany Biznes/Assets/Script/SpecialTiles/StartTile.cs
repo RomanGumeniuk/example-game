@@ -12,13 +12,16 @@ public class StartTile : Tile
     public override void OnPlayerStepped()
     {
         tileScript.GiveMoney(GetAmountOfMoney());
+        ShowButtonsForRepair();
         GameUIScript.OnNextPlayerTurn.Invoke();
+
     }
 
 
     public override void OnPlayerPassBy()
     {
         tileScript.GiveMoney(GetAmountOfMoney());
+        ShowButtonsForRepair();
     }
 
     private int GetAmountOfMoney()
@@ -33,6 +36,17 @@ public class StartTile : Tile
         combineAmount += gangBonus * gangAmount;
 
         return combineAmount;
+    }
+
+    private void ShowButtonsForRepair()
+    {
+        foreach(TileScript tile in PlayerScript.LocalInstance.GetTilesThatPlayerOwnList())
+        {
+            if(tile.destroyPercentage.Value > 0)
+            {
+                tile.displayPropertyUI.ShowButton("Fix " + tile.GetRepairCost() + "PLN");
+            }
+        }
     }
 
 }

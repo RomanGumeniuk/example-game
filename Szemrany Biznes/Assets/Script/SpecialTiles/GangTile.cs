@@ -16,7 +16,13 @@ public class GangTile : Tile
         }
         if (PlayerScript.LocalInstance.playerIndex == tileScript.ownerId.Value)
         {
-            base.OnPlayerStepped();
+            int amount = 0;
+            foreach(TileScript tile in tileScript.AllTownsToGetMonopol)
+            {
+                if(tile.ownerId.Value == tileScript.ownerId.Value) amount++;
+            }
+            if (amount == 4) PlayerScript.LocalInstance.ShowTownDamageTab();
+            else GameUIScript.OnNextPlayerTurn.Invoke();
             return;
         }
         tileScript.Pay(PlayerScript.LocalInstance.amountOfMoney.Value, CalculatePayAmount());
@@ -29,7 +35,7 @@ public class GangTile : Tile
         {
             if (tileScript.AllTownsToGetMonopol[i].ownerId.Value == tileScript.ownerId.Value) multiplier++;
         }
-        Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
+        //Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
         return tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep);
     }
 

@@ -445,4 +445,5 @@ MonoBehaviour:
   tilePrefab: {fileID: 3082091641921848626, guid: 72fbad95f48a2b34b90a20b3e7cb7736, type: 3}
   otherTilesCanvas: {fileID: 5604943575435326074, guid: 1d0f4ae72082a544cb25774b1152b5fa, type: 3}
   townTilesCanvas: {fileID: 7768701518668219605, guid: d212c743ef42a104db6e4819997f2961, type: 3}
+  townButton: {fileID: 3069962632813988931, guid: bca216f7018765a4aa661ccadb551bac, type: 3}
   boardPrefab: {fileID: 7024312851879383402, guid: 1457fa01db0620c4e8e290723d707fbf, type: 3}

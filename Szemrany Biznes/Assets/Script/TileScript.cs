@@ -160,7 +160,7 @@ public class TileScript : NetworkBehaviour
             }
             if (propertyType == PropertyType.None)
             {
-                Debug.Log(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this) + " " + playerAmountOfMoney);
+                //Debug.Log(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this) + " " + playerAmountOfMoney);
                 if(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this)>playerAmountOfMoney)
                 {
                     _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f);
@@ -270,7 +270,7 @@ public class TileScript : NetworkBehaviour
         
     }
 
-    private int GetRepairCost()
+    public int GetRepairCost()
     {
         Debug.Log(specialTileScript.CaluculatePropertyValue() + " " + ((float)destroyPercentage.Value / 100));
         return (int)(specialTileScript.CaluculatePropertyValue() * ((float)destroyPercentage.Value / 100));
@@ -280,10 +280,11 @@ public class TileScript : NetworkBehaviour
     public void OnPlayerEnter(byte currentAvailableTownUpgrade)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
-
-        if(destroyPercentage.Value > 0)
+        PlayerScript.LocalInstance.character.OnPlayerStepped(this);
+        if (destroyPercentage.Value > 0)
         {
-            RepairTabUI.Instance.ShowRepairUI(GetRepairCost(), this);
+            if (ownerId.Value == PlayerScript.LocalInstance.playerIndex) RepairTabUI.Instance.ShowRepairUI(GetRepairCost(), this);
+            else GameUIScript.OnNextPlayerTurn.Invoke();
             return;
         }
 
@@ -311,6 +312,12 @@ public class TileScript : NetworkBehaviour
                 return;
         }
 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetTownDamageServerRpc(int damagePrecentage)
+    {
+        destroyPercentage.Value = damagePrecentage;
     }
 
 

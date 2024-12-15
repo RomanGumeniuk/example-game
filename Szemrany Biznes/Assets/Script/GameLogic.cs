@@ -46,14 +46,14 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
-        allCharacters.Add(new ThickWoman());
+        /*allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
-        allCharacters.Add(new Seba());
+        allCharacters.Add(new Seba());*/
         allCharacters.Add(new Jew());
         allCharacters.Add(new Jamal());
-        allCharacters.Add(new Student());
+        //allCharacters.Add(new Student());
     }
 
 
@@ -127,8 +127,11 @@ public class GameLogic : NetworkBehaviour
     [ClientRpc]
     public void SetAllCharactersClientRpc(int i, int playerIndex)
     {
-        NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>().character = allCharacters[i];
-        NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>().character.Greetings();
+        PlayerScript player = NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>();
+        player.character = allCharacters[i];
+        player.character.Greetings();
+        player.character.playerScript = player;
+
     }
 
     [ClientRpc]

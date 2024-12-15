@@ -124,6 +124,24 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
+    public void ShowTownDamageTab()
+    {
+        bool areTherAnyTownsToDestroy = false;
+        foreach (TileScript tile in GameLogic.Instance.allTileScripts)
+        {
+            if (tile.ownerId.Value == -1 || tile.ownerId.Value == playerIndex || tile.destroyPercentage.Value > 0) continue;
+            tile.ShowSellingView();
+            areTherAnyTownsToDestroy = true;
+        }
+        if(!areTherAnyTownsToDestroy)
+        {
+            GameUIScript.OnNextPlayerTurn.Invoke();
+            return;
+        }
+        ChooseTownToDestroyTabUI.Instance.Show();
+        
+    }
+
     public void OnTownUpgrade()
     {
         minTownLevel = 6;

@@ -26,6 +26,7 @@ public class RepairTabUI : MonoBehaviour
         {
             currentTileScript.RepairTownServerRpc(currentCost, PlayerScript.LocalInstance.playerIndex);
             GameUIScript.OnNextPlayerTurn.Invoke();
+            currentTileScript.displayPropertyUI?.HideButton();
             Hide();
         });
     }
@@ -50,6 +51,8 @@ public class RepairTabUI : MonoBehaviour
             child.gameObject.SetActive(true);
         }
     }
+
+    
 
     private void Hide()
     {

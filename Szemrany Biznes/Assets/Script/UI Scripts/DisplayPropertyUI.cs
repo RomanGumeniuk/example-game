@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DisplayPropertyUI : MonoBehaviour
 {
@@ -13,12 +14,20 @@ public class DisplayPropertyUI : MonoBehaviour
     public Image backgroundImage;
     public GameObject backgroundOfToggle;
     public TileScript tileScript;
+    public Button townButton;
+
+    private void Awake()
+    {
+        townButton = GetComponentInChildren<Button>();
+    }
+
 
     private void Start()
     {
         tileScript = transform.parent.GetComponent<TileScript>();
         toggle.onValueChanged.AddListener((value) =>
         {
+            ChooseTownToDestroyTabUI.Instance.UpdateSelectedTile(tileScript, value);
             SellingTabUI.Instance.UpdateSelectedTileList(tileScript, value);
             if (value)
             {
@@ -28,7 +37,28 @@ public class DisplayPropertyUI : MonoBehaviour
             backgroundImage.color = Color.red;
             
         });
+
+        townButton.onClick.AddListener(() =>
+        {
+            tileScript.RepairTownServerRpc(tileScript.GetRepairCost(), tileScript.ownerId.Value);
+            HideButton();
+        });
+
+        townButton.gameObject.SetActive(false);
     }
+
+    public void ShowButton(string text)
+    {
+        townButton.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        townButton.gameObject.SetActive(true);
+    }
+
+    public void HideButton()
+    {
+        townButton.gameObject.SetActive(false);
+    }
+
+
 
     public bool ReturnToggleValue()
     {
