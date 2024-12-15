@@ -32,6 +32,8 @@ public class TileScript : NetworkBehaviour
 
     public Tile specialTileScript;
 
+    public NetworkVariable<int> coinsAmount = new NetworkVariable<int>(0);
+
     private void Start()
     {
         displayPropertyUI = transform.GetComponentInChildren<DisplayPropertyUI>();
@@ -120,6 +122,24 @@ public class TileScript : NetworkBehaviour
             }
         }
         return true;
+    }
+
+    const float COINS_DROP_PRECENTAGE = 0.02f;
+    const int MAX_COINS_AMOUNT = 500;
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddCoinsServerRpc()
+    {
+        coinsAmount.Value += (int)(PlayerScript.LocalInstance.amountOfMoney.Value * COINS_DROP_PRECENTAGE);
+        if(coinsAmount.Value > MAX_COINS_AMOUNT) coinsAmount.Value = MAX_COINS_AMOUNT;
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveCoinsServerRpc(int amount)
+    {
+        coinsAmount.Value -= amount;
+        if(coinsAmount.Value < 0) coinsAmount.Value = 0;
     }
 
     [ServerRpc]
@@ -281,6 +301,7 @@ public class TileScript : NetworkBehaviour
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
         PlayerScript.LocalInstance.character.OnPlayerStepped(this);
+        if(PlayerScript.LocalInstance.character.GetType() != new Homeless().GetType())AddCoinsServerRpc();
         if (destroyPercentage.Value > 0)
         {
             if (ownerId.Value == PlayerScript.LocalInstance.playerIndex) RepairTabUI.Instance.ShowRepairUI(GetRepairCost(), this);

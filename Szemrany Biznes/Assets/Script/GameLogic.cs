@@ -46,13 +46,13 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
-        /*allCharacters.Add(new ThickWoman());
+        //allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
-        allCharacters.Add(new NPC());
+        /*allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Seba());*/
         allCharacters.Add(new Jew());
-        allCharacters.Add(new Jamal());
+        //allCharacters.Add(new Jamal());
         //allCharacters.Add(new Student());
     }
 
