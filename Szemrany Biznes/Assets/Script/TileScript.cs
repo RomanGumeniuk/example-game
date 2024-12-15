@@ -22,6 +22,8 @@ public class TileScript : NetworkBehaviour
     public int amountMoneyOnPlayerStep = 0;
     public DisplayPropertyUI displayPropertyUI;
 
+    public NetworkVariable<int> destroyPercentage = new NetworkVariable<int>(0);
+
     public bool monopol = false;
 
     public List<TileScript> AllTownsToGetMonopol = new List<TileScript>();
@@ -81,6 +83,7 @@ public class TileScript : NetworkBehaviour
         ownerId.OnValueChanged += OnOwnerValueChanged;
         townLevel.OnValueChanged += specialTileScript.OnTownLevelChanged;
         ownerId.OnValueChanged += specialTileScript.OnOwnerIDChanged;
+        destroyPercentage.OnValueChanged += specialTileScript.OnDestroyPrecentageChange;
     }
 
     public void OnOwnerValueChanged(int prevValue, int newValue)
@@ -267,9 +270,23 @@ public class TileScript : NetworkBehaviour
         
     }
 
+    private int GetRepairCost()
+    {
+        Debug.Log(specialTileScript.CaluculatePropertyValue() + " " + ((float)destroyPercentage.Value / 100));
+        return (int)(specialTileScript.CaluculatePropertyValue() * ((float)destroyPercentage.Value / 100));
+    }
+
+
     public void OnPlayerEnter(byte currentAvailableTownUpgrade)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
+
+        if(destroyPercentage.Value > 0)
+        {
+            RepairTabUI.Instance.ShowRepairUI(GetRepairCost(), this);
+            return;
+        }
+
         switch (tileType)
         {
             case TileType.TownTile:
@@ -295,6 +312,15 @@ public class TileScript : NetworkBehaviour
         }
 
     }
+
+
+    [ServerRpc(RequireOwnership =false)]
+    public void RepairTownServerRpc(int cost,int playerID)
+    {
+        GameLogic.Instance.UpdateMoneyForPlayerServerRpc(cost, playerID, 1, true, true);
+        destroyPercentage.Value = 0;
+    }
+
 
     [ServerRpc(RequireOwnership = false)]
     public void UpdatePlayerCantMoveVariableServerRpc(int value,int playerId)

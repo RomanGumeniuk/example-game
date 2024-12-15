@@ -13,7 +13,9 @@ public class TownTile : Tile
     const float PIMP_CAR_MULTIPLIER = 1.1f;
     public override int GetPayAmount()
     {
-        if(tileScript.propertyType == PropertyType.None || tileScript.propertyType == PropertyType.Gambling) return base.GetPayAmount();
+        if (tileScript.destroyPercentage.Value > 0) return 0;
+
+        if (tileScript.propertyType == PropertyType.None || tileScript.propertyType == PropertyType.Gambling) return base.GetPayAmount();
         int curentPayValue;
         bool isAirportInStock;
         switch (tileScript.propertyType)
@@ -89,5 +91,4 @@ public class TownTile : Tile
         }
     }
 
-    
 }

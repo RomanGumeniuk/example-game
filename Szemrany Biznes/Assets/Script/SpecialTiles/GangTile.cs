@@ -36,6 +36,7 @@ public class GangTile : Tile
 
     public override int GetPayAmount()
     {
+        if (tileScript.destroyPercentage.Value > 0) return 0;
         return CalculatePayAmount();
     }
 

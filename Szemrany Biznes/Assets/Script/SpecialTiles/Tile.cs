@@ -19,10 +19,18 @@ public abstract class Tile
 
     public virtual int GetPayAmount()
     {
+        if (tileScript.destroyPercentage.Value > 0) return 0;
         int townLevel = tileScript.townLevel.Value;
         if (townLevel == -1) townLevel = 0;
-        return tileScript.townCostToPay[townLevel];
+        int payAmount = tileScript.townCostToPay[townLevel];
+        return payAmount;
     }
+
+    public virtual void OnDestroyPrecentageChange(int prevValue, int newValue)
+    {
+        tileScript.UpdateOwnerTextServerRpc();
+    }
+
 
     public virtual void OnTownUpgrade(int ownerID,int townLevel)
     {
@@ -50,8 +58,8 @@ public abstract class Tile
         if (stop == -1)
         {
             //totalPropertyValue += tileScript.townCostToBuy[0];
-            stop = tileScript.townLevel.Value;
-            if(stop == 0) totalPropertyValue += tileScript.townCostToBuy[0];
+            stop = tileScript.townLevel.Value+1;
+            //if(stop == 0) totalPropertyValue += tileScript.townCostToBuy[0];
         }
         for (int i = start; i < stop; i++)
         {
