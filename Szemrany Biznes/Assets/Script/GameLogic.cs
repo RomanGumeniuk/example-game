@@ -46,14 +46,14 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
-        //allCharacters.Add(new ThickWoman());
+        allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
-        /*allCharacters.Add(new NPC());
+        allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
-        allCharacters.Add(new Seba());*/
+        allCharacters.Add(new Seba());
         allCharacters.Add(new Jew());
-        //allCharacters.Add(new Jamal());
-        //allCharacters.Add(new Student());
+        allCharacters.Add(new Jamal());
+        allCharacters.Add(new Student());
     }
 
 
@@ -109,7 +109,7 @@ public class GameLogic : NetworkBehaviour
             int currentIndex = Random.Range(0, allPlayerAmount - i);
             PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>(allPlayerIndex[currentIndex]));
             allPlayerIndex.RemoveAt(currentIndex);
-            AddAllPlayerPrefabListClientRpc(PlayersOrder[ i].ClientId, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value);
+            
             //Debug.Log(PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>());//.SetMaterialClientRpc();
             PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().SetMaterialClientRpc();
         }
@@ -119,35 +119,63 @@ public class GameLogic : NetworkBehaviour
         IListExtensions.Shuffle(charatersIds);
         for (int i = 0; i < PlayersOrder.Count; i++)
         {
-            SetAllCharactersClientRpc(charatersIds[i], (int)PlayersOrder[i].ClientId);
+            Debug.Log((allCharacters[charatersIds[i]].GetType() == new Student().GetType()) + " " + (i + 1 < PlayersOrder.Count));
+            if (allCharacters[charatersIds[i]].GetType() == new Student().GetType() && i+1 < PlayersOrder.Count)
+            {
+                OnStudentSwapPlaces((int)PlayersOrder[i].ClientId, i);
+            }
+            SetAllCharactersClientRpc(charatersIds[i], (int)PlayersOrder[i].ClientId,i);
         }
-        OnNextPlayerTurnServerRpc();
+        AddAllPlayerPrefabList();
+        
     }
 
     [ClientRpc]
-    public void SetAllCharactersClientRpc(int i, int playerIndex)
+    public void SetAllCharactersClientRpc(int i, int playerIndex,int playerOrderIndex)
     {
         PlayerScript player = NetworkManager.Singleton.ConnectedClientsList[playerIndex].PlayerObject.GetComponent<PlayerScript>();
         player.character = allCharacters[i];
         player.character.Greetings();
         player.character.playerScript = player;
-
+        player.character.OnCharacterCreated();
+        
     }
 
+    private async void OnStudentSwapPlaces(int playerIndex,int playerOrderIndex)
+    {
+        await Awaitable.WaitForSecondsAsync(0.05f);
+        Debug.Log("StudentSwapp" + playerIndex + " " + playerOrderIndex + " " + PlayersOrder.Count) ;
+        PlayersOrder.RemoveAt(playerOrderIndex);
+        PlayersOrder.Add(NetworkManager.Singleton.ConnectedClients.GetValueOrDefault<ulong, NetworkClient>((ulong)playerIndex));
+    }
+
+    private async void AddAllPlayerPrefabList()
+    {
+        await Awaitable.WaitForSecondsAsync(0.08f);
+        for (int i = 0; i < PlayersOrder.Count; i++)
+        {
+            AddAllPlayerPrefabListClientRpc(PlayersOrder[i].ClientId, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value, PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().character.GetName());
+            PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().character.Greetings();
+        }
+        OnNextPlayerTurnServerRpc();
+    }
+
+
     [ClientRpc]
-    public void AddAllPlayerPrefabListClientRpc(ulong index,int startMoney)
+    public void AddAllPlayerPrefabListClientRpc(ulong index,int startMoney,string characterType)
     {
         GameObject playerPrefabList = Instantiate(playerListPrefab, content);
         allPlayersListPrefab.Add(playerPrefabList.transform);
 
-        if (PlayerScript.LocalInstance.playerIndex == (int)index) playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index + " You";
+
+        if (PlayerScript.LocalInstance.playerIndex == (int)index) playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = characterType + "#" + index + " You";
         else
         {
-            playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "Player#" + index;
+            playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = characterType + "#" + index;
         }
         playerPrefabList.transform.Find("Name").GetComponent<TextMeshProUGUI>().color = PlayerColors[(int)index].color;
         playerPrefabList.transform.Find("Money").GetComponent<TextMeshProUGUI>().text = startMoney +"PLN";
-        content.parent.parent.parent.GetComponent<RectTransform>().anchoredPosition = new Vector2(757, -150);
+        content.parent.parent.parent.GetComponent<RectTransform>().anchoredPosition = new Vector2(609, -123);
         content.parent.parent.parent.gameObject.SetActive(true);
     }
 
@@ -158,21 +186,22 @@ public class GameLogic : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdateMoneyForPlayerServerRpc(int newMoney,int playerIndex,int type =0,bool hide = true,bool changeTotalAmountOfMoney = false) // type 0-> set 1-> subtract 2->add
     {
-        switch(type)
+        PlayerScript player = NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>();
+        switch (type)
         {
             case 0:
-                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value = newMoney;
-                if(changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value = newMoney;
+                player.amountOfMoney.Value = newMoney;
+                if(changeTotalAmountOfMoney) player.totalAmountOfMoney.Value = newMoney;
                 playerIndex = -1;
                 break;
             case 1:
-                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value -= newMoney;
-                if (changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value -= newMoney;
+                player.amountOfMoney.Value -= newMoney;
+                if (changeTotalAmountOfMoney) player.totalAmountOfMoney.Value -= newMoney;
                 newMoney = newMoney * (-1);
                 break;
             case 2:
-                NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value += newMoney;
-                if (changeTotalAmountOfMoney) NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value += newMoney;
+                player.amountOfMoney.Value += newMoney;
+                if (changeTotalAmountOfMoney) player.totalAmountOfMoney.Value += newMoney;
                 break;
         }
         

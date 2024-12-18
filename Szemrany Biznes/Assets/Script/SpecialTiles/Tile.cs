@@ -22,7 +22,7 @@ public abstract class Tile
         if (tileScript.destroyPercentage.Value > 0) return 0;
         int townLevel = tileScript.townLevel.Value;
         if (townLevel == -1) townLevel = 0;
-        int payAmount = tileScript.townCostToPay[townLevel];
+        int payAmount = tileScript.GetTownCostToPayIndex(townLevel,tileScript.ownerId.Value);
         return payAmount;
     }
 
@@ -63,7 +63,7 @@ public abstract class Tile
         }
         for (int i = start; i < stop; i++)
         {
-            totalPropertyValue += tileScript.townCostToBuy[i];
+            totalPropertyValue += tileScript.GetTownCostToBuyIndex(i, tileScript.ownerId.Value);
         }
         return totalPropertyValue;
     }

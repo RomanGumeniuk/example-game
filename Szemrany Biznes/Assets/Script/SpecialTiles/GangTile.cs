@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class GangTile : Tile
@@ -11,18 +12,19 @@ public class GangTile : Tile
     {
         if(tileScript.townLevel.Value==-1)
         {
-            tileScript.Buy(PlayerScript.LocalInstance.amountOfMoney.Value, tileScript.townCostToBuy[0]);
+            tileScript.Buy(PlayerScript.LocalInstance.amountOfMoney.Value, tileScript.GetTownCostToBuyIndex(0));
             return;
         }
         if (PlayerScript.LocalInstance.playerIndex == tileScript.ownerId.Value)
         {
-            int amount = 0;
+            /*int amount = 0;
             foreach(TileScript tile in tileScript.AllTownsToGetMonopol)
             {
                 if(tile.ownerId.Value == tileScript.ownerId.Value) amount++;
             }
-            if (amount == 4) PlayerScript.LocalInstance.ShowTownDamageTab();
-            else GameUIScript.OnNextPlayerTurn.Invoke();
+            if (amount == 4)*/
+            PlayerScript.LocalInstance.ShowTownDamageTab();
+            //else GameUIScript.OnNextPlayerTurn.Invoke();
             return;
         }
         tileScript.Pay(PlayerScript.LocalInstance.amountOfMoney.Value, CalculatePayAmount());
@@ -30,13 +32,14 @@ public class GangTile : Tile
 
     public int CalculatePayAmount()
     {
-        int multiplier = 0;
+        int multiplier = -1;
+        Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
         for (int i = 0; i < tileScript.AllTownsToGetMonopol.Count; i++)
         {
             if (tileScript.AllTownsToGetMonopol[i].ownerId.Value == tileScript.ownerId.Value) multiplier++;
         }
         //Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
-        return tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep);
+        return tileScript.GetTownCostToPayIndex(0,character) + (multiplier * tileScript.amountMoneyOnPlayerStep);
     }
 
 
@@ -48,6 +51,7 @@ public class GangTile : Tile
 
     public override int CaluculatePropertyValue(int start = 0, int stop = -1)
     {
-        return tileScript.townCostToBuy[0];
+        Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
+        return tileScript.GetTownCostToBuyIndex(0, character);
     }
 }

@@ -3,7 +3,23 @@ using UnityEngine;
 public abstract class Character
 {
     public PlayerScript playerScript;
-    string name;
+    public string name = "blank";
+
+    public string GetName()
+    {
+        return name;
+    }
+
+
+    public virtual void OnCharacterCreated()
+    {
+
+    }
+
+    public virtual void OnPlayerPassBy(TileScript tile)
+    {
+
+    }
 
 
     public virtual int OnDiceRolled(int diceRoll)
@@ -20,5 +36,25 @@ public abstract class Character
     public virtual void Greetings()
     {
         Debug.Log("Character");
+    }
+
+    public virtual int CheckCharacterMultipliersForBuying(int amountOfMoney, PropertyType propertyType)
+    {
+        return amountOfMoney;
+    }
+
+    public virtual int CheckCharacterMultipliersForPayments(int amountOfMoney, PropertyType propertyType)
+    {
+        return amountOfMoney;
+    }
+
+    public virtual int GetRealCostForCharacter(int cost)
+    {
+        return cost;
+    }
+
+    public virtual void OnOwnedTileChange(TileScript tile)
+    {
+
     }
 }

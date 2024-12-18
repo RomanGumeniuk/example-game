@@ -99,7 +99,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
 
     public int GetCostPrice(int i)
     {
-        return (int)(currentTileScript.townCostToBuy[1] * CostMultiplier[i]);
+        return (int)(currentTileScript.GetTownCostToBuyIndex(1,currentTileScript.ownerId.Value) * CostMultiplier[i]);
     }
 
     public int GetLowestPrice(TileScript currentTileScript)

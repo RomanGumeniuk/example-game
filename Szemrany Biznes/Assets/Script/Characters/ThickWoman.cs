@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ThickWoman : Character
 {
-
     public override int OnDiceRolled(int diceValue)
     {
         Debug.Log("Roll decresed by one");
@@ -13,6 +12,7 @@ public class ThickWoman : Character
     public override void Greetings()
     {
         Debug.Log("ThickWoman");
+        name = "Baba Grzmot";
     }
 
 }

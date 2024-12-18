@@ -49,16 +49,22 @@ public class ChooseTownToDestroyTabUI : MonoBehaviour
 
     private void ChangeButtonInteraction()
     {
+        
         DamageButton.interactable = (choosenTile == null) ? false : true;
+        
+        
     }
 
 
     public void UpdateSelectedTile(TileScript tile, bool value)
     {
-        if (choosenTile != null && choosenTile != tile) choosenTile.displayPropertyUI.toggle.isOn = false;
-        choosenTile = null;
-        if(value)choosenTile = tile;
-        ChangeButtonInteraction();
+        if (transform.GetChild(0).gameObject.activeSelf)
+        {
+            if (choosenTile != null && choosenTile != tile) choosenTile.displayPropertyUI.toggle.isOn = false;
+            choosenTile = null;
+            if (value) choosenTile = tile;
+            ChangeButtonInteraction();
+        }
     }
 
     public void Hide()

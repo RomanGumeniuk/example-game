@@ -24,7 +24,7 @@ public class SpecialTile : Tile
     {
         if (tileScript.townLevel.Value == -1)
         {
-            tileScript.Buy(PlayerScript.LocalInstance.amountOfMoney.Value, tileScript.townCostToBuy[0]);
+            tileScript.Buy(PlayerScript.LocalInstance.amountOfMoney.Value, tileScript.GetTownCostToBuyIndex(0));
             return;
         }
         if (PlayerScript.LocalInstance.playerIndex == tileScript.ownerId.Value)
@@ -39,7 +39,7 @@ public class SpecialTile : Tile
     {
         List<TileScript> ownerProperties = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList();
         Debug.Log(ownerProperties.Count + " " + type);
-        int calculatedAmount = tileScript.townCostToPay[0];
+        int calculatedAmount = tileScript.GetTownCostToPayIndex(0, tileScript.ownerId.Value);
         switch (type)
         {
             case Type.FieldAirport:
@@ -47,21 +47,21 @@ public class SpecialTile : Tile
                 {
                     Debug.Log(ownerProperties[i].propertyType + " " + ownerProperties[i].name);
                     if (ownerProperties[i].propertyType != PropertyType.Drugs) continue;
-                    calculatedAmount += ownerProperties[i].townCostToPay[ownerProperties[i].townLevel.Value]/10;
+                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
                 }
                 return calculatedAmount;
             case Type.UnmarkedTrucks:
                 for (int i = 0; i < ownerProperties.Count; i++)
                 {
                     if (ownerProperties[i].propertyType != PropertyType.Alcohol) continue;
-                    calculatedAmount += ownerProperties[i].townCostToPay[ownerProperties[i].townLevel.Value]/10;
+                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
                 }
                 return calculatedAmount;
             case Type.PimpCar:
                 for (int i = 0; i < ownerProperties.Count; i++)
                 {
                     if (ownerProperties[i].propertyType != PropertyType.Prostitution) continue;
-                    calculatedAmount += ownerProperties[i].townCostToPay[ownerProperties[i].townLevel.Value]/10;
+                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
                 }
                 return calculatedAmount;
         }
@@ -70,7 +70,7 @@ public class SpecialTile : Tile
 
     public override int CaluculatePropertyValue(int start = 0, int stop = -1)
     {
-        return tileScript.townCostToBuy[0];
+        return tileScript.GetTownCostToBuyIndex(0, tileScript.ownerId.Value);
     }
 
     public override int GetPayAmount()

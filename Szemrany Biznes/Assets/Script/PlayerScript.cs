@@ -70,12 +70,13 @@ public class PlayerScript : NetworkBehaviour
         }
 
 
-        if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4)-1)
+        if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4) - 1)
         {
             currentTileIndex++;
         }
         else currentTileIndex = 0;
-        
+
+
         navMeshAgent.destination = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index/ (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
         while (true)
         {
@@ -87,8 +88,14 @@ public class PlayerScript : NetworkBehaviour
         if (i + 1 < diceValue)
         {
             GameLogic.Instance.allTileScripts[currentTileIndex].specialTileScript?.OnPlayerPassBy();
+            character.OnPlayerPassBy(GameLogic.Instance.allTileScripts[currentTileIndex]);
         }
     }
+
+
+
+
+
     [ClientRpc]
     public void OnDiceNumberReturnClientRpc(int diceValue, ClientRpcParams clientRpcParams = default)
     {
@@ -140,6 +147,11 @@ public class PlayerScript : NetworkBehaviour
         }
         ChooseTownToDestroyTabUI.Instance.Show();
         
+    }
+    [ServerRpc(RequireOwnership =false)]
+    public void ChangeCantMoveValueServerRpc(int value)
+    {
+        cantMoveFor.Value += value;
     }
 
     public void OnTownUpgrade()

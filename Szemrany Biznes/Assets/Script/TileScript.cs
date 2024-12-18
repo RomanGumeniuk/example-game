@@ -4,17 +4,17 @@ using UnityEngine;
 using Unity.Netcode;
 
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
-using static UnityEngine.Rendering.DebugUI;
-using System.Threading.Tasks;
+
 public class TileScript : NetworkBehaviour
 {
     public TileType tileType = 0;
     public PropertyType propertyType = 0;
 
     public int index;
-    public List<int> townCostToBuy = new List<int>();
-    public List<int> townCostToPay = new List<int>();
+    [SerializeField]
+    private List<int> townCostToBuy = new List<int>();
+    [SerializeField]
+    private List<int> townCostToPay = new List<int>();
 
     public NetworkVariable<int> ownerId = new NetworkVariable<int>(-1); // -1 means that town has no owner
     public NetworkVariable<int> townLevel = new NetworkVariable<int>(-1);
@@ -82,17 +82,23 @@ public class TileScript : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        ownerId.OnValueChanged += OnOwnerValueChanged;
+        if(IsServer)ownerId.OnValueChanged += OnOwnerValueChanged;
+        townLevel.OnValueChanged += OnTownLevelChanged;
         townLevel.OnValueChanged += specialTileScript.OnTownLevelChanged;
         ownerId.OnValueChanged += specialTileScript.OnOwnerIDChanged;
         destroyPercentage.OnValueChanged += specialTileScript.OnDestroyPrecentageChange;
     }
 
+    private void OnTownLevelChanged(int prevValue,int newValue)
+    {
+        if(ownerId.Value!=-1)NetworkManager.Singleton.ConnectedClientsList[ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character.OnOwnedTileChange(this);
+    }
     public void OnOwnerValueChanged(int prevValue, int newValue)
     {
+        Debug.Log($"owner changed {prevValue}  {newValue}");
+        if(newValue!=-1) NetworkManager.Singleton.ConnectedClientsList[newValue].PlayerObject.GetComponent<PlayerScript>().character.OnOwnedTileChange(this);
+        else if(prevValue !=-1) NetworkManager.Singleton.ConnectedClientsList[prevValue].PlayerObject.GetComponent<PlayerScript>().character.OnOwnedTileChange(this);
         if (tileType != 0) return;
-        
-
         if (prevValue == -1)
         {
             if(CheckOtherTownsOwner())
@@ -109,7 +115,15 @@ public class TileScript : NetworkBehaviour
             }
             return;
         }
-        
+        if (CheckOtherTownsOwner())
+        {
+            SetMonopolyServerRpc(true);
+        }
+        else if (monopol)
+        {
+            SetMonopolyServerRpc(false);
+        }
+
     }
 
     private bool CheckOtherTownsOwner()
@@ -130,7 +144,7 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void AddCoinsServerRpc()
     {
-        coinsAmount.Value += (int)(PlayerScript.LocalInstance.amountOfMoney.Value * COINS_DROP_PRECENTAGE);
+        coinsAmount.Value += Mathf.CeilToInt(PlayerScript.LocalInstance.amountOfMoney.Value * COINS_DROP_PRECENTAGE);
         if(coinsAmount.Value > MAX_COINS_AMOUNT) coinsAmount.Value = MAX_COINS_AMOUNT;
     }
 
@@ -142,9 +156,10 @@ public class TileScript : NetworkBehaviour
         if(coinsAmount.Value < 0) coinsAmount.Value = 0;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership =false)]
     public void SetMonopolyServerRpc(bool Value)
     {
+        Debug.Log("Monopol set " + Value);
         SetMonopolyClientRpc(Value);
     }
     [ClientRpc]
@@ -188,7 +203,7 @@ public class TileScript : NetworkBehaviour
                 }
                 ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
             } 
-            else BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, townCostToBuy, this, currentAvailableTownUpgrade);
+            else BuyingTabUIScript.Instance.ShowBuyingUI(townLevel.Value, maxLevelThatPlayerCanAfford + townLevel.Value, GetTownCostToBuyList(), this, currentAvailableTownUpgrade);
             return;
         }
         if (playerAmountOfMoney >= Cost)
@@ -196,7 +211,7 @@ public class TileScript : NetworkBehaviour
             BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
             return;
         }
-        _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {townCostToBuy[0]}PLN!", 3.5f);
+        _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f);
     }
 
     public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true)
@@ -238,7 +253,7 @@ public class TileScript : NetworkBehaviour
     {
         if (townLevel.Value == -1)
         {
-            Buy(playerAmountOfMoney, townCostToBuy[0]);
+            Buy(playerAmountOfMoney, GetTownCostToBuyIndex(0));
             return;
         }
         if (ownerId.Value != PlayerScript.LocalInstance.playerIndex)
@@ -430,6 +445,68 @@ public class TileScript : NetworkBehaviour
     {
         int totalPropertyValue = specialTileScript.CaluculatePropertyValue();
         displayPropertyUI.ShowSellingView(totalPropertyValue);
+    }
+
+    public int GetTownCostToBuyIndex(int index, Character involvedCharacter = default)
+    {
+        if (involvedCharacter == default) involvedCharacter = PlayerScript.LocalInstance.character;
+        return involvedCharacter.CheckCharacterMultipliersForBuying(townCostToBuy[index], propertyType);
+    }
+
+    public int GetTownCostToPayIndex(int index, Character involvedCharacter = default)
+    {
+        if (involvedCharacter == default) involvedCharacter = PlayerScript.LocalInstance.character;
+        return involvedCharacter.CheckCharacterMultipliersForPayments(townCostToPay[index], propertyType);
+    }
+
+    public int GetTownCostToBuyIndex(int index, int ownerId)
+    {
+        Character involvedCharacter;
+        if (ownerId == -1) involvedCharacter = PlayerScript.LocalInstance.character;
+        else involvedCharacter = NetworkManager.Singleton.ConnectedClientsList[ownerId].PlayerObject.GetComponent<PlayerScript>().character;
+        return involvedCharacter.CheckCharacterMultipliersForBuying(townCostToBuy[index], propertyType);
+    }
+
+    public int GetTownCostToPayIndex(int index, int ownerId)
+    {
+
+        Character involvedCharacter;
+        if(ownerId ==-1) involvedCharacter = PlayerScript.LocalInstance.character;
+        else involvedCharacter = NetworkManager.Singleton.ConnectedClientsList[ownerId].PlayerObject.GetComponent<PlayerScript>().character;
+        return involvedCharacter.CheckCharacterMultipliersForPayments(townCostToPay[index], propertyType);
+    }
+
+
+    public List<int> GetTownCostToBuyList(Character involvedCharacter = default)
+    {
+        if (involvedCharacter == default) involvedCharacter = PlayerScript.LocalInstance.character;
+        List<int> realTownCostsToBuy = new List<int>();
+        for(int i=0;i<townCostToBuy.Count;i++)
+        {
+            realTownCostsToBuy.Add(involvedCharacter.CheckCharacterMultipliersForBuying(townCostToBuy[i],propertyType));
+        }
+        return realTownCostsToBuy;
+    }
+
+    public List<int> GetTownCostToPayList(Character involvedCharacter = default)
+    {
+        if (involvedCharacter == default) involvedCharacter = PlayerScript.LocalInstance.character;
+        List<int> realTownCostsToPay = new List<int>();
+        for (int i = 0; i < townCostToPay.Count; i++)
+        {
+            realTownCostsToPay.Add(involvedCharacter.CheckCharacterMultipliersForPayments(townCostToPay[i], propertyType));
+        }
+        return realTownCostsToPay;
+    }
+
+
+    public void SetTownCostToPay(List<int> townCostToPay)
+    {
+        this.townCostToPay = new List<int>(townCostToPay);
+    }
+    public void SetTownCostToBuy(List<int> townCostToBuy)
+    {
+        this.townCostToBuy = new List<int>(townCostToBuy);
     }
 
 }

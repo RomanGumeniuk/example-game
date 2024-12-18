@@ -63,7 +63,7 @@ public class TownTile : Tile
 
     public override void OnOwnerIDChanged(int prevValue, int newValue)
     {
-        Debug.Log("owner id changed " + tileScript.name);
+        //Debug.Log("owner id changed " + tileScript.name);
         if (newValue != -1)
         {
             foreach (TileScript tile in NetworkManager.Singleton.ConnectedClientsList[newValue].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList())
@@ -83,7 +83,8 @@ public class TownTile : Tile
 
     public override void OnTownLevelChanged(int prevValue, int newValue)
     {
-        Debug.Log("town level changed " + tileScript.name);
+        Debug.Log("town level changed " + tileScript.name + " "+  tileScript.ownerId.Value + " " + prevValue + " " + newValue);
+        if (tileScript.ownerId.Value == -1) return;
         foreach (TileScript tile in NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList())
         {
             if (TileType.SpecialTile != tile.tileType) continue;

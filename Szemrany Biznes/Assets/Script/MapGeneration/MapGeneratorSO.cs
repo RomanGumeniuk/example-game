@@ -121,8 +121,8 @@ public class MapGeneratorSO : ScriptableObject
         tileScript.amountMoneyOnPlayerStep = tile.GetAmountOfMoneyOnStep();
         tileScript.tileType = tile.GetTileType();
         tileScript.index = tile.GetIndex();
-        tileScript.townCostToBuy = new List<int> (tile.GetTownCostToBuy());
-        tileScript.townCostToPay = new List<int> (tile.GetTownCostToPay());
+        tileScript.SetTownCostToBuy(tile.GetTownCostToBuy());
+        tileScript.SetTownCostToPay(tile.GetTownCostToPay());
 
     }
 
