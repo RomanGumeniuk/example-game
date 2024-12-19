@@ -73,9 +73,11 @@ public class PlayerScript : NetworkBehaviour
         if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4) - 1)
         {
             currentTileIndex++;
+            
         }
         else currentTileIndex = 0;
-
+        //Debug.Log("Set Tile");
+        SetCurrentTileIndexServerRpc(currentTileIndex,playerIndex);
 
         navMeshAgent.destination = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index/ (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
         while (true)
@@ -90,6 +92,21 @@ public class PlayerScript : NetworkBehaviour
             GameLogic.Instance.allTileScripts[currentTileIndex].specialTileScript?.OnPlayerPassBy();
             character.OnPlayerPassBy(GameLogic.Instance.allTileScripts[currentTileIndex]);
         }
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    public void SetCurrentTileIndexServerRpc(int newCurrentTileIndex, int playerIndex)
+    {
+        SetCurrentTileIndexClientRpc(newCurrentTileIndex,playerIndex);
+    }
+
+    [ClientRpc]
+    public void SetCurrentTileIndexClientRpc(int newCurrentTileIndex,int playerIndex)
+    {
+        //Debug.Log(playerIndex + " " + this.playerIndex);
+        if (playerIndex == LocalInstance.playerIndex) return;
+        //Debug.Log("Tile index set");
+        currentTileIndex = newCurrentTileIndex;
     }
 
 
@@ -164,6 +181,8 @@ public class PlayerScript : NetworkBehaviour
         }
         currentAvailableTownUpgrade = minTownLevel;
     }
+    
+
     [ClientRpc]
     public void SetMaterialClientRpc()
     {

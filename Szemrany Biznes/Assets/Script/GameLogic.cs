@@ -46,13 +46,13 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
-        allCharacters.Add(new ThickWoman());
+        /*allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Seba());
-        allCharacters.Add(new Jew());
-        allCharacters.Add(new Jamal());
+        allCharacters.Add(new Jew());*/
+        //allCharacters.Add(new Jamal());
         allCharacters.Add(new Student());
     }
 
@@ -76,7 +76,7 @@ public class GameLogic : NetworkBehaviour
         };
         
         GiveClientSpawnPositionClientRpc(SpawnPoints[0].GetChild((int)playerId).transform.position, (int)playerId, clientRpcParams);
-        
+        GiveAllPlayersTherisIndexClientRpc((int)playerId);
     }
 
 
@@ -89,7 +89,11 @@ public class GameLogic : NetworkBehaviour
     public void GiveClientSpawnPositionClientRpc(Vector3 spawnPostion,int playerIndex,  ClientRpcParams clientRpcParams = default)
     {
         PlayerScript.LocalInstance.GoTo(spawnPostion);
-        PlayerScript.LocalInstance.playerIndex = playerIndex;
+    }
+    [ClientRpc]
+    public void GiveAllPlayersTherisIndexClientRpc(int clientIndex)
+    {
+        NetworkManager.Singleton.ConnectedClientsList[clientIndex].PlayerObject.GetComponent<PlayerScript>().playerIndex = clientIndex;
     }
     
     
@@ -310,6 +314,16 @@ public class GameLogic : NetworkBehaviour
             index++;
         }
         return tileScripts;
+    }
+
+    public static int GetRealTileIndexFromAllTiles(int tileIndex)
+    {
+        for(int i=0; i<Instance.allTileScripts.Count;i++)
+        {
+            if (Instance.allTileScripts[i].index != tileIndex) continue;
+            return i;
+        }
+        return -1;
     }
 
 }
