@@ -12,6 +12,7 @@ public class Jamal : Character
 
     public override void OnPlayerStepped(TileScript tile)
     {
+        if (tile.tileType != TileType.TownTile && tile.tileType != TileType.SpecialTile && tile.tileType != TileType.GangTile) return;
         Debug.Log("Jamalll");
         if (tile.ownerId.Value == playerScript.playerIndex) return;
         int randomNumber = Random.Range(1, 100);

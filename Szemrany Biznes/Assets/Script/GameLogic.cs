@@ -52,7 +52,7 @@ public class GameLogic : NetworkBehaviour
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Seba());
         allCharacters.Add(new Jew());*/
-        //allCharacters.Add(new Jamal());
+        allCharacters.Add(new Jamal());
         allCharacters.Add(new Student());
     }
 
@@ -123,8 +123,8 @@ public class GameLogic : NetworkBehaviour
         IListExtensions.Shuffle(charatersIds);
         for (int i = 0; i < PlayersOrder.Count; i++)
         {
-            Debug.Log((allCharacters[charatersIds[i]].GetType() == new Student().GetType()) + " " + (i + 1 < PlayersOrder.Count));
-            if (allCharacters[charatersIds[i]].GetType() == new Student().GetType() && i+1 < PlayersOrder.Count)
+            
+            if (allCharacters[charatersIds[i]].GetType() == typeof(Student) && i+1 < PlayersOrder.Count)
             {
                 OnStudentSwapPlaces((int)PlayersOrder[i].ClientId, i);
             }

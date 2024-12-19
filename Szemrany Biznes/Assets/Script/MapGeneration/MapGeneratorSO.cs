@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Unity.AI.Navigation;
+using TMPro;
 
 
 [CreateAssetMenu(fileName = "MapGenerator", menuName = "Scriptable Objects/MapGenerator")]
@@ -113,7 +114,7 @@ public class MapGeneratorSO : ScriptableObject
                 prefabButton.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
             default:
-                Instantiate(otherTilesCanvas, tileObject.transform);
+                Instantiate(otherTilesCanvas, tileObject.transform).GetComponentInChildren<TextMeshProUGUI>().text = tile.GetName();
                 break;
 
         }
@@ -137,7 +138,7 @@ public class MapGeneratorSO : ScriptableObject
         tileScript.tileType = tiles[index].GetTileType();
         tileScript.townLevel.Value = 0;
         tileScript.index = tiles[index].GetIndex();
-        Instantiate(otherTilesCanvas, tile.transform);
+        Instantiate(otherTilesCanvas, tile.transform).GetComponentInChildren<TextMeshProUGUI>().text = tiles[index].GetName();
 
         GameObject playerSpawnPoints = new GameObject("PlayerSpawnPoints");
         playerSpawnPoints.transform.SetParent(tile.transform, false);

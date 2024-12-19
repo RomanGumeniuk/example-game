@@ -6,24 +6,29 @@ using System;
 public class ChancesSO : ScriptableObject
 {
     public List<ChanceCard> chances;
+    
+
+
 }
+
 [Serializable]
 public class ChanceCard
 {
     public string name;
     public string description;
-    public int amountOfMoney;
-    public SpecialType type;
-    public int turnsPlayerNeedsToWait;
-
-
-    public enum SpecialType
-    { 
-        MoveToPrison,
-        MoveToStart,
-
-    }
-
-
+    public CardType type;
+    public int value1;
+    public int value2;
+    public int value3;
+    public float value4;
 }
 
+public enum CardType
+{
+    MoveToPrison,
+    MoveToStart,
+    GiveMoney,
+    TakeMoney,
+    AnotherDiceRoll
+
+}
