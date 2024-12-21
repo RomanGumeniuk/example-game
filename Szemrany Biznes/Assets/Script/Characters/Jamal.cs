@@ -10,11 +10,11 @@ public class Jamal : Character
         name = "Jamal";
     }
 
-    public override void OnPlayerStepped(TileScript tile)
+    public override bool OnPlayerStepped(TileScript tile)
     {
-        if (tile.tileType != TileType.TownTile && tile.tileType != TileType.SpecialTile && tile.tileType != TileType.GangTile) return;
+        if (tile.tileType != TileType.TownTile && tile.tileType != TileType.SpecialTile && tile.tileType != TileType.GangTile) return false;
         Debug.Log("Jamalll");
-        if (tile.ownerId.Value == playerScript.playerIndex) return;
+        if (tile.ownerId.Value == playerScript.playerIndex) return false;
         int randomNumber = Random.Range(1, 100);
         Debug.Log("Random number: " + randomNumber);
         if(randomNumber < 6)
@@ -22,6 +22,7 @@ public class Jamal : Character
             tile.SetTownDamageServerRpc(10);
             Debug.Log("Town Destroyed " + tile.name);
         }
+        return false;
     }
 
     public override void OnPlayerPassBy(TileScript tile)

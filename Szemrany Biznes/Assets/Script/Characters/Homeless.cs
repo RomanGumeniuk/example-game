@@ -9,7 +9,7 @@ public class Homeless : Character
         name = "Mietek";
     }
 
-    public override void OnPlayerStepped(TileScript tile)
+    public override bool OnPlayerStepped(TileScript tile)
     {
         int number = Random.Range(0, 100);
         Debug.Log("Homeless "+number);
@@ -20,5 +20,6 @@ public class Homeless : Character
             tile.RemoveCoinsServerRpc(coinsAmount);
             Debug.Log("coins: " + coinsAmount);
         }
+        return false;
     }
 }

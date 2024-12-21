@@ -276,7 +276,7 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 927d468addbaa3b4babae00c1dec9fca, type: 2}
   - index: 31
     name: Szansa na szympansa 3
-    type: 15
+    type: 8
     townCostToBuy: 
     townCostToPay: 
     amountOfMoneyOnStep: 0

@@ -8,7 +8,7 @@ public class Jew : Character
         name = "¯yd";
     }
     int moves = 0;
-    public override void OnPlayerStepped(TileScript tile)
+    public override bool OnPlayerStepped(TileScript tile)
     {
         moves++;
         if(moves==6)
@@ -16,6 +16,7 @@ public class Jew : Character
             moves = 0;
             playerScript.ChangeCantMoveValueServerRpc(1);
         }
+        return false;
     }
 
     const float MULTIPLIER_FOR_EARNINGS = 1.1f;

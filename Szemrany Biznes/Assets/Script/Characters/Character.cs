@@ -28,9 +28,10 @@ public abstract class Character
         return diceRoll;
     }
 
-    public virtual void OnPlayerStepped(TileScript tile)
+    public virtual bool OnPlayerStepped(TileScript tile)
     {
         Debug.Log("Character");
+        return false;
     }
 
     public virtual void Greetings()

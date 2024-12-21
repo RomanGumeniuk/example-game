@@ -210,7 +210,15 @@ public class PlayerScript : NetworkBehaviour
     [ClientRpc]
     private void RemoveTilesThatPlayerOwnListClientRpc(int tileIndex)
     {
-        tilesThatPlayerOwnList.Remove(GameLogic.Instance.board.transform.GetChild(tileIndex).GetComponent<TileScript>());
+        for(int i=0;i<tilesThatPlayerOwnList.Count;i++)
+        {
+            if (tilesThatPlayerOwnList[i].index == tileIndex)
+            {
+                tilesThatPlayerOwnList.RemoveAt(i);
+                return;
+            }
+        }
+        //tilesThatPlayerOwnList.Remove(GameLogic.Instance.board.transform.GetChild(tileIndex).GetComponent<TileScript>());
     }
 
     public List<TileScript> GetTilesThatPlayerOwnList()

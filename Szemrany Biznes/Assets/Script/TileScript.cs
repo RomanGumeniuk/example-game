@@ -315,7 +315,10 @@ public class TileScript : NetworkBehaviour
     public void OnPlayerEnter(byte currentAvailableTownUpgrade)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
-        PlayerScript.LocalInstance.character.OnPlayerStepped(this);
+        if (PlayerScript.LocalInstance.character.OnPlayerStepped(this))
+        {
+            return;
+        }
         if(PlayerScript.LocalInstance.character.GetType() != new Homeless().GetType())AddCoinsServerRpc();
         if (destroyPercentage.Value > 0)
         {

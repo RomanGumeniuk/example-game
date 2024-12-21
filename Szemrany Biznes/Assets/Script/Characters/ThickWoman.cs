@@ -15,4 +15,11 @@ public class ThickWoman : Character
         name = "Baba Grzmot";
     }
 
+
+    public override bool OnPlayerStepped(TileScript tile)
+    { 
+        if(tile.ownerId.Value==-1 || tile.ownerId.Value == playerScript.playerIndex) return false;
+        return true;
+    }
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
 public class SellingTabUI : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class SellingTabUI : MonoBehaviour
         }
         else
         {
-            SellAtAuctionButton.interactable = true;
+            if (NetworkManager.Singleton.ConnectedClientsList.Count > 2) SellAtAuctionButton.interactable = true;
         }
     }
 
@@ -107,7 +108,7 @@ public class SellingTabUI : MonoBehaviour
             if (totalValueOfAllRealEstates + currentAmountOfPlayerMoney > currentAmountMoneyToPay) subTextLabel.text += "\nAfter selling you will have enough money to pay and you will be left with: " + ((totalValueOfAllRealEstates + currentAmountOfPlayerMoney) - currentAmountMoneyToPay) + "PLN";
             else subTextLabel.text += "\nAfter selling you will not have enough money to pay, you need to make: " + (currentAmountMoneyToPay - (totalValueOfAllRealEstates + currentAmountOfPlayerMoney)) + "PLN more";
             SellButton.interactable = true;
-            SellAtAuctionButton.interactable = true;
+            if(NetworkManager.Singleton.ConnectedClientsList.Count>2)SellAtAuctionButton.interactable = true;
             return;
         }
         subTextLabel.text = "Select all real estates that you want to sell"; 
