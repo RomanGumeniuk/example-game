@@ -15,11 +15,19 @@ public class ThickWoman : Character
         name = "Baba Grzmot";
     }
 
-
+    const int AMOUNT_OF_TILES_THAT_SCARES_OTHER_PLAYERS = 2;
     public override bool OnPlayerStepped(TileScript tile)
     { 
         if(tile.ownerId.Value==-1 || tile.ownerId.Value == playerScript.playerIndex) return false;
-        return true;
+        int ownerTileIndex = NetworkManager.Singleton.ConnectedClientsList[tile.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().currentTileIndex;
+        for(int i= AMOUNT_OF_TILES_THAT_SCARES_OTHER_PLAYERS*-1; i< AMOUNT_OF_TILES_THAT_SCARES_OTHER_PLAYERS+1; i++)
+        {
+            if (ownerTileIndex != (playerScript.currentTileIndex + i) % ((GameLogic.Instance.mapGenerator.GetSize() * 4) - 4)) continue;
+            _ = AlertTabForPlayerUI.Instance.ShowTab("W³aœciciel boi siê wzi¹Ÿæ od ciebie kasy",2,true);
+            return true;
+        }
+
+        return false;
     }
 
 }
