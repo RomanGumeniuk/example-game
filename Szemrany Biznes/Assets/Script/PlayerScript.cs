@@ -6,6 +6,7 @@ using System;
 using UnityEngine.AI;
 using System.Threading.Tasks;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -19,6 +20,8 @@ public class PlayerScript : NetworkBehaviour
     public byte minTownLevel=1;
     public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
 
+    public NetworkVariable<bool> isInPrison = new NetworkVariable<bool>(false);
+
     public static PlayerScript LocalInstance;
 
     public NavMeshAgent navMeshAgent;
@@ -28,8 +31,8 @@ public class PlayerScript : NetworkBehaviour
     public Character character;
 
     public Tile tileType;
-    
 
+    public bool wasBetrayed = false;
     public override void OnNetworkSpawn()
     {
         
@@ -114,11 +117,12 @@ public class PlayerScript : NetworkBehaviour
 
 
     [ClientRpc]
-    public void OnDiceNumberReturnClientRpc(int diceValue, ClientRpcParams clientRpcParams = default)
+    public void OnDiceNumberReturnClientRpc(int diceValue, bool movePlayer = true, ClientRpcParams clientRpcParams = default)
     {
         diceValue = LocalInstance.character.OnDiceRolled(diceValue);
         GameUIScript.Instance.OnDiceNumberReturn(diceValue);
-        LocalInstance.Move(diceValue);
+        if(movePlayer)LocalInstance.Move(diceValue);
+        else LocalInstance.OnDiceRollValueRecived(diceValue);
     }
 
 
@@ -224,6 +228,37 @@ public class PlayerScript : NetworkBehaviour
     public List<TileScript> GetTilesThatPlayerOwnList()
     {
         return tilesThatPlayerOwnList;
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    public void SetIsInPrisonServerRpc(bool value)
+    { 
+        isInPrison.Value = value;
+    }
+
+
+    public void OnDiceRollValueRecived(int diceRollValue)
+    {
+        
+        PrisonTabUI.Instance.OnDiceValueReturned(diceRollValue);
+            
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdatePlayerCantMoveVariableServerRpc(int value, int playerId)
+    {
+        NetworkManager.Singleton.ConnectedClientsList[playerId].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value = value;
+    }
+    [ServerRpc(RequireOwnership =false)]
+    public void SetWasBetrayedServerRpc(bool value)
+    {
+        SetWasBetrayedClientRpc(value);
+    }
+    [ClientRpc]
+    private void SetWasBetrayedClientRpc(bool value)
+    {
+        wasBetrayed = value;
     }
 
 }

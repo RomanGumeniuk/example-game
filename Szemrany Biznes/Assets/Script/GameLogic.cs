@@ -24,7 +24,7 @@ public class GameLogic : NetworkBehaviour
 
     public List<string> chanceList = new List<string>();
 
-    public int index = 0;
+    public int index = -1;
     public int allPlayerAmount = 0;
 
     public Transform content;
@@ -35,6 +35,7 @@ public class GameLogic : NetworkBehaviour
     public List<Character> allCharacters = new List<Character>();
 
     public bool isDoublet = false;
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -119,7 +120,6 @@ public class GameLogic : NetworkBehaviour
             //Debug.Log(PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>());//.SetMaterialClientRpc();
             PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().SetMaterialClientRpc();
         }
-        index = 0;
         List<int> charatersIds = new List<int>();
         for (int i = 0; i < allCharacters.Count; i++) charatersIds.Add(i);
         IListExtensions.Shuffle(charatersIds);
@@ -252,11 +252,27 @@ public class GameLogic : NetworkBehaviour
         
         GameUIScript.Instance.ShowUIForRollDice();
     }
+    [ServerRpc(RequireOwnership =false)]
+    public void SetIsDoubletServerRPC(bool isDoublet)
+    {
+        this.isDoublet = isDoublet;
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void OnNextPlayerTurnServerRpc()
     {
-        
+        Debug.Log("on next player invoke");
+
+        if(!isDoublet)
+        {
+            if (allPlayerAmount == index + 1)
+            {
+                index = 0;
+            }
+            else index++;
+        }
+        else isDoublet = false;
+
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -264,27 +280,36 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { PlayersOrder[index].ClientId }
             }
         };
-        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value>0)
+        Debug.Log("player id: "+PlayersOrder[index].ClientId);
+        if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().wasBetrayed)
         {
-            PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value--;
-            if (allPlayerAmount == index + 1)
-            {
-                index = 0;
-            }
-            else index++;
+            AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz ciê podkapowa³, nie mo¿esz nic zrobiæ w tej turze", 2.5f, (int)PlayersOrder[index].ClientId);
+            PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().SetWasBetrayedServerRpc(false);
             OnNextPlayerTurnServerRpc();
+            Debug.Log("betray");
             return;
         }
 
-        if (allPlayerAmount == index + 1)
+        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isInPrison.Value && PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value > 0)
         {
-            index = 0;
+            PrisonTabUI.Instance.Show((int)PlayersOrder[index].ClientId);
+            Debug.Log("Prison");
+            return;
         }
-        else index++;
+
+        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value>0)
+        {
+            PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value--;
+            OnNextPlayerTurnServerRpc();
+            Debug.Log("Cant move");
+            return;
+        }
+
+        
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
-        
-        
-        
+        Debug.Log("end");
+
+
     }
 
     public List<TileScript> GetAllTileScriptFromBoard()

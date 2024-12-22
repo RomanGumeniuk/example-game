@@ -74,6 +74,8 @@ public class TileScript : NetworkBehaviour
                 return new ChanceTile(this);
             case TileType.SpecialTile:
                 return new SpecialTile(this);
+            case TileType.PrisonTile:
+                return new PrisonTile(this);
             default:
                 return new TownTile(this);
         }
@@ -273,37 +275,7 @@ public class TileScript : NetworkBehaviour
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amount, playerIndex, 2, hide, changeTotalAmountOfMoney);
     }
 
-    public void ChooseChanceCard(bool chanceTile1,List<string> chanceList)
-    {
-        int index = 0;
-        string[] chancePropertis;
-        if (chanceTile1) index = Random.Range(0, (int)chanceList.Count / 2);
-        else index = Random.Range((int)chanceList.Count / 2, chanceList.Count);
-        chancePropertis = chanceList[index].Split(";"[0]);
-        _ = AlertTabForPlayerUI.Instance.ShowTab(chancePropertis[0], 5);
-        switch(index)
-        {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                if (int.Parse(chancePropertis[1]) > 0)
-                {
-                    GiveMoney(int.Parse(chancePropertis[1]));
-                }
-                else
-                {
-                    Pay(PlayerScript.LocalInstance.amountOfMoney.Value, int.Parse(chancePropertis[1]) * -1, false);
-                }
-                PlayerScript.LocalInstance.cantMoveFor.Value += int.Parse(chancePropertis[2]);
-                break;
-            
-
-        }
-        
-    }
+    
 
     public int GetRepairCost()
     {
@@ -339,10 +311,6 @@ public class TileScript : NetworkBehaviour
             case TileType.PatrolTile:
                 UpdatePlayerCantMoveVariableServerRpc(2, PlayerScript.LocalInstance.playerIndex);
                 GameUIScript.OnNextPlayerTurn.Invoke();
-                return;
-            case TileType.CustodyTile:
-                UpdatePlayerCantMoveVariableServerRpc(1, PlayerScript.LocalInstance.playerIndex);
-                Pay(playerAmountOfMoney, amountMoneyOnPlayerStep, false);
                 return;
 
             default:

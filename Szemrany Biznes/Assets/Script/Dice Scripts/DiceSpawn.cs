@@ -38,7 +38,7 @@ public class DiceSpawn : NetworkBehaviour
         else return Vector3.back;
     }
     // Update is called once per frame
-    IEnumerator CheckVelocity(Rigidbody rb,int playerIndex)
+    IEnumerator CheckVelocity(Rigidbody rb,int playerIndex,bool movePlayer = true)
     {
         yield return new WaitForSeconds(2);
         while (true) 
@@ -57,21 +57,22 @@ public class DiceSpawn : NetworkBehaviour
             if(rb.transform.position.y < -2)
             {
                 Destroy(rb.gameObject);
-                RollTheDiceServerRpc(playerIndex,1,false);
+                RollTheDiceServerRpc(playerIndex,1,false, movePlayer);
                 yield break;
             }
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true)
+    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true)
     {
         currentPlayerIndex = playerIndex;
-        for(int i=0;i< diceAmount; i++)
+        diceResults.Clear();
+        for (int i=0;i< diceAmount; i++)
         {
-            StartCoroutine(CheckVelocity(SpawnDice(), playerIndex));
+            StartCoroutine(CheckVelocity(SpawnDice(), playerIndex, movePlayer));
         }
         if(addDiceLeft) diceLeft += diceAmount;
-        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll();
+        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(movePlayer);
     }
 
     private Rigidbody SpawnDice()
@@ -95,15 +96,17 @@ public class DiceSpawn : NetworkBehaviour
     private int combineDiceNumber = 0;
     private int currentPlayerIndex;
     bool isWaitingForAllDicesToRoll = false;
+    List<int> diceResults = new List<int>();
     public void DecreaseDiceLeft(int diceNumber)
     {
         if (diceLeft == 0) Debug.LogWarning("there are no more dices");
+        diceResults.Add(diceNumber);
         combineDiceNumber += diceNumber;
         diceLeft--;
         //Debug.Log("Dice decrease" + " "+ diceLeft);
     }
 
-    public async void WaitForAllDiceToRoll()
+    public async void WaitForAllDiceToRoll(bool movePlayer = true)
     {
         isWaitingForAllDicesToRoll = true;
         while (true)
@@ -111,6 +114,12 @@ public class DiceSpawn : NetworkBehaviour
             await Awaitable.WaitForSecondsAsync(0.1f);
             if (diceLeft == 0) break;
         }
+        bool isDoublet = true;
+        for(int i=1;i<diceResults.Count;i++)
+        {
+            if (diceResults[i] != diceResults[0]) isDoublet = false;
+        }
+        GameLogic.Instance.SetIsDoubletServerRPC(isDoublet);
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -118,7 +127,7 @@ public class DiceSpawn : NetworkBehaviour
                 TargetClientIds = new ulong[] { (ulong)currentPlayerIndex }
             }
         };
-        PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber, clientRpcParams);
+        PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber,  movePlayer, clientRpcParams);
         combineDiceNumber = 0;
         CheckZone.Instance.DestroyAllDices();
         isWaitingForAllDicesToRoll = false;

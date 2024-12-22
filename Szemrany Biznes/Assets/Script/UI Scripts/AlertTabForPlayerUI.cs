@@ -4,8 +4,10 @@ using UnityEngine;
 using TMPro;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System;
+using Unity.Netcode;
 
-public class AlertTabForPlayerUI : MonoBehaviour
+public class AlertTabForPlayerUI : NetworkBehaviour
 {
     public static AlertTabForPlayerUI Instance { get; private set; }
 
@@ -32,4 +34,33 @@ public class AlertTabForPlayerUI : MonoBehaviour
         await Awaitable.WaitForSecondsAsync(secondsIsVisible);
         foreach (Transform child in transform) child.gameObject.SetActive(false);
     }
+
+
+    public void ShowTabForOtherPlayer(string alertText,float secondsIsVisible,int playerIndex)
+    {
+        
+
+        ShowTabServerRpc(alertText, secondsIsVisible,playerIndex);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ShowTabServerRpc(string alertText, float secondsIsVisible,int playerIndex)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { (ulong)playerIndex }
+            }
+        };
+        ShowTabClientRpc(alertText, secondsIsVisible,clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void ShowTabClientRpc(string alertText, float secondsIsVisible,ClientRpcParams clientRpcParams = default)
+    {
+        _ = ShowTab(alertText, secondsIsVisible, false);
+    }
+
+
 }

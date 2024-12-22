@@ -35,11 +35,11 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 2e57b5f8ec3a9e14a9f80092650b7884, type: 2}
   - index: 1
-    name: Wytrzezwialka
-    type: 2
+    name: Wiezienie
+    type: 6
     townCostToBuy: 
     townCostToPay: 
-    amountOfMoneyOnStep: 100
+    amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 73dc4507f0c45e04b81d0fec0bcf6834, type: 2}
   - index: 2
@@ -49,7 +49,7 @@ MonoBehaviour:
     townCostToPay: 
     amountOfMoneyOnStep: 400
     indexOfTileWhichMakesMonopol: 
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: a1aa60609571975448593c2815de014a, type: 2}
   - index: 3
     name: Patrol
     type: 3
@@ -57,7 +57,7 @@ MonoBehaviour:
     townCostToPay: 
     amountOfMoneyOnStep: 0
     indexOfTileWhichMakesMonopol: 
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: d5c45571d2d5a9d41ab7cc2459131f85, type: 2}
   - index: 4
     name: "Toru\u0144 - Bielawy"
     type: 0
