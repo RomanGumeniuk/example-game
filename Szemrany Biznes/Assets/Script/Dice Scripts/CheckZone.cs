@@ -15,12 +15,13 @@ public class CheckZone : NetworkBehaviour
     }
 
 
-    public void test(GameObject prefabGameObject,int playerIndex)
+    public void CheckDiceNumber(GameObject prefabGameObject,int playerIndex)
     {
         string name="";
         float min = 1;
         foreach(Transform child in prefabGameObject.transform)
         {
+            if (child.GetComponent<Canvas>() != null) continue;
             float y = child.GetComponent<SphereCollider>().ClosestPoint(new Vector3(prefabGameObject.transform.position.x, 0, prefabGameObject.transform.position.z)).y;
             if (y < min)
             {
@@ -36,37 +37,15 @@ public class CheckZone : NetworkBehaviour
             DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex,1,false);
             return;
         }
-        switch (name)
+        try
         {
-            case "Number1":
-                diceNumber = 6;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            case "Number2":
-                diceNumber = 5;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            case "Number3":
-                diceNumber = 4;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            case "Number4":
-                diceNumber = 3;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            case "Number5":
-                diceNumber = 2;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            case "Number6":
-                diceNumber = 1;
-                //Debug.Log("Wylosowano liczbê: " + diceNumber);
-                break;
-            default:
-                Destroy(prefabGameObject);
-                DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex,1,false);
-
-                return;
+            diceNumber = int.Parse(name);
+        }
+        catch
+        {
+            Destroy(prefabGameObject);
+            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex, 1, false);
+            return;
         }
         dicesToDestroy.Add(prefabGameObject);
         DiceSpawn.Instance.DecreaseDiceLeft(diceNumber);

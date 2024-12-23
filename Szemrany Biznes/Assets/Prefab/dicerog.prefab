@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 57}
   - component: {fileID: 74}
   - component: {fileID: 71}
-  - component: {fileID: 85}
+  - component: {fileID: 814256109415879201}
   m_Layer: 0
-  m_Name: Number6
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &85
+--- !u!135 &814256109415879201
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,8 +106,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: 0, y: 0, z: -0.00000011920929}
 --- !u!1 &44
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,9 +119,9 @@ GameObject:
   - component: {fileID: 62}
   - component: {fileID: 76}
   - component: {fileID: 68}
-  - component: {fileID: 89}
+  - component: {fileID: 1659987186741093668}
   m_Layer: 0
-  m_Name: Number4
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,7 +195,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &89
+--- !u!135 &1659987186741093668
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,8 +214,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: 0, y: 0.00000011920929, z: 0}
 --- !u!1 &45
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,9 +227,9 @@ GameObject:
   - component: {fileID: 60}
   - component: {fileID: 79}
   - component: {fileID: 69}
-  - component: {fileID: 86}
+  - component: {fileID: 8864075676053424367}
   m_Layer: 0
-  m_Name: Number5
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +303,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &86
+--- !u!135 &8864075676053424367
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,8 +322,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: -0.00000011920929, y: 0, z: 0}
 --- !u!1 &46
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,9 +335,9 @@ GameObject:
   - component: {fileID: 61}
   - component: {fileID: 77}
   - component: {fileID: 67}
-  - component: {fileID: 84}
+  - component: {fileID: 3529119996545769567}
   m_Layer: 0
-  m_Name: Number1
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &84
+--- !u!135 &3529119996545769567
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,8 +430,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1 &47
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,9 +443,9 @@ GameObject:
   - component: {fileID: 59}
   - component: {fileID: 78}
   - component: {fileID: 70}
-  - component: {fileID: 87}
+  - component: {fileID: 7551686122661389309}
   m_Layer: 0
-  m_Name: Number3
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +519,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &87
+--- !u!135 &7551686122661389309
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,8 +538,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: 0, y: -0.00000011920929, z: 0}
 --- !u!1 &48
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,9 +551,9 @@ GameObject:
   - component: {fileID: 58}
   - component: {fileID: 75}
   - component: {fileID: 66}
-  - component: {fileID: 88}
+  - component: {fileID: 67685731916886865}
   m_Layer: 0
-  m_Name: Number2
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,7 +627,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &88
+--- !u!135 &67685731916886865
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -646,8 +646,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.49999994
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4999999
+  m_Center: {x: 0, y: 0, z: 0.00000011920929}
 --- !u!1001 &8641247015043373037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -845,7 +845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4231263245
+  GlobalObjectIdHash: 1959313989
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

@@ -8,7 +8,8 @@ public class DiceSpawn : NetworkBehaviour
 {
     public static DiceSpawn Instance { get; private set; }
     //Gameobjects
-    public GameObject Dice;
+    public GameObject SixSideDice;
+    public GameObject FourSideDice;
 
     [SerializeField] Vector3 offsetPosition, offsetRotation;
 
@@ -51,7 +52,7 @@ public class DiceSpawn : NetworkBehaviour
                 //Debug.Log("ZATRZYMANO KUROTINA KURWE");
                 yield return new WaitForSeconds(0.1f);
                 if (position != rb.transform.position) continue;
-                CheckZone.Instance.test(rb.gameObject, playerIndex);
+                CheckZone.Instance.CheckDiceNumber(rb.gameObject, playerIndex);
                 yield break;
             }
             if(rb.transform.position.y < -2)
@@ -63,23 +64,34 @@ public class DiceSpawn : NetworkBehaviour
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true)
+    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true,DiceType type = DiceType.SixSide)
     {
         currentPlayerIndex = playerIndex;
         diceResults.Clear();
         for (int i=0;i< diceAmount; i++)
         {
-            StartCoroutine(CheckVelocity(SpawnDice(), playerIndex, movePlayer));
+            StartCoroutine(CheckVelocity(SpawnDice(type), playerIndex, movePlayer));
         }
         if(addDiceLeft) diceLeft += diceAmount;
         if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(movePlayer);
     }
 
-    private Rigidbody SpawnDice()
+    private Rigidbody SpawnDice(DiceType diceType)
     {
+        GameObject prefab = null;
+        switch (diceType)
+        { 
+            case DiceType.SixSide:
+                prefab = SixSideDice; 
+                break;
+            case DiceType.FourSide:
+                prefab = FourSideDice;
+                break;
+        }
+
         offsetPosition = new Vector3(RandomNumber(3, 17), RandomNumber(1, 6), RandomNumber(3, 17));
         offsetRotation = new Vector3(RandomNumber(-180, 180), RandomNumber(-180, 180), RandomNumber(-180, 180));
-        GameObject prefabInstance = Instantiate(Dice, offsetPosition, Quaternion.Euler(offsetRotation));
+        GameObject prefabInstance = Instantiate(prefab, offsetPosition, Quaternion.Euler(offsetRotation));
         Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
         prefabInstance.GetComponent<NetworkObject>().Spawn();
         rb.AddForce(RandomDirectionHorizontal() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f), ForceMode.Impulse);
@@ -135,4 +147,8 @@ public class DiceSpawn : NetworkBehaviour
 
 }
 
-
+public enum DiceType
+{
+    FourSide,
+    SixSide
+}
