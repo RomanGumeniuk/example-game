@@ -58,4 +58,9 @@ public abstract class Character
     {
 
     }
+
+    public virtual void ClaimDeadDropBox(DeadDropBox deadDropBoxScript)
+    {
+        deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
+    }
 }

@@ -13,7 +13,10 @@ public class BonusTile : Tile
     {
         int number = Random.Range(1, 4);
         if (PlayerScript.LocalInstance.character.GetType() == typeof(Student)) number = Mathf.CeilToInt(number * 1.5f);
-        _ = AlertTabForPlayerUI.Instance.ShowTab($"Dosta³eœ {number * AMOUNT_OF_MONEY}PLN", 2);
-        tileScript.GiveMoney(number* AMOUNT_OF_MONEY);
+        //tileScript.GiveMoney(number* AMOUNT_OF_MONEY);
+        int tileIndex = Random.Range(0,GameLogic.Instance.allTileScripts.Count);
+        GameLogic.Instance.SpawnDeadDropBoxServerRpc(tileIndex, number * AMOUNT_OF_MONEY);
+        _ = AlertTabForPlayerUI.Instance.ShowTab($"Znajomy zrzuci³ ci paczkê. Dotrzyj do niej pierwszy a zyskasz {number * AMOUNT_OF_MONEY} PLN", 2.5f);
+        
     }
 }

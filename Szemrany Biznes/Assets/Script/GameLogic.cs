@@ -35,7 +35,9 @@ public class GameLogic : NetworkBehaviour
     public List<Character> allCharacters = new List<Character>();
 
     public bool isDoublet = false;
-    
+
+    public GameObject deadDropBoxPrefab;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -353,6 +355,15 @@ public class GameLogic : NetworkBehaviour
         return -1;
     }
 
+    [ServerRpc(RequireOwnership =false)]
+    public void SpawnDeadDropBoxServerRpc(int tileIndex,int amountOfMoney)
+    {
+        GameObject deadBox = Instantiate(deadDropBoxPrefab, allTileScripts[tileIndex].transform.position + new Vector3(0,10,0), Quaternion.identity);
+        deadBox.GetComponent<NetworkObject>().Spawn();
+        deadBox.transform.parent = allTileScripts[tileIndex].transform;
+        deadBox.GetComponent<DeadDropBox>().SetAmountOfMoney(amountOfMoney);
+        
+    }    
 }
 
 public static class IListExtensions

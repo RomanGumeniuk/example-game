@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ccdf908219c056e47b7042e940f76eea
+timeCreated: 1505066832
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110635
+  packageName: PBR Cardboard Box
+  packageVersion: 1.0
+  assetPath: Assets/CrowArt - PBR Cardboard Box/Materials/m_cardboardBox_1.mat
+  uploadId: 227618

@@ -13,4 +13,10 @@ public class Student : Character
     {
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(Mathf.CeilToInt(playerScript.amountOfMoney.Value * START_MONEY_MULTIPLIER), playerScript.playerIndex, 0, true, true);
     }
+    const float DEAD_DROP_MULTIPLIER = 1.5f;
+    public override void ClaimDeadDropBox(DeadDropBox deadDropBoxScript)
+    {
+        deadDropBoxScript.ChangeAmountOfMoney(DEAD_DROP_MULTIPLIER);
+        base.ClaimDeadDropBox(deadDropBoxScript);
+    }
 }

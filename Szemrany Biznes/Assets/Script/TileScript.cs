@@ -287,6 +287,10 @@ public class TileScript : NetworkBehaviour
     public void OnPlayerEnter(byte currentAvailableTownUpgrade)
     {
         int playerAmountOfMoney = PlayerScript.LocalInstance.amountOfMoney.Value;
+        if(GetComponentInChildren<DeadDropBox>()!=null)
+        {
+            PlayerScript.LocalInstance.character.ClaimDeadDropBox(GetComponentInChildren<DeadDropBox>());
+        }
         if (PlayerScript.LocalInstance.character.OnPlayerStepped(this))
         {
             return;
