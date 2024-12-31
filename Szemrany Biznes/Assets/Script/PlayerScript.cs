@@ -138,14 +138,14 @@ public class PlayerScript : NetworkBehaviour
 
     }
 
-    public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid,int playerIndexThatGetsPaid)
+    public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid,int playerIndexThatGetsPaid, TileScript currentTileScript, bool invokePropertyAction = false)
     {
         if(amountOfMoneyThatNeedsToBePaid>totalAmountOfMoney.Value)
         {
             Debug.Log("Bankrut!!!");
             return;
         }
-        SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value,playerIndexThatGetsPaid);
+        SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value,playerIndexThatGetsPaid, currentTileScript, invokePropertyAction);
         foreach (TileScript tile in tilesThatPlayerOwnList)
         {
             tile.ShowSellingView();

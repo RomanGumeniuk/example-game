@@ -20,7 +20,7 @@ public class SpecialTile : Tile
         type = (Type)tileScript.amountMoneyOnPlayerStep;
     }
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         if (tileScript.townLevel.Value == -1)
         {

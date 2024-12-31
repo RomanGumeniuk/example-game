@@ -16,6 +16,7 @@ public class SellingTabUI : MonoBehaviour
     public Button PayButton;
 
     public List<TileScript> selectedTiles = new List<TileScript>();
+    public TileScript currentTileScript;
 
     public int currentAmountOfPlayerMoney;
     public int currentAmountMoneyToPay;
@@ -50,6 +51,10 @@ public class SellingTabUI : MonoBehaviour
             foreach(TileScript tileScript in PlayerScript.LocalInstance.GetTilesThatPlayerOwnList())
             {
                 tileScript.UpdateOwnerTextServerRpc();
+            }
+            if (invokePropertyAction)
+            {
+                currentTileScript.specialTileScript.OnPropertyAction();
             }
             GameUIScript.OnNextPlayerTurn.Invoke();
         });
@@ -116,9 +121,11 @@ public class SellingTabUI : MonoBehaviour
         SellAtAuctionButton.interactable = false;
     }
 
-
-    public void Show(int amountToPay,int amountThatPlayerHas,int playerIndexThatGetsPaid)
+    private bool invokePropertyAction;
+    public void Show(int amountToPay,int amountThatPlayerHas,int playerIndexThatGetsPaid, TileScript currentTileScript, bool invokePropertyAction = false)
     {
+        this.currentTileScript = currentTileScript;
+        this.invokePropertyAction = invokePropertyAction;
         currentAmountMoneyToPay = amountToPay;
         currentAmountOfPlayerMoney = amountThatPlayerHas;
         currentPlayerIndexThatGetsPaid = playerIndexThatGetsPaid;

@@ -7,7 +7,12 @@ public abstract class Tile
 {
     public TileScript tileScript;
 
-    public virtual void OnPlayerStepped()
+    public virtual Task OnPropertyAction()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual void OnPlayerStepped(int value1=0, float value2=0)
     {
         GameUIScript.OnNextPlayerTurn.Invoke();
     }

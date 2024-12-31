@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 
 using TMPro;
+using System.Threading.Tasks;
 
 public class TileScript : NetworkBehaviour
 {
@@ -216,7 +217,7 @@ public class TileScript : NetworkBehaviour
         _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f);
     }
 
-    public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true)
+    public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true, bool invokePropertyAction = false)
     {
         if (playerAmountOfMoney >= amountOfMoneyToPay)
         {
@@ -230,14 +231,16 @@ public class TileScript : NetworkBehaviour
                 isCapableOfBuyingProperty = PlayerScript.LocalInstance.amountOfMoney.Value > propertyValue;
             }
             await AlertTabForPlayerUI.Instance.ShowTab($"Zap³aci³eœ {amountOfMoneyToPay}PLN", 1.5f, !isCapableOfBuyingProperty);
+            if(invokePropertyAction) specialTileScript.OnPropertyAction();
+            Debug.Log("dodajtam"+invokePropertyAction);
             if (!isCapableOfBuyingProperty) return;
             //oferta wykupu
-            BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(propertyValue, this,"Do you want to buy this property from player "+ownerId.Value,true);
+            //BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(propertyValue, this,"Do you want to buy this property from player "+ownerId.Value,true);
 
             return;
         }
-        if(payToPlayer) PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, ownerId.Value);
-        else PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, -1);
+        if(payToPlayer) PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, ownerId.Value, this);
+        else PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, -1, this);
     }
 
     private void UpgradeTown(int playerAmountOfMoney, byte currentAvailableTownUpgrade)
@@ -252,7 +255,7 @@ public class TileScript : NetworkBehaviour
     }
 
     public void OnTownEnter(int playerAmountOfMoney,byte currentAvailableTownUpgrade,bool isNonUpgradingTown = false)
-    {
+    {   
         if (townLevel.Value == -1)
         {
             Buy(playerAmountOfMoney, GetTownCostToBuyIndex(0));
@@ -260,7 +263,8 @@ public class TileScript : NetworkBehaviour
         }
         if (ownerId.Value != PlayerScript.LocalInstance.playerIndex)
         {
-            Pay(playerAmountOfMoney, specialTileScript.GetPayAmount());
+            Pay(playerAmountOfMoney, specialTileScript.GetPayAmount(), true, true);
+            
             return;
         }
         if(isNonUpgradingTown || townLevel.Value == MAX_TOWN_LEVEL) GameUIScript.OnNextPlayerTurn.Invoke();
@@ -301,9 +305,6 @@ public class TileScript : NetworkBehaviour
 
         switch (tileType)
         {
-            case TileType.TownTile:
-                OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
-                return;
             case TileType.PartyTile:
                 _ = AlertTabForPlayerUI.Instance.ShowTab($"Wprosi³eœ siê na impreze z darmowym alkocholem, jesteœ 400 PLN do przodu", 3.5f);
                 GiveMoney(amountMoneyOnPlayerStep);
@@ -315,7 +316,7 @@ public class TileScript : NetworkBehaviour
 
             default:
                 Debug.Log(specialTileScript);
-                specialTileScript.OnPlayerStepped();
+                specialTileScript.OnPlayerStepped(playerAmountOfMoney, currentAvailableTownUpgrade);
                 return;
         }
 

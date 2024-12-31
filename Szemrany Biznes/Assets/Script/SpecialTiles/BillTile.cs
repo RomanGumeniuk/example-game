@@ -7,7 +7,7 @@ public class BillTile : Tile
         this.tileScript = tileScript;
     }
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         PlayerScript player = PlayerScript.LocalInstance;
         if(tileScript.amountMoneyOnPlayerStep == 0)

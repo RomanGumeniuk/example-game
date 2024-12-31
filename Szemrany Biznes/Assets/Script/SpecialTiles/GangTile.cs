@@ -8,7 +8,7 @@ public class GangTile : Tile
         this.tileScript = tileScript;
     }
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         if(tileScript.townLevel.Value==-1)
         {

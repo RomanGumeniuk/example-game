@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -89,6 +90,40 @@ public class TownTile : Tile
         {
             if (TileType.SpecialTile != tile.tileType) continue;
             tile.UpdateOwnerTextServerRpc();
+        }
+    }
+
+    public override async void OnPlayerStepped(int value1 = 0, float value2 = 0)
+    {
+        if (tileScript.tileType!=TileType.TownTile)
+        {
+            base.OnPlayerStepped(value1, value2);
+            return; 
+        }
+        if(tileScript.ownerId.Value == PlayerScript.LocalInstance.playerIndex)
+        {
+            await OnPropertyAction();
+        }
+        tileScript.OnTownEnter(value1, (byte)value2);
+    }
+
+    public override async Task OnPropertyAction()
+    {
+        Debug.Log("COKOLWIEK");
+        switch (tileScript.propertyType)
+        {
+            case PropertyType.Prostitution:
+
+                break;
+            case PropertyType.Gambling:
+                await GamblingTabUI.Instance.Show(tileScript);
+                break;
+            case PropertyType.Alcohol:
+
+                break;
+            case PropertyType.Drugs:
+
+                break;
         }
     }
 

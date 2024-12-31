@@ -35,7 +35,11 @@ public class GameLogic : NetworkBehaviour
     public List<Character> allCharacters = new List<Character>();
 
     public bool isDoublet = false;
-    
+
+    public List<string> drugsTownNames = new List<string>();
+    public List<string> prostitutionTownNames = new List<string>();
+    public List<string> alcoholTownNames = new List<string>();
+    public List<string> gamblingTownNames = new List<string>();
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();

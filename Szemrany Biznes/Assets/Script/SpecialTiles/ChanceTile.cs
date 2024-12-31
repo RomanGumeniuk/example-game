@@ -8,7 +8,7 @@ public class ChanceTile : Tile
         tileScript = tile;
     }
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         ShowPickedCard();
     }

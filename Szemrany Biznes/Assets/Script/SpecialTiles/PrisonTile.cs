@@ -12,7 +12,7 @@ public class PrisonTile : Tile
 
     const int MAX_AMOUNT_OF_TURNS_TO_EXIT_PRISON = 5;
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         int prisonerIndex = -1;
         for(int i=0;i<NetworkManager.Singleton.ConnectedClientsList.Count;i++)

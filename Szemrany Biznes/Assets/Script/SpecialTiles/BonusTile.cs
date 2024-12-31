@@ -9,7 +9,7 @@ public class BonusTile : Tile
 
     const int AMOUNT_OF_MONEY = 200;
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         int number = Random.Range(1, 4);
         if (PlayerScript.LocalInstance.character.GetType() == typeof(Student)) number = Mathf.CeilToInt(number * 1.5f);

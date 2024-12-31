@@ -9,7 +9,7 @@ public class StartTile : Tile
         this.tileScript = tileScript;
     }
 
-    public override void OnPlayerStepped()
+    public override void OnPlayerStepped(int value1 = 0, float value2 = 0)
     {
         tileScript.GiveMoney(GetAmountOfMoney());
         ShowButtonsForRepair();
