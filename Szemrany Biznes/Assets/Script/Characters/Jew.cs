@@ -22,14 +22,20 @@ public class Jew : Character
     const float MULTIPLIER_FOR_EARNINGS = 1.1f;
     const float COST_MULTIPLIER = 0.95f;
 
-    public override int CheckCharacterMultipliersForBuying(int amountOfMoney, PropertyType propertyType)
-    {
 
-        return Mathf.CeilToInt(amountOfMoney * COST_MULTIPLIER);
+    public override int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType=PropertyType.None)
+    {
+        switch(typeOfMoneyTransaction)
+        {
+            case TypeOfMoneyTransaction.BuyingTown:
+                return Mathf.RoundToInt((amountOfMoney * COST_MULTIPLIER)/10)*10;
+
+            case TypeOfMoneyTransaction.EarningMoneyFromPropertie:
+                return Mathf.RoundToInt((amountOfMoney * MULTIPLIER_FOR_EARNINGS)/10)*10; 
+            default:
+                return amountOfMoney;
+        }
     }
 
-    public override int CheckCharacterMultipliersForPayments(int amountOfMoney, PropertyType propertyType)
-    {
-        return Mathf.CeilToInt(amountOfMoney * MULTIPLIER_FOR_EARNINGS);
-    }
+    
 }

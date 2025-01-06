@@ -39,19 +39,9 @@ public abstract class Character
         Debug.Log("Character");
     }
 
-    public virtual int CheckCharacterMultipliersForBuying(int amountOfMoney, PropertyType propertyType)
+    public virtual int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
     {
         return amountOfMoney;
-    }
-
-    public virtual int CheckCharacterMultipliersForPayments(int amountOfMoney, PropertyType propertyType)
-    {
-        return amountOfMoney;
-    }
-
-    public virtual int GetRealCostForCharacter(int cost)
-    {
-        return cost;
     }
 
     public virtual void OnOwnedTileChange(TileScript tile)
@@ -63,4 +53,14 @@ public abstract class Character
     {
         deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
     }
+}
+
+public enum TypeOfMoneyTransaction
+{ 
+    BuyingTown,
+    PayingForEnteringTown,
+    PayingForPenalty,
+    GettingMoney,
+    MoneyOnStartTile,
+    EarningMoneyFromPropertie
 }

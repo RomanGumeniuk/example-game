@@ -1,9 +1,13 @@
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample;
 using Unity.Netcode;
+using Unity.Netcode.Components;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class DeadDropBox : NetworkBehaviour
 {
     int amountOfMoney = 0;
+    public int index;
     private void Start()
     {
         WaitForInpact();
@@ -16,10 +20,15 @@ public class DeadDropBox : NetworkBehaviour
         {
             previousPosition = transform.position;
             await Awaitable.WaitForSecondsAsync(0.1f);
-            if(previousPosition == transform.position)
+            if(previousPosition == transform.position && transform.position.y <8)
                 break;
         }
         transform.GetChild(0).gameObject.SetActive(false);
+        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex != index) continue;
+            OnPlayerClaimServerRpc((int)client.ClientId);
+        }
     }
     [ServerRpc(RequireOwnership =false)]
     public void OnPlayerClaimServerRpc(int playerIndex)

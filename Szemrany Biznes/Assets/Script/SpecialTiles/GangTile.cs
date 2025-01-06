@@ -33,13 +33,14 @@ public class GangTile : Tile
     public int CalculatePayAmount()
     {
         int multiplier = -1;
-        Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
         for (int i = 0; i < tileScript.AllTownsToGetMonopol.Count; i++)
         {
             if (tileScript.AllTownsToGetMonopol[i].ownerId.Value == tileScript.ownerId.Value) multiplier++;
         }
         //Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
-        return tileScript.GetTownCostToPayIndex(0,character) + (multiplier * tileScript.amountMoneyOnPlayerStep);
+        Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
+
+        return tileScript.GetTownCostToPayIndex(0, tileScript.ownerId.Value) + character.ApplyAllModifiersToSpecifiedAmountOfMoney((multiplier * tileScript.amountMoneyOnPlayerStep),TypeOfMoneyTransaction.EarningMoneyFromPropertie,tileScript.propertyType);
     }
 
 

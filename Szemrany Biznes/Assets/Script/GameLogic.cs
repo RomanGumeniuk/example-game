@@ -55,8 +55,8 @@ public class GameLogic : NetworkBehaviour
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
-        allCharacters.Add(new Seba());
         allCharacters.Add(new Jew());
+        allCharacters.Add(new Seba());
         allCharacters.Add(new Jamal());
         allCharacters.Add(new Student());
     }
@@ -251,7 +251,7 @@ public class GameLogic : NetworkBehaviour
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)
     {
-        
+        Debug.Log("OO OO OO");
         GameUIScript.Instance.ShowUIForRollDice();
     }
     [ServerRpc(RequireOwnership =false)]
@@ -285,10 +285,10 @@ public class GameLogic : NetworkBehaviour
         Debug.Log("player id: "+PlayersOrder[index].ClientId);
         if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().wasBetrayed)
         {
+            Debug.Log("betray");
             AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz ciê podkapowa³, nie mo¿esz nic zrobiæ w tej turze", 2.5f, (int)PlayersOrder[index].ClientId);
             PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().SetWasBetrayedServerRpc(false);
             OnNextPlayerTurnServerRpc();
-            Debug.Log("betray");
             return;
         }
 
@@ -301,9 +301,10 @@ public class GameLogic : NetworkBehaviour
 
         if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value>0)
         {
+            Debug.Log("Cant move");
+            Debug.Log(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value + " " + index);
             PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value--;
             OnNextPlayerTurnServerRpc();
-            Debug.Log("Cant move");
             return;
         }
 
@@ -362,7 +363,7 @@ public class GameLogic : NetworkBehaviour
         deadBox.GetComponent<NetworkObject>().Spawn();
         deadBox.transform.parent = allTileScripts[tileIndex].transform;
         deadBox.GetComponent<DeadDropBox>().SetAmountOfMoney(amountOfMoney);
-        
+        deadBox.GetComponent<DeadDropBox>().index = tileIndex;
     }    
 }
 

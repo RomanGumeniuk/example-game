@@ -17,16 +17,18 @@ public class ChanceTile : Tile
     {
         int cardIndex = Random.Range(0, GameLogic.Instance.chancesSO.chances.Count);
         ChanceCard card = GameLogic.Instance.chancesSO.chances[cardIndex];
-
+        int moneyAmount = 0;
         switch(card.type)
         {
             case CardType.TakeMoney:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(card.value1, PlayerScript.LocalInstance.playerIndex, 1, true, true);
-                await AlertTabForPlayerUI.Instance.ShowTab(card.description,2.5f);
+                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(card.value1, TypeOfMoneyTransaction.PayingForPenalty);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(moneyAmount, PlayerScript.LocalInstance.playerIndex, 1, true, true);
+                await AlertTabForPlayerUI.Instance.ShowTab(string.Format(card.description,moneyAmount),2.5f);
                 break;
             case CardType.GiveMoney:
-                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(card.value1, PlayerScript.LocalInstance.playerIndex, 2, true, true);
-                await AlertTabForPlayerUI.Instance.ShowTab(card.description, 2.5f);
+                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(card.value1, TypeOfMoneyTransaction.GettingMoney);
+                GameLogic.Instance.UpdateMoneyForPlayerServerRpc(moneyAmount, PlayerScript.LocalInstance.playerIndex, 2, true, true);
+                await AlertTabForPlayerUI.Instance.ShowTab(string.Format(card.description, moneyAmount), 2.5f);
                 break;
             case CardType.AnotherDiceRoll:
                 await AlertTabForPlayerUI.Instance.ShowTab(card.description, 1.5f, false);

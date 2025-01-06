@@ -59,10 +59,22 @@ public class GameUIScript : NetworkBehaviour
         RollDiceButton.gameObject.SetActive(true);
         TextAboutStateOfGame.text = "Roll Dice!!!";
         TextAboutStateOfGame.gameObject.SetActive(true);
+        CheckIfButtonShowed();
     }
 
+    private async void CheckIfButtonShowed()
+    {
+        await Awaitable.WaitForSecondsAsync(0.1f);
+        if (!RollDiceButton.gameObject.activeSelf)
+        {
+            Debug.Log("fixed");
+            RollDiceButton.gameObject.SetActive(true);
+        }
+        }
 
-    private void Awake()
+
+
+        private void Awake()
     {
         Instance = this;
     }

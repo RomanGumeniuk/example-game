@@ -47,21 +47,21 @@ public class SpecialTile : Tile
                 {
                     Debug.Log(ownerProperties[i].propertyType + " " + ownerProperties[i].name);
                     if (ownerProperties[i].propertyType != PropertyType.Drugs) continue;
-                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
+                    calculatedAmount += ownerProperties[i].specialTileScript.GetPayAmount() /10;
                 }
                 return calculatedAmount;
             case Type.UnmarkedTrucks:
                 for (int i = 0; i < ownerProperties.Count; i++)
                 {
                     if (ownerProperties[i].propertyType != PropertyType.Alcohol) continue;
-                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
+                    calculatedAmount += ownerProperties[i].specialTileScript.GetPayAmount() / 10;
                 }
                 return calculatedAmount;
             case Type.PimpCar:
                 for (int i = 0; i < ownerProperties.Count; i++)
                 {
                     if (ownerProperties[i].propertyType != PropertyType.Prostitution) continue;
-                    calculatedAmount += ownerProperties[i].GetTownCostToPayIndex(ownerProperties[i].townLevel.Value, tileScript.ownerId.Value) /10;
+                    calculatedAmount += ownerProperties[i].specialTileScript.GetPayAmount() /10;
                 }
                 return calculatedAmount;
         }

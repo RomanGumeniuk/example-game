@@ -77,8 +77,6 @@ public class DisplayPropertyUI : MonoBehaviour
 
     public void ShowNormalView(int ownerId, int townLevel, int townCostToPay,bool onlyChangeText = false)
     {
-        
-
         if(ownerId==-1)
         {
             if (onlyChangeText)

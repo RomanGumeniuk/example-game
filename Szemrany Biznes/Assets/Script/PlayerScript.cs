@@ -172,6 +172,7 @@ public class PlayerScript : NetworkBehaviour
     [ServerRpc(RequireOwnership =false)]
     public void ChangeCantMoveValueServerRpc(int value)
     {
+        Debug.Log("Cant move changed by: "+value);
         cantMoveFor.Value += value;
     }
 

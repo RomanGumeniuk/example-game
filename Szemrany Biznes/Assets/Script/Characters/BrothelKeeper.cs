@@ -12,10 +12,24 @@ public class BrothelKeeper : Character
 
     const float EARNINGS_MULTIPLIER = 0.05f;
 
-    public override int CheckCharacterMultipliersForPayments(int amountOfMoney, PropertyType propertyType)
+    const float PAYMENT_PENALTIES_MULTIPLIER = 1.1f;
+    public override int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
     {
-        if(propertyType == PropertyType.Prostitution) return Mathf.CeilToInt(amountOfMoney * GetCombineMultiplier());
-        return Mathf.CeilToInt(amountOfMoney);
+        switch (typeOfMoneyTransaction)
+        {
+            case TypeOfMoneyTransaction.EarningMoneyFromPropertie:
+                //Debug.Log((amountOfMoney * GetCombineMultiplier()) +" " +((amountOfMoney * GetCombineMultiplier()) / 10) +" "+ Mathf.RoundToInt((amountOfMoney * GetCombineMultiplier()) / 10));
+                if (propertyType == PropertyType.Prostitution) return Mathf.RoundToInt((amountOfMoney * GetCombineMultiplier())/10)*10;
+                return amountOfMoney;
+            case TypeOfMoneyTransaction.PayingForPenalty:
+                return Mathf.RoundToInt((amountOfMoney * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
+            case TypeOfMoneyTransaction.BuyingTown:
+                return Mathf.RoundToInt((amountOfMoney * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
+            default:
+                return amountOfMoney;
+
+        }
+
     }
 
 
@@ -41,13 +55,9 @@ public class BrothelKeeper : Character
             if (playerTile.propertyType == PropertyType.Prostitution)
             {
                 playerTile.UpdateOwnerTextServerRpc();
-                Debug.Log("updated");
             }
                 
         }
-
-
-
     }
 
 }
