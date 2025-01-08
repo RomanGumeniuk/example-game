@@ -33,13 +33,15 @@ public class PlayerScript : NetworkBehaviour
     public Tile tileType;
 
     public bool wasBetrayed = false;
+
+    public List<Item> inventory = new List<Item>();
     public override void OnNetworkSpawn()
     {
-        
         if (IsOwner)
         {
             LocalInstance = this;
             navMeshAgent = GetComponent<NavMeshAgent>();
+            
             //Debug.Log("AAA" +PlayerScript.LocalInstance.playerIndex);
             /*camera = FindAnyObjectByType<CinemachineCamera>();
             CameraTarget target = new CameraTarget();
@@ -260,6 +262,13 @@ public class PlayerScript : NetworkBehaviour
     private void SetWasBetrayedClientRpc(bool value)
     {
         wasBetrayed = value;
+    }
+
+    public void TeleportToTile(int index)
+    {
+        currentTileIndex = index;
+        transform.position = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index / (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
+        GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
     }
 
 }

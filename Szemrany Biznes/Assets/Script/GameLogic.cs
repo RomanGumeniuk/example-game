@@ -121,6 +121,8 @@ public class GameLogic : NetworkBehaviour
             
             //Debug.Log(PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>());//.SetMaterialClientRpc();
             PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().SetMaterialClientRpc();
+            //PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().amountOfMoney.Value = 10000;
+            //PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().totalAmountOfMoney.Value = 10000;
         }
         List<int> charatersIds = new List<int>();
         for (int i = 0; i < allCharacters.Count; i++) charatersIds.Add(i);

@@ -218,18 +218,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  directionX: 1
-  directionZ: 0
   currentTileIndex: 0
   playerIndex: 0
   amountOfMoney:
-    m_InternalValue: 5000
+    m_InternalValue: 7000
   tilesThatPlayerOwnList: []
   totalAmountOfMoney:
-    m_InternalValue: 5000
+    m_InternalValue: 10000
   currentAvailableTownUpgrade: 2
   minTownLevel: 1
   cantMoveFor:
     m_InternalValue: 0
+  isInPrison:
+    m_InternalValue: 0
   navMeshAgent: {fileID: 0}
-  characterType: 0
+  wasBetrayed: 0
