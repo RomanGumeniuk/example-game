@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chances:
   - name: Lucky
-    description: "Znala\u017A\u0142e\u015B 400PLN na ziemi"
+    description: "Znala\u017A\u0142e\u015B {0}PLN na ziemi"
     type: 2
     value1: 400
     value2: 0
     value3: 0
     value4: 0
   - name: Beat up
-    description: "Zosta\u0142e\u015B zaatakowany i straci\u0142e\u015B 250PLN"
+    description: "Zosta\u0142e\u015B zaatakowany i straci\u0142e\u015B {0}PLN"
     type: 3
     value1: 250
     value2: 0

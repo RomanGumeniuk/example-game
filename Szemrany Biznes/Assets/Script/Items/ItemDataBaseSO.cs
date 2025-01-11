@@ -34,11 +34,14 @@ public class ItemDataBaseSO : ScriptableObject
     {
         List<Item> allItemsCopy = new List<Item>(allItems);
         List<Item> pickedItems = new List<Item>();
+        Debug.Log(allItemsCopy.Count + " copy items");
         for (int i = 0; i < numberOfItems; i++)
         {
+            
             int pickedItem = UnityEngine.Random.Range(0,allItemsCopy.Count);
-            pickedItems.Add(allItemsCopy[i]);
-            allItemsCopy.RemoveAt(i);
+            Debug.Log(pickedItem + " picked item" );
+            pickedItems.Add(allItemsCopy[pickedItem]);
+            allItemsCopy.RemoveAt(pickedItem);
         }
         return pickedItems;
     }

@@ -18,8 +18,9 @@ public class StartTile : Tile
     }
 
 
-    public override void OnPlayerPassBy()
+    public override void OnPlayerPassBy(int diceRoll)
     {
+        if (diceRoll < 0) return;
         tileScript.GiveMoney(GetAmountOfMoney());
         ShowButtonsForRepair();
     }

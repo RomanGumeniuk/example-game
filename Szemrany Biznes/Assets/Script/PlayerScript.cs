@@ -74,13 +74,18 @@ public class PlayerScript : NetworkBehaviour
             index = (GameLogic.Instance.mapGenerator.GetSize() - 1) * 3;
         }
 
-
-        if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4) - 1)
+        if(diceValue <0)
         {
-            currentTileIndex++;
-            
+            if (currentTileIndex != 0) currentTileIndex--;
+            else currentTileIndex = 51;
         }
-        else currentTileIndex = 0;
+        else
+        {
+            if (currentTileIndex != ((GameLogic.Instance.mapGenerator.GetSize() - 1) * 4) - 1) currentTileIndex++;
+            else currentTileIndex = 0;
+        }
+
+
         //Debug.Log("Set Tile");
         SetCurrentTileIndexServerRpc(currentTileIndex,playerIndex);
 
@@ -92,10 +97,10 @@ public class PlayerScript : NetworkBehaviour
         }
 
         
-        if (i + 1 < diceValue)
+        if (i + 1 < Mathf.Abs(diceValue))
         {
-            GameLogic.Instance.allTileScripts[currentTileIndex].specialTileScript?.OnPlayerPassBy();
-            character.OnPlayerPassBy(GameLogic.Instance.allTileScripts[currentTileIndex]);
+            GameLogic.Instance.allTileScripts[currentTileIndex].specialTileScript?.OnPlayerPassBy(diceValue);
+            character.BeforeOnPlayerPassBy(GameLogic.Instance.allTileScripts[currentTileIndex]);
         }
     }
 
@@ -131,7 +136,7 @@ public class PlayerScript : NetworkBehaviour
     public async void Move(int diceValue)
     {
         navMeshAgent.isStopped = false;
-        for (int i=0;i<diceValue;i++)
+        for (int i=0;i<Mathf.Abs(diceValue);i++)
         {
             await ChangeCurrentTileIndex(diceValue,i);
         }
@@ -264,9 +269,23 @@ public class PlayerScript : NetworkBehaviour
         wasBetrayed = value;
     }
 
-    public void TeleportToTile(int index)
+    public void TeleportToTile(int pickedIndex)
     {
-        currentTileIndex = index;
+        currentTileIndex = pickedIndex;
+        int index = 0;
+        if (currentTileIndex > GameLogic.Instance.mapGenerator.GetSize() - 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 2)
+        {
+            index = GameLogic.Instance.mapGenerator.GetSize() - 1;
+        }
+        else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 1 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 3)
+        {
+            index = (GameLogic.Instance.mapGenerator.GetSize() - 1) * 2;
+        }
+        else if (currentTileIndex > (GameLogic.Instance.mapGenerator.GetSize() - 2) * 3 + 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 4 + 4)
+        {
+            index = (GameLogic.Instance.mapGenerator.GetSize() - 1) * 3;
+        }
+
         transform.position = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index / (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
     }

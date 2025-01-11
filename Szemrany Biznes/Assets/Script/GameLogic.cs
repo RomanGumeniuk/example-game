@@ -68,6 +68,7 @@ public class GameLogic : NetworkBehaviour
         Instance = this;
         Application.targetFrameRate = 60;
         allTileScripts = GetAllTileScriptFromBoard();
+        itemDataBase.GenerateItems();
     }
 
     [ServerRpc(RequireOwnership = false)]

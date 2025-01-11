@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 
 using TMPro;
+using NUnit.Framework.Constraints;
 
 public class TileScript : NetworkBehaviour
 {
@@ -78,6 +79,8 @@ public class TileScript : NetworkBehaviour
                 return new SpecialTile(this);
             case TileType.PrisonTile:
                 return new PrisonTile(this);
+            case TileType.ShopTile:
+                return new ShopTile(this);
             default:
                 return new TownTile(this);
         }
@@ -295,7 +298,6 @@ public class TileScript : NetworkBehaviour
             {
                 if(child.GetComponent<DeadDropBox>() != null) PlayerScript.LocalInstance.character.ClaimDeadDropBox(child.GetComponent<DeadDropBox>());
             }
-            
         }
         if (PlayerScript.LocalInstance.character.OnPlayerStepped(this))
         {

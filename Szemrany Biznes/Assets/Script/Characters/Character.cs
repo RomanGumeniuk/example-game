@@ -16,9 +16,22 @@ public abstract class Character
 
     }
 
+    public void BeforeOnPlayerPassBy(TileScript tile)
+    {
+        if (tile.GetComponentInChildren<DeadDropBox>() != null)
+        {
+            foreach (Transform child in tile.transform)
+            {
+                if (child.GetComponent<DeadDropBox>() != null) PlayerScript.LocalInstance.character.ClaimDeadDropBox(child.GetComponent<DeadDropBox>());
+            }
+        }
+        OnPlayerPassBy(tile);
+    }
+
+
     public virtual void OnPlayerPassBy(TileScript tile)
     {
-
+        
     }
 
 

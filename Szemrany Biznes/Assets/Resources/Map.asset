@@ -43,8 +43,8 @@ MonoBehaviour:
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 73dc4507f0c45e04b81d0fec0bcf6834, type: 2}
   - index: 2
-    name: Melanz
-    type: 4
+    name: Sklep
+    type: 5
     townCostToBuy: 
     townCostToPay: 
     amountOfMoneyOnStep: 400

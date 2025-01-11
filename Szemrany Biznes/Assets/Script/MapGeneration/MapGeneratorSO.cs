@@ -114,7 +114,10 @@ public class MapGeneratorSO : ScriptableObject
                 prefabButton.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 break;
             default:
-                Instantiate(otherTilesCanvas, tileObject.transform).GetComponentInChildren<TextMeshProUGUI>().text = tile.GetName();
+                TextMeshProUGUI ui = Instantiate(otherTilesCanvas, tileObject.transform).GetComponentInChildren<TextMeshProUGUI>();
+                ui.text = tile.GetName().Split(" ")[0];
+                if(ui.transform.parent.parent.GetComponent<MeshRenderer>().sharedMaterials[0].color == Color.black) ui.color = Color.white;
+                else ui.color = Color.black;
                 break;
 
         }
@@ -138,7 +141,11 @@ public class MapGeneratorSO : ScriptableObject
         tileScript.tileType = tiles[index].GetTileType();
         tileScript.townLevel.Value = 0;
         tileScript.index = tiles[index].GetIndex();
-        Instantiate(otherTilesCanvas, tile.transform).GetComponentInChildren<TextMeshProUGUI>().text = tiles[index].GetName();
+        TextMeshProUGUI ui = Instantiate(otherTilesCanvas, tile.transform).GetComponentInChildren<TextMeshProUGUI>();
+        ui.text = tiles[index].GetName();
+        if (ui.transform.parent.parent.GetComponent<MeshRenderer>().sharedMaterials[0].color == Color.black) ui.color = Color.white;
+        else ui.color = Color.black;
+
 
         GameObject playerSpawnPoints = new GameObject("PlayerSpawnPoints");
         playerSpawnPoints.transform.SetParent(tile.transform, false);

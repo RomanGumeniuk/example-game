@@ -3,16 +3,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class ShopTabUI : MonoBehaviour
 {
+    public static ShopTabUI Instance { private set; get; }
+
     public Button dontBuy;
     public Button buy;
     public List<GameObject> allOptions;
 
     public List<Item> avaliableItemsToBuy = new List<Item>();
 
-    public int selectedIndex;
+    int selectedIndex;
+
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+    }
 
     private void Start()
     {
@@ -30,10 +39,22 @@ public class ShopTabUI : MonoBehaviour
 
         buy.onClick.AddListener(() =>
         {
-            PlayerScript.LocalInstance.inventory.Add(avaliableItemsToBuy[selectedIndex]);
+            Item item = avaliableItemsToBuy[selectedIndex];
+            item.playerScriptThatOwnsItem = PlayerScript.LocalInstance;
+            PlayerScript.LocalInstance.inventory.Add(item);
             int cost = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(avaliableItemsToBuy[selectedIndex].GetCost(),TypeOfMoneyTransaction.BuyingItem);
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(cost,PlayerScript.LocalInstance.playerIndex,1,true,true);
+            _ =AlertTabForPlayerUI.Instance.ShowTab($"Kupi³eœ {avaliableItemsToBuy[selectedIndex].GetName()} za {avaliableItemsToBuy[selectedIndex].GetCost()}PLN \nZapraszamy ponownie!",2);
+            Hide();
+            OnOptionSelected(-1);
         });
+
+        dontBuy.onClick.AddListener(() =>
+        {
+            GameUIScript.OnNextPlayerTurn.Invoke();
+            Hide();
+        });
+
     }
 
     private void OnOptionSelected(int index)
@@ -50,13 +71,14 @@ public class ShopTabUI : MonoBehaviour
 
     public void Show()
     {
-
         avaliableItemsToBuy = GameLogic.Instance.itemDataBase.GetRandomNumberOfItems(allOptions.Count);
         for (int i = 0; i < allOptions.Count; i++)
         {
-            allOptions[i].GetComponent<RawImage>().texture = avaliableItemsToBuy[i].GetIcon().texture;
+            allOptions[i].GetComponent<RawImage>().texture = avaliableItemsToBuy[i].GetIcon()?.texture;
             allOptions[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = avaliableItemsToBuy[i].GetCost().ToString() + " PLN";
             allOptions[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = avaliableItemsToBuy[i].GetName();
+            if (avaliableItemsToBuy[i].GetCost() > PlayerScript.LocalInstance.amountOfMoney.Value) allOptions[i].GetComponentInChildren<Toggle>().interactable = false;
+            else allOptions[i].GetComponentInChildren<Toggle>().interactable = true;
         }
 
 

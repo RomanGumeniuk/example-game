@@ -12,7 +12,7 @@ public abstract class Tile
         GameUIScript.OnNextPlayerTurn.Invoke();
     }
 
-    public virtual void OnPlayerPassBy()
+    public virtual void OnPlayerPassBy(int diceRoll)
     {
 
     }

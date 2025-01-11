@@ -70,7 +70,7 @@ public class GameUIScript : NetworkBehaviour
             Debug.Log("fixed");
             RollDiceButton.gameObject.SetActive(true);
         }
-        }
+    }
 
 
 

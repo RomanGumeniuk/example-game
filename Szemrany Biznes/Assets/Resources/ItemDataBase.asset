@@ -12,3 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46fb8b4d5f9f8b8498131eeb139ec01c, type: 3}
   m_Name: ItemDataBase
   m_EditorClassIdentifier: 
+  itemCreations:
+  - name: Amarena
+    description: "Kandyzowane owoce zalane g\u0119stym syropem"
+    amountOfUses: 0
+    cost: 100
+    icon: {fileID: 0}
+    itemType: 0
+    value1: 0
+    value2: 0
+    value3: 0
+  - name: Spacerowa
+    description: "W finiszu zielony orzech w\u0142oski i gorzkie jab\u0142ka"
+    amountOfUses: 0
+    cost: 250
+    icon: {fileID: 0}
+    itemType: 0
+    value1: 1
+    value2: 0
+    value3: 0
+  - name: "\u017Bubr\xF3wka"
+    description: "Klasyczna pszeniczna w\xF3dka z puszczy bia\u0142owieskiej filtrowana
+      trzykrotnie przez w\u0119giel drzewny z bia\u0142owieskich d\u0119b\xF3w"
+    amountOfUses: 0
+    cost: 500
+    icon: {fileID: 0}
+    itemType: 0
+    value1: 2
+    value2: 0
+    value3: 0
+  - name: Rum
+    description: "Jest wytwarzany w czasie procesu fermentacji, a nast\u0119pnie
+      destylacji \u2013 ze sfermentowanego soku z trzciny cukrowej"
+    amountOfUses: 0
+    cost: 1000
+    icon: {fileID: 0}
+    itemType: 0
+    value1: 3
+    value2: 0
+    value3: 0
+  - name: Whisky
+    description: "Wysokoprocentowy trunek destylowany z fermentowanego zacieru zb\xF3\u017C"
+    amountOfUses: 0
+    cost: 2000
+    icon: {fileID: 0}
+    itemType: 0
+    value1: 4
+    value2: 0
+    value3: 0
