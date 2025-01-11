@@ -62,5 +62,6 @@ public enum TypeOfMoneyTransaction
     PayingForPenalty,
     GettingMoney,
     MoneyOnStartTile,
-    EarningMoneyFromPropertie
+    EarningMoneyFromPropertie,
+    BuyingItem
 }

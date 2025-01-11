@@ -38,6 +38,7 @@ public class GameLogic : NetworkBehaviour
 
     public GameObject deadDropBoxPrefab;
 
+    public ItemDataBaseSO itemDataBase;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
