@@ -312,7 +312,7 @@ public class TileScript : NetworkBehaviour
         }
 
         switch (tileType)
-        {
+        { 
             case TileType.TownTile:
                 OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
                 return;

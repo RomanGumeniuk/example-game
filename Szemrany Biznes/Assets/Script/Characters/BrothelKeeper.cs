@@ -10,9 +10,9 @@ public class BrothelKeeper : Character
         name = "Burdel Mama";
     }
 
-    const float EARNINGS_MULTIPLIER = 0.05f;
+    const float EARNINGS_MULTIPLIER = 0.1f;
 
-    const float PAYMENT_PENALTIES_MULTIPLIER = 1.1f;
+    const float PAYMENT_PENALTIES_MULTIPLIER = 1.05f;
     public override int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
     {
         switch (typeOfMoneyTransaction)

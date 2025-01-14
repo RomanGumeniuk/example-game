@@ -81,7 +81,6 @@ public class SellingTabUI : MonoBehaviour
         {
             PayButton.interactable = false;
         }
-
     }
 
     public void UpdateSelectedTileList(TileScript tileScript,bool selected)
