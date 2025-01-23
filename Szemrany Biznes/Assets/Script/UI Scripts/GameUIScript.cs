@@ -14,10 +14,17 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField] private Button RollDiceButton;
     [SerializeField] private Button StartGameButton;
     [SerializeField] private TextMeshProUGUI TextAboutStateOfGame;
-    
+
+    [SerializeField] private Button GuideBookButton;
 
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
+
+    [Header("Guide UI")]
+    [SerializeField] private Image GuideUIBackground;
+    [SerializeField] private RawImage GuideUIBook;
+    [SerializeField] private Image GuideUIBookmarks;
+    [SerializeField] private Image GuideUIClose;
 
     public void OnDiceNumberReturn(int diceNumber)
     {
@@ -44,6 +51,7 @@ public class GameUIScript : NetworkBehaviour
     {
         OnStartGame.Invoke();
         StartGameButton.gameObject.SetActive(false);
+        GuideBookButton.gameObject.SetActive(true);
         HideClientRpc();
     }
     [ClientRpc]
@@ -71,6 +79,14 @@ public class GameUIScript : NetworkBehaviour
     {
         RollDiceButton.gameObject.SetActive(false);
     }
+    public void OnBookGuideClicked()
+    {
+        RollDiceButton.gameObject.SetActive(false);
+        GuideBookButton.gameObject.SetActive(false);
 
-
+        GuideUIBackground.gameObject.SetActive(true);
+        GuideUIBook.gameObject.SetActive(true);
+        GuideUIBookmarks.gameObject.SetActive(true);
+        GuideUIClose.gameObject.SetActive(true);
+    }
 }
