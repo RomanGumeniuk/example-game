@@ -39,9 +39,7 @@ public class ShopTabUI : MonoBehaviour
 
         buy.onClick.AddListener(() =>
         {
-            Item item = avaliableItemsToBuy[selectedIndex];
-            item.playerScriptThatOwnsItem = PlayerScript.LocalInstance;
-            PlayerScript.LocalInstance.inventory.Add(item);
+            PlayerScript.LocalInstance.AddItemToInventory(avaliableItemsToBuy[selectedIndex]);
             int cost = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(avaliableItemsToBuy[selectedIndex].GetCost(),TypeOfMoneyTransaction.BuyingItem);
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(cost,PlayerScript.LocalInstance.playerIndex,1,true,true);
             _ =AlertTabForPlayerUI.Instance.ShowTab($"Kupi³eœ {avaliableItemsToBuy[selectedIndex].GetName()} za {avaliableItemsToBuy[selectedIndex].GetCost()}PLN \nZapraszamy ponownie!",2);

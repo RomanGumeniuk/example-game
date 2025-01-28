@@ -186,18 +186,18 @@ public class TileScript : NetworkBehaviour
     }
 
 
-    public void Buy(int playerAmountOfMoney,int Cost,bool isUpgrading=false,byte maxLevelThatPlayerCanAfford = 0,byte currentAvailableTownUpgrade=0) 
+    public void Buy(int playerAmountOfMoney,int Cost,bool isUpgrading=false,byte maxLevelThatPlayerCanAfford = 0,byte currentAvailableTownUpgrade=0,bool invokeNextPlayer = true) 
     {
         if(isUpgrading)
         {
             if (maxLevelThatPlayerCanAfford == 0)
             {
-                _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f);
+                _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f, invokeNextPlayer);
                 return;
             }
             if(currentAvailableTownUpgrade <= townLevel.Value)
             {
-                _ = AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6);
+                _ = AlertTabForPlayerUI.Instance.ShowTab($"To upgrade this town you need minimal town level {townLevel.Value} in your colection of all real estates.\nNow your minimal level town is on {currentAvailableTownUpgrade} level.", 6, invokeNextPlayer);
                 return;
             }
             if (propertyType == PropertyType.None)
@@ -205,7 +205,7 @@ public class TileScript : NetworkBehaviour
                 //Debug.Log(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this) + " " + playerAmountOfMoney);
                 if(ChoosingPropertyTypeUI.Instance.GetLowestPrice(this)>playerAmountOfMoney)
                 {
-                    _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f);
+                    _ = AlertTabForPlayerUI.Instance.ShowTab("Nie staæ ciê na ¿adne ulepszenia!", 2f, invokeNextPlayer);
                     return;
                 }
                 ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
@@ -218,10 +218,10 @@ public class TileScript : NetworkBehaviour
             BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
             return;
         }
-        _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f);
+        _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f, invokeNextPlayer);
     }
 
-    public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true)
+    public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true,bool invokeNextPlayer=true)
     {
         if (playerAmountOfMoney >= amountOfMoneyToPay)
         {
@@ -234,11 +234,17 @@ public class TileScript : NetworkBehaviour
                 propertyValue = (int)(specialTileScript.CaluculatePropertyValue() * 1.5f);
                 isCapableOfBuyingProperty = PlayerScript.LocalInstance.amountOfMoney.Value > propertyValue;
             }
-            await AlertTabForPlayerUI.Instance.ShowTab($"Zap³aci³eœ {amountOfMoneyToPay}PLN", 1.5f, !isCapableOfBuyingProperty);
-            if (!isCapableOfBuyingProperty) return;
+            await AlertTabForPlayerUI.Instance.ShowTab($"Zap³aci³eœ {amountOfMoneyToPay}PLN", 1.5f, invokeNextPlayer);
+            //if (!isCapableOfBuyingProperty) return;
             //oferta wykupu
-            BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(propertyValue, this,"Do you want to buy this property from player "+ownerId.Value,true);
-
+            //BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(propertyValue, this,"Do you want to buy this property from player "+ownerId.Value,true);
+            switch(propertyType)
+            {
+                case PropertyType.Alcohol:
+                    AlcoholTabUI.Instance.Show(PlayerScript.LocalInstance.playerIndex == ownerId.Value,this);
+                    break;
+            }
+            
             return;
         }
         if(payToPlayer) PlayerScript.LocalInstance.ShowSellingTab(amountOfMoneyToPay, ownerId.Value);
@@ -256,7 +262,7 @@ public class TileScript : NetworkBehaviour
         Buy(playerAmountOfMoney,0,true, maxLevelThatPlayerCanAfford, currentAvailableTownUpgrade);
     }
 
-    public void OnTownEnter(int playerAmountOfMoney,byte currentAvailableTownUpgrade,bool isNonUpgradingTown = false)
+    public void OnTownEnter(int playerAmountOfMoney,byte currentAvailableTownUpgrade,bool isNonUpgradingTown = false,bool invokeNextPlayer = true)
     {
         if (townLevel.Value == -1)
         {
@@ -265,10 +271,10 @@ public class TileScript : NetworkBehaviour
         }
         if (ownerId.Value != PlayerScript.LocalInstance.playerIndex)
         {
-            Pay(playerAmountOfMoney, specialTileScript.GetPayAmount());
+            Pay(playerAmountOfMoney, specialTileScript.GetPayAmount(),true,invokeNextPlayer);
             return;
         }
-        if(isNonUpgradingTown || townLevel.Value == MAX_TOWN_LEVEL) GameUIScript.OnNextPlayerTurn.Invoke();
+        if((isNonUpgradingTown || townLevel.Value == MAX_TOWN_LEVEL) && invokeNextPlayer) GameUIScript.OnNextPlayerTurn.Invoke();
         else UpgradeTown(playerAmountOfMoney, currentAvailableTownUpgrade);
     }
 

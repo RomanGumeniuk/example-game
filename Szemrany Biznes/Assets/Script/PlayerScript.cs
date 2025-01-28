@@ -290,4 +290,10 @@ public class PlayerScript : NetworkBehaviour
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
     }
 
+    public void AddItemToInventory(Item item)
+    {
+        item.playerScriptThatOwnsItem = this;
+        inventory.Add(item);
+    }
+
 }

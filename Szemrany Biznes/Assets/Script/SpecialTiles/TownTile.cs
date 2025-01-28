@@ -92,4 +92,25 @@ public class TownTile : Tile
         }
     }
 
+
+    public override void OnPlayerStepped()
+    {
+        
+        switch (tileScript.propertyType)
+        { 
+            case PropertyType.Alcohol:
+                tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, 6, false);
+
+                break;
+            default:
+                if (tileScript.tileType == TileType.TownTile)
+                {
+                    tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, 6);
+                }
+                break;
+                
+        }
+
+    }
+
 }

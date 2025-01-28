@@ -9,7 +9,7 @@ public abstract class Item
     protected int cost;
     public PlayerScript playerScriptThatOwnsItem;
     protected RawImage icon;
-
+    public ItemType itemType;
 
     public void BeforeOnItemUse()
     {

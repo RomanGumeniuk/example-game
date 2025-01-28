@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using System.ComponentModel;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "ItemDataBase", menuName = "Scriptable Objects/ItemDataBase")]
 public class ItemDataBaseSO : ScriptableObject
@@ -18,7 +19,7 @@ public class ItemDataBaseSO : ScriptableObject
             switch (itemCreations[i].itemType)
             {
                 case ItemType.Alcohol:
-                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, (TypeOfAlcohol)itemCreations[i].value1);
+                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, (TypeOfAlcohol)itemCreations[i].value1);
 
                     allItems.Add(newAlcohol);
                     break;
@@ -30,9 +31,9 @@ public class ItemDataBaseSO : ScriptableObject
 
 
 
-    public List<Item> GetRandomNumberOfItems(int numberOfItems)
+    public List<Item> GetRandomNumberOfItems(int numberOfItems, ItemType[] itemTypes = null)
     {
-        List<Item> allItemsCopy = new List<Item>(allItems);
+        List<Item> allItemsCopy = GetCopyOfAllItems(itemTypes);
         List<Item> pickedItems = new List<Item>();
         Debug.Log(allItemsCopy.Count + " copy items");
         for (int i = 0; i < numberOfItems; i++)
@@ -44,6 +45,18 @@ public class ItemDataBaseSO : ScriptableObject
             allItemsCopy.RemoveAt(pickedItem);
         }
         return pickedItems;
+    }
+
+    private List<Item> GetCopyOfAllItems(ItemType[] itemTypes = null)
+    {
+        if(itemTypes == null) return new List<Item>(allItems);
+        List<Item> copyList = new List<Item>();
+        for (int i = 0; i < allItems.Count; i++)
+        {
+            if (!itemTypes.Contains(allItems[i].itemType)) continue;
+            copyList.Add(allItems[i]);
+        }
+        return copyList;
     }
 }
 

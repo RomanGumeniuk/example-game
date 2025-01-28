@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class Alcohol : Item
 {
-    public Alcohol(string name,string description,int amountOfUses,int cost,RawImage icon,TypeOfAlcohol alcoholType)
+    public Alcohol(string name,string description,int amountOfUses,int cost,RawImage icon,ItemType itemType ,TypeOfAlcohol alcoholType)
     {
         this.name = name;
         this.description = description;
         this.amountOfUses = amountOfUses;
         this.cost = cost;
         this.icon = icon;
+        this.itemType = itemType;
         this.alcoholType = alcoholType;
     }
 
