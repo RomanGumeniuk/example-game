@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GuideUI : MonoBehaviour
 {
     [Header("Content")]
+    [TextArea]
     [SerializeField] private string[] chaptersContent;
     [Space]
 

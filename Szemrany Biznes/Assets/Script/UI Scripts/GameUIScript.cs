@@ -20,11 +20,13 @@ public class GameUIScript : NetworkBehaviour
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
 
-    [Header("Guide UI")]
-    [SerializeField] private Image GuideUIBackground;
-    [SerializeField] private RawImage GuideUIBook;
-    [SerializeField] private Image GuideUIBookmarks;
-    [SerializeField] private Image GuideUIClose;
+    [Header("Books")]
+    [SerializeField] private Button TEST;
+    [SerializeField] private Button BookOfRules;
+    [SerializeField] private Button BookOfCharacters;
+    [SerializeField] private Button BookOfBuildings;
+    [SerializeField] private Button BookOfFractions;
+    [SerializeField] private Button BookOfItems;
 
     public void OnDiceNumberReturn(int diceNumber)
     {
@@ -84,9 +86,7 @@ public class GameUIScript : NetworkBehaviour
         RollDiceButton.gameObject.SetActive(false);
         GuideBookButton.gameObject.SetActive(false);
 
-        GuideUIBackground.gameObject.SetActive(true);
-        GuideUIBook.gameObject.SetActive(true);
-        GuideUIBookmarks.gameObject.SetActive(true);
-        GuideUIClose.gameObject.SetActive(true);
+        TEST.gameObject.SetActive(true);
+
     }
 }
