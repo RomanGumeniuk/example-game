@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BuyingTabUIScript : MonoBehaviour
+public class BuyingTabUIScript : MonoBehaviour,IQueueWindows
 {
 
     public static BuyingTabUIScript Instance { get; private set; }
@@ -105,22 +105,13 @@ public class BuyingTabUIScript : MonoBehaviour
         int totalCost = GetTotalAmountOfMoneyToPayForTown();
         BuyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy for \n(" + totalCost + "PLN)";
     }
-    
-    
-    public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript,int currentAvailableTownUpgrade)
+    void ShowBuyingUI()
     {
-        currentTownLevel = townLevel-1;
-        currentMaxTownLevelThanCanBeBuy = maxTownLevelThatCanBeBuy-1;
-        currentTileScript = tileScript;
-        currentTownCostToBuy.Clear();
-        foreach(int levelCost in townAllLevelsCost) currentTownCostToBuy.Add(levelCost);
-        this.currentAvailableTownUpgrade = currentAvailableTownUpgrade;
-        //Debug.Log($"maxTownLevel: {maxTownLevelThatCanBeBuy}, currentAvailable:{currentAvailableTownUpgrade}");
-        for (int i = 0; i < 5; i++) Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i+2].ToString() + "PLN";
-        for(int i=0;i<5;i++)
+        for (int i = 0; i < 5; i++) Levels[i].GetComponentInChildren<TextMeshProUGUI>().text = currentTownCostToBuy[i + 2].ToString() + "PLN";
+        for (int i = 0; i < 5; i++)
         {
             Levels[i].GetComponent<RawImage>().color = Color.gray;
-            switch (tileScript.propertyType)
+            switch (currentTileScript.propertyType)
             {
                 case PropertyType.Prostitution:
                     Levels[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = prostitutionTownNames[i]; break;
@@ -135,12 +126,12 @@ public class BuyingTabUIScript : MonoBehaviour
                     break;
             }
 
-            
+
             LevelsOfToggle[i].isOn = false;
             LevelsOfToggle[i].interactable = false;
         }
-        for(int i=0;i<currentTownLevel; i++) LevelsOfToggle[i].isOn = true;
-        for(int i= Mathf.Max(currentTownLevel, currentAvailableTownUpgrade -2); i<Mathf.Min(currentMaxTownLevelThanCanBeBuy, currentAvailableTownUpgrade+1);i++)
+        for (int i = 0; i < currentTownLevel; i++) LevelsOfToggle[i].isOn = true;
+        for (int i = Mathf.Max(currentTownLevel, currentAvailableTownUpgrade - 2); i < Mathf.Min(currentMaxTownLevelThanCanBeBuy, currentAvailableTownUpgrade + 1); i++)
         {
             Levels[i].GetComponent<RawImage>().color = Color.white;
             LevelsOfToggle[i].interactable = true;
@@ -149,10 +140,25 @@ public class BuyingTabUIScript : MonoBehaviour
         foreach (Transform child in transform) child.gameObject.SetActive(true);
     }
 
+
+    public void ShowBuyingUI(int townLevel, int maxTownLevelThatCanBeBuy, List<int> townAllLevelsCost,TileScript tileScript,int currentAvailableTownUpgrade)
+    {
+        currentTownLevel = townLevel-1;
+        currentMaxTownLevelThanCanBeBuy = maxTownLevelThatCanBeBuy-1;
+        currentTileScript = tileScript;
+        currentTownCostToBuy.Clear();
+        foreach(int levelCost in townAllLevelsCost) currentTownCostToBuy.Add(levelCost);
+        this.currentAvailableTownUpgrade = currentAvailableTownUpgrade;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+        //Debug.Log($"maxTownLevel: {maxTownLevelThatCanBeBuy}, currentAvailable:{currentAvailableTownUpgrade}");
+
+    }
+
     public void Hide()
     {
         foreach (Transform child in transform) child.gameObject.SetActive(false);
         GameUIScript.OnNextPlayerTurn.Invoke();
+        PlayerScript.LocalInstance.GoToNextAction();
     }
 
     public int GetNewCurrentTownLevel()
@@ -172,4 +178,8 @@ public class BuyingTabUIScript : MonoBehaviour
         return totalCost;
     }
 
+    public void ResumeAction()
+    {
+        ShowBuyingUI();
+    }
 }

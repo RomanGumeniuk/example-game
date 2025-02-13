@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.Netcode;
 
-public class SellingTabUI : MonoBehaviour
+public class SellingTabUI : MonoBehaviour,IQueueWindows
 {
     public static SellingTabUI Instance { get; private set; }
 
@@ -121,15 +121,21 @@ public class SellingTabUI : MonoBehaviour
         currentAmountMoneyToPay = amountToPay;
         currentAmountOfPlayerMoney = amountThatPlayerHas;
         currentPlayerIndexThatGetsPaid = playerIndexThatGetsPaid;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+    }
+
+    void Show()
+    {
         selectedTiles.Clear();
-        foreach(Transform child in transform)
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
         }
-        textLabel.text = "You need to pay: " + amountToPay + "PLN\nYou have to sell for at least: " + (amountToPay - amountThatPlayerHas) + "PLN";
+        textLabel.text = "You need to pay: " + currentAmountMoneyToPay + "PLN\nYou have to sell for at least: " + (currentAmountMoneyToPay - currentAmountOfPlayerMoney) + "PLN";
         PayButton.interactable = false;
         SellButton.interactable = false;
         SellAtAuctionButton.interactable = false;
+       
     }
 
     public void Hide()
@@ -138,5 +144,11 @@ public class SellingTabUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
+    }
+
+    public void ResumeAction()
+    {
+        Show();
     }
 }

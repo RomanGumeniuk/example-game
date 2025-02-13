@@ -10,6 +10,7 @@ public abstract class Item
     public PlayerScript playerScriptThatOwnsItem;
     protected RawImage icon;
     public ItemType itemType;
+    public ItemTier itemTier;
 
     public void BeforeOnItemUse()
     {

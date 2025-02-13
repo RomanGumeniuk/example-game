@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
-public class ChoosingPropertyTypeUI : MonoBehaviour
+public class ChoosingPropertyTypeUI : MonoBehaviour, IQueueWindows
 {
     public static ChoosingPropertyTypeUI Instance { get; private set; }
 
@@ -70,13 +70,12 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
     {
         foreach (Transform child in transform) child.gameObject.SetActive(false);
         GameUIScript.OnNextPlayerTurn.Invoke();
+        PlayerScript.LocalInstance.GoToNextAction();
     }
-
-    public void ShowChoosingUI(TileScript currentTileScript)
+    void ShowChoosingUI()
     {
-        this.currentTileScript = currentTileScript;
         BuyButton.interactable = false;
-        for(int i=0;i<AllOptions.Count;i++)
+        for (int i = 0; i < AllOptions.Count; i++)
         {
             AllOptions[i].isOn = false;
             int cost = GetCostPrice(i);
@@ -93,7 +92,14 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
                 AllOptions[i].interactable = true;
             }
         }
-            foreach (Transform child in transform) child.gameObject.SetActive(true);
+        foreach (Transform child in transform) child.gameObject.SetActive(true);
+    }
+
+
+    public void ShowChoosingUI(TileScript currentTileScript)
+    {
+        this.currentTileScript = currentTileScript;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
     }
 
 
@@ -111,5 +117,10 @@ public class ChoosingPropertyTypeUI : MonoBehaviour
             if(CostMultiplier[i] < CostMultiplier[index]) index = i;
         }
         return GetCostPrice(index);
+    }
+
+    public void ResumeAction()
+    {
+        ShowChoosingUI();
     }
 }

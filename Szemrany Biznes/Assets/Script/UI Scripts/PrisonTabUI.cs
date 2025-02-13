@@ -5,7 +5,7 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PrisonTabUI : NetworkBehaviour
+public class PrisonTabUI : NetworkBehaviour,IQueueWindows
 {
     public static PrisonTabUI Instance { get; private set; }
 
@@ -125,12 +125,16 @@ public class PrisonTabUI : NetworkBehaviour
     }
     const int DEPOSIT = 1500;
     
+    
+
     public void Show(int playerIndex=-1)
     {
         Debug.Log("a");
         if(playerIndex == -1) playerIndex = PlayerScript.LocalInstance.playerIndex;
         ShowServerRpc(playerIndex); 
     }
+
+
     [ServerRpc(RequireOwnership =false)]
     private void ShowServerRpc(int playerIndex)
     {
@@ -148,7 +152,12 @@ public class PrisonTabUI : NetworkBehaviour
     [ClientRpc]
     private void ShowClientRpc(ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("c");
+        //Debug.Log("c");
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+    }
+
+    void Show()
+    {
         option2.interactable = true;
         if (PlayerScript.LocalInstance.isInPrison.Value)
         {
@@ -177,14 +186,17 @@ public class PrisonTabUI : NetworkBehaviour
             child.gameObject.SetActive(true);
         }
     }
-
-
     public void Hide()
     {
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
     }
 
+    public void ResumeAction()
+    {
+        Show();
+    }
 }

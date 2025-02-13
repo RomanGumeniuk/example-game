@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System;
 
-public class ShopTabUI : MonoBehaviour
+public class ShopTabUI : MonoBehaviour,IQueueWindows
 {
     public static ShopTabUI Instance { private set; get; }
 
@@ -69,6 +69,11 @@ public class ShopTabUI : MonoBehaviour
 
     public void Show()
     {
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+    }
+
+    void ShowActualWindow()
+    {
         avaliableItemsToBuy = GameLogic.Instance.itemDataBase.GetRandomNumberOfItems(allOptions.Count);
         for (int i = 0; i < allOptions.Count; i++)
         {
@@ -93,5 +98,11 @@ public class ShopTabUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
+    }
+
+    public void ResumeAction()
+    {
+        ShowActualWindow();
     }
 }

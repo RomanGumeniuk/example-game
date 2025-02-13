@@ -296,4 +296,42 @@ public class PlayerScript : NetworkBehaviour
         inventory.Add(item);
     }
 
+    Queue<IQueueWindows> queueOfWindowActions = new Queue<IQueueWindows>();
+
+    bool goToNextActionWindow = true;
+
+    public void AddToQueueOfWindows(IQueueWindows script)
+    {
+        
+        queueOfWindowActions.Enqueue(script);
+        if (queueOfWindowActions.Count == 1)
+        {
+            GoThroughQueueOfWindowActions();
+        }
+        
+    }
+
+
+    public void GoToNextAction()
+    {
+        goToNextActionWindow = true;
+    }
+
+    async void GoThroughQueueOfWindowActions()
+    {
+        while(queueOfWindowActions.Count > 0)
+        {
+            if (!goToNextActionWindow)
+            {
+                await Awaitable.WaitForSecondsAsync(0.1f);
+                continue;
+            }
+            queueOfWindowActions.Dequeue().ResumeAction();
+            goToNextActionWindow = false;
+        }
+    }
+
+
+
+
 }

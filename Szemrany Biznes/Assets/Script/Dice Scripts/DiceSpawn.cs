@@ -120,6 +120,7 @@ public class DiceSpawn : NetworkBehaviour
 
     public async void WaitForAllDiceToRoll(bool movePlayer = true)
     {
+        Time.timeScale = 1.4f;
         isWaitingForAllDicesToRoll = true;
         while (true)
         {
@@ -143,6 +144,7 @@ public class DiceSpawn : NetworkBehaviour
         combineDiceNumber = 0;
         CheckZone.Instance.DestroyAllDices();
         isWaitingForAllDicesToRoll = false;
+        Time.timeScale = 1f;
     }
 
 }

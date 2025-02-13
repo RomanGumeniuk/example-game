@@ -6,7 +6,7 @@ using TMPro;
 using Unity.Netcode;
 using System;
 
-public class BuyingTabForOnePaymentUIScript : MonoBehaviour
+public class BuyingTabForOnePaymentUIScript : MonoBehaviour,IQueueWindows
 {
     public static BuyingTabForOnePaymentUIScript Instance { get; private set; }
     public Button DontBuyButton;
@@ -65,14 +65,18 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
         TitleScreen.text = titleScreen;
         currentTileScript = tileScript;
         currentCost = Cost;
-        this.Cost.text = Cost + "PLN";
-        this.TextLable.text = tileScript.name;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+        
+    }
+    void ShowBuyingUI()
+    {
+        this.Cost.text = currentCost + "PLN";
+        this.TextLable.text = currentTileScript.name;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
         }
     }
-
 
     public void Hide()
     {
@@ -80,8 +84,13 @@ public class BuyingTabForOnePaymentUIScript : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
         GameUIScript.OnNextPlayerTurn.Invoke();
     }
 
+    public void ResumeAction()
+    {
+        ShowBuyingUI();
+    }
 }
 

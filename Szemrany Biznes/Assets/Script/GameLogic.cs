@@ -4,8 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Events;
 using TMPro;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
+
 
 public class GameLogic : NetworkBehaviour
 {
@@ -51,7 +50,7 @@ public class GameLogic : NetworkBehaviour
         if (GameUIScript.OnNextPlayerTurn == null)
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
-        GameUIScript.OnNextPlayerTurn.AddListener(OnNextPlayerTurnServerRpc);
+        GameUIScript.OnNextPlayerTurn.AddListener(OnTryCallingNextPlayerTurnServerRpc);
         allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
@@ -69,6 +68,7 @@ public class GameLogic : NetworkBehaviour
         Application.targetFrameRate = 60;
         allTileScripts = GetAllTileScriptFromBoard();
         itemDataBase.GenerateItems();
+        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -255,7 +255,6 @@ public class GameLogic : NetworkBehaviour
     [ClientRpc]
     public void ClientHasPermissionToRollDiceClientRpc(ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("OO OO OO");
         GameUIScript.Instance.ShowUIForRollDice();
     }
     [ServerRpc(RequireOwnership =false)]
@@ -263,6 +262,43 @@ public class GameLogic : NetworkBehaviour
     {
         this.isDoublet = isDoublet;
     }
+
+
+
+
+    int amountOfBlockersForNextPlayerTurn = 0; // 0 - can call next player turn, not 0 - can't call next player turn until value is not 0
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreasCallNextPlayerTurnServerRpc()
+    {
+        amountOfBlockersForNextPlayerTurn++;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void DecreaseCallNextPlayerTurnServerRpc()
+    {
+        amountOfBlockersForNextPlayerTurn--;
+    }
+
+    bool isBusy = false;
+    [ServerRpc(RequireOwnership = false)]
+    public void OnTryCallingNextPlayerTurnServerRpc()
+    {
+        if (isBusy) return;
+        WaitForPermissionToCallNextPlayer();
+    }
+
+
+    async void WaitForPermissionToCallNextPlayer()
+    {
+        isBusy = true;
+        while (amountOfBlockersForNextPlayerTurn > 0)
+        {
+            await Awaitable.WaitForSecondsAsync(0.1f);
+        }
+        OnNextPlayerTurnServerRpc();
+        isBusy = false;
+    }
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void OnNextPlayerTurnServerRpc()

@@ -19,8 +19,8 @@ public class ItemDataBaseSO : ScriptableObject
             switch (itemCreations[i].itemType)
             {
                 case ItemType.Alcohol:
-                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, (TypeOfAlcohol)itemCreations[i].value1);
-
+                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier);
+                    Debug.Log(newAlcohol.itemTier + " " + itemCreations[i].itemTier + " " + itemCreations[i].name);
                     allItems.Add(newAlcohol);
                     break;
             
@@ -31,11 +31,16 @@ public class ItemDataBaseSO : ScriptableObject
 
 
 
-    public List<Item> GetRandomNumberOfItems(int numberOfItems, ItemType[] itemTypes = null)
+    public List<Item> GetRandomNumberOfItems(int numberOfItems, ItemType[] itemTypes = null, ItemTier[] itemTiers = null)
     {
-        List<Item> allItemsCopy = GetCopyOfAllItems(itemTypes);
+        List<Item> allItemsCopy = GetCopyOfAllItems(itemTypes,itemTiers);
         List<Item> pickedItems = new List<Item>();
         Debug.Log(allItemsCopy.Count + " copy items");
+        for(int i=0;i< allItemsCopy.Count;i++)
+        {
+            Debug.Log(allItems[i].itemTier);
+            Debug.Log(allItemsCopy[i].itemTier);
+        }
         for (int i = 0; i < numberOfItems; i++)
         {
             
@@ -47,17 +52,21 @@ public class ItemDataBaseSO : ScriptableObject
         return pickedItems;
     }
 
-    private List<Item> GetCopyOfAllItems(ItemType[] itemTypes = null)
+    private List<Item> GetCopyOfAllItems(ItemType[] itemTypes = null, ItemTier[] itemTiers = null)
     {
         if(itemTypes == null) return new List<Item>(allItems);
         List<Item> copyList = new List<Item>();
         for (int i = 0; i < allItems.Count; i++)
         {
-            if (!itemTypes.Contains(allItems[i].itemType)) continue;
+            if (itemTypes!=null&&!itemTypes.Contains(allItems[i].itemType)) continue;
+            Debug.Log(itemTiers[0] + " " + allItems[i].itemTier);
+            if (itemTiers != null && !itemTiers.Contains(allItems[i].itemTier)) continue;
+            Debug.Log(allItems[i].GetName() + " " + allItems[i].itemTier);
             copyList.Add(allItems[i]);
         }
         return copyList;
     }
+
 }
 
 [Serializable]
@@ -69,6 +78,7 @@ public class ItemCreation
     public int cost;
     public RawImage icon;
     public ItemType itemType;
+    public ItemTier itemTier;
 
     public int value1;
     public int value2;
@@ -83,6 +93,17 @@ public enum ItemType
     Drug,
 
 
+
+}
+
+
+public enum ItemTier
+{
+    Junk,
+    Normal,
+    Decent,
+    Exclusive,
+    Relic
 
 }
 

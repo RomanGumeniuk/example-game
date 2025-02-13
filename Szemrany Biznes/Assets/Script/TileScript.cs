@@ -221,6 +221,12 @@ public class TileScript : NetworkBehaviour
         _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f, invokeNextPlayer);
     }
 
+    public void ShowAlert()
+    {
+
+    }
+
+
     public async void Pay(int playerAmountOfMoney,int amountOfMoneyToPay,bool payToPlayer = true,bool invokeNextPlayer=true)
     {
         if (playerAmountOfMoney >= amountOfMoneyToPay)
@@ -238,12 +244,7 @@ public class TileScript : NetworkBehaviour
             //if (!isCapableOfBuyingProperty) return;
             //oferta wykupu
             //BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(propertyValue, this,"Do you want to buy this property from player "+ownerId.Value,true);
-            switch(propertyType)
-            {
-                case PropertyType.Alcohol:
-                    AlcoholTabUI.Instance.Show(PlayerScript.LocalInstance.playerIndex == ownerId.Value,this);
-                    break;
-            }
+            
             
             return;
         }
@@ -254,10 +255,11 @@ public class TileScript : NetworkBehaviour
     private void UpgradeTown(int playerAmountOfMoney, byte currentAvailableTownUpgrade)
     {
         byte maxLevelThatPlayerCanAfford = 0;
-        for (int i = townLevel.Value; i < townLevel.Value + 3; i++)
+        for (int i = townLevel.Value; i < townLevel.Value + 4; i++)
         {
             if (i > 5) break;
-            if (playerAmountOfMoney >= specialTileScript.CaluculatePropertyValue(townLevel.Value,i+1)) maxLevelThatPlayerCanAfford++;
+            //Debug.Log(playerAmountOfMoney + ">=" + specialTileScript.CaluculatePropertyValue(townLevel.Value+1, i + 2) + " " + i);
+            if (playerAmountOfMoney >= specialTileScript.CaluculatePropertyValue(townLevel.Value+1,i+2)) maxLevelThatPlayerCanAfford++;
         }
         Buy(playerAmountOfMoney,0,true, maxLevelThatPlayerCanAfford, currentAvailableTownUpgrade);
     }
@@ -318,10 +320,11 @@ public class TileScript : NetworkBehaviour
         }
 
         switch (tileType)
-        { 
+        { /*
             case TileType.TownTile:
+                Debug.Log(currentAvailableTownUpgrade);
                 OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
-                return;
+                return;*/
             case TileType.PartyTile:
                 _ = AlertTabForPlayerUI.Instance.ShowTab($"Wprosi³eœ siê na impreze z darmowym alkocholem, jesteœ 400 PLN do przodu", 3.5f);
                 GiveMoney(amountMoneyOnPlayerStep);

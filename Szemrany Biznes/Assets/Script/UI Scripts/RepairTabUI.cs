@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class RepairTabUI : MonoBehaviour
+public class RepairTabUI : MonoBehaviour,IQueueWindows
 {
     public static RepairTabUI Instance { get; private set; }
 
@@ -43,15 +43,19 @@ public class RepairTabUI : MonoBehaviour
         currentTileScript = tile;
         if (currentTileScript.destroyPercentage.Value == 0) return;
         currentCost = cost;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+    }
+
+    void ShowRepairUI()
+    {
         Cost.text = currentCost.ToString() + " PLN";
-        TextLable.text = tile.name;
+        TextLable.text = currentTileScript.name;
 
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
         }
     }
-
     
 
     private void Hide()
@@ -60,6 +64,11 @@ public class RepairTabUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
     }
 
+    public void ResumeAction()
+    {
+        ShowRepairUI();
+    }
 }

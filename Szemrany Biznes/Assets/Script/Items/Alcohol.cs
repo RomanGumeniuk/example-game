@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Alcohol : Item
 {
-    public Alcohol(string name,string description,int amountOfUses,int cost,RawImage icon,ItemType itemType ,TypeOfAlcohol alcoholType)
+    public Alcohol(string name,string description,int amountOfUses,int cost,RawImage icon,ItemType itemType , ItemTier alcoholType)
     {
         this.name = name;
         this.description = description;
@@ -13,24 +13,25 @@ public class Alcohol : Item
         this.cost = cost;
         this.icon = icon;
         this.itemType = itemType;
-        this.alcoholType = alcoholType;
+        itemTier = alcoholType;
+        
     }
 
 
 
-    TypeOfAlcohol alcoholType;
+    
 
     public override void OnItemUse()
     {
         int randomNumber;
         List<int> currentListOfTilesIndex = new List<int>();
-        switch (alcoholType)
+        switch (itemTier)
         {
-            case TypeOfAlcohol.Awwfull:
+            case ItemTier.Junk:
                 randomNumber = Random.Range(0, (GameLogic.Instance.mapGenerator.GetSize() * 4) - 4);
                 playerScriptThatOwnsItem.TeleportToTile(randomNumber);
                 break;
-            case TypeOfAlcohol.Normal:
+            case ItemTier.Normal:
                 for(int i=0;i<GameLogic.Instance.allTileScripts.Count;i++)
                 {
                     if (GameLogic.Instance.allTileScripts[i].tileType == TileType.PrisonTile) continue;
@@ -41,7 +42,7 @@ public class Alcohol : Item
                 randomNumber = Random.Range(0,currentListOfTilesIndex.Count);
                 playerScriptThatOwnsItem.TeleportToTile(currentListOfTilesIndex[randomNumber]);
                 break;
-            case TypeOfAlcohol.Decent:
+            case ItemTier.Decent:
                 for (int i = 0; i < GameLogic.Instance.allTileScripts.Count; i++)
                 {
                     if (GameLogic.Instance.allTileScripts[i].tileType != TileType.TownTile) continue;
@@ -51,7 +52,7 @@ public class Alcohol : Item
                 randomNumber = Random.Range(0, currentListOfTilesIndex.Count);
                 playerScriptThatOwnsItem.TeleportToTile(currentListOfTilesIndex[randomNumber]);
                 break;
-            case TypeOfAlcohol.Good:
+            case ItemTier.Exclusive:
                 List<TileScript> playerOwnedTiles = PlayerScript.LocalInstance.GetTilesThatPlayerOwnList();
                 for (int i=0;i< playerOwnedTiles.Count;i++)
                 {
@@ -60,21 +61,11 @@ public class Alcohol : Item
                 randomNumber = Random.Range(0, currentListOfTilesIndex.Count);
                 playerScriptThatOwnsItem.TeleportToTile(currentListOfTilesIndex[randomNumber]);
                 break;
-            case TypeOfAlcohol.Ambrossia:
+            case ItemTier.Relic:
 
                 break;
         }
     }
 
-
-}
-
-public enum TypeOfAlcohol
-{ 
-    Awwfull,
-    Normal,
-    Decent,
-    Good,
-    Ambrossia
 
 }

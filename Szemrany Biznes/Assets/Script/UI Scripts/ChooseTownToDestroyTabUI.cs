@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChooseTownToDestroyTabUI : MonoBehaviour
+public class ChooseTownToDestroyTabUI : MonoBehaviour,IQueueWindows
 {
     public static ChooseTownToDestroyTabUI Instance {  get; private set; }
 
@@ -39,6 +39,11 @@ public class ChooseTownToDestroyTabUI : MonoBehaviour
     public void Show(int damageAmount = 10)
     {
         this.damageAmount = damageAmount;
+        PlayerScript.LocalInstance.AddToQueueOfWindows(this);
+    }
+
+    void Show()
+    {
         choosenTile = null;
         DamageButton.interactable = false;
         foreach (Transform child in transform)
@@ -73,5 +78,11 @@ public class ChooseTownToDestroyTabUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
+        PlayerScript.LocalInstance.GoToNextAction();
+    }
+
+    public void ResumeAction()
+    {
+        Show();
     }
 }

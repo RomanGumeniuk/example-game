@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using Unity.Netcode;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TownTile : Tile
 {
@@ -83,7 +85,7 @@ public class TownTile : Tile
 
     public override void OnTownLevelChanged(int prevValue, int newValue)
     {
-        Debug.Log("town level changed " + tileScript.name + " "+  tileScript.ownerId.Value + " " + prevValue + " " + newValue);
+        //Debug.Log("town level changed " + tileScript.name + " "+  tileScript.ownerId.Value + " " + prevValue + " " + newValue);
         if (tileScript.ownerId.Value == -1) return;
         foreach (TileScript tile in NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList())
         {
@@ -95,22 +97,25 @@ public class TownTile : Tile
 
     public override void OnPlayerStepped()
     {
-        
+        //Debug.Log("aaa /" + tileScript.propertyType);
         switch (tileScript.propertyType)
         { 
             case PropertyType.Alcohol:
-                tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, 6, false);
-
+                
+                tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, PlayerScript.LocalInstance.currentAvailableTownUpgrade);
+                //Debug.Log("aaa");
+                AlcoholTabUI.Instance.Show(tileScript.ownerId.Value == PlayerScript.LocalInstance.playerIndex, tileScript);
                 break;
             default:
                 if (tileScript.tileType == TileType.TownTile)
                 {
-                    tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, 6);
+                    tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, PlayerScript.LocalInstance.currentAvailableTownUpgrade);
                 }
+                else GameUIScript.OnNextPlayerTurn.Invoke();
                 break;
                 
         }
 
     }
-
+    
 }
