@@ -266,16 +266,19 @@ public class GameLogic : NetworkBehaviour
 
 
 
-    int amountOfBlockersForNextPlayerTurn = 0; // 0 - can call next player turn, not 0 - can't call next player turn until value is not 0
+    public int amountOfBlockersForNextPlayerTurn = 0; // 0 - can call next player turn, not 0 - can't call next player turn until value is not 0
     [ServerRpc(RequireOwnership = false)]
     public void IncreasCallNextPlayerTurnServerRpc()
     {
         amountOfBlockersForNextPlayerTurn++;
+        Debug.Log("increase");
     }
     [ServerRpc(RequireOwnership = false)]
     public void DecreaseCallNextPlayerTurnServerRpc()
     {
+        if (amountOfBlockersForNextPlayerTurn == 0) return;
         amountOfBlockersForNextPlayerTurn--;
+        Debug.Log("decrease");
     }
 
     bool isBusy = false;
@@ -294,6 +297,12 @@ public class GameLogic : NetworkBehaviour
         {
             await Awaitable.WaitForSecondsAsync(0.1f);
         }
+        await Awaitable.WaitForSecondsAsync(0.1f);
+        if(amountOfBlockersForNextPlayerTurn >0)
+        {
+            WaitForPermissionToCallNextPlayer();
+            return;
+        }
         OnNextPlayerTurnServerRpc();
         isBusy = false;
     }
@@ -303,7 +312,7 @@ public class GameLogic : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void OnNextPlayerTurnServerRpc()
     {
-        Debug.Log("on next player invoke");
+        //Debug.Log("on next player invoke");
 
         if(!isDoublet)
         {
@@ -322,10 +331,10 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { PlayersOrder[index].ClientId }
             }
         };
-        Debug.Log("player id: "+PlayersOrder[index].ClientId);
+        //Debug.Log("player id: "+PlayersOrder[index].ClientId);
         if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().wasBetrayed)
         {
-            Debug.Log("betray");
+            //Debug.Log("betray");
             AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz ciê podkapowa³, nie mo¿esz nic zrobiæ w tej turze", 2.5f, (int)PlayersOrder[index].ClientId);
             PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().SetWasBetrayedServerRpc(false);
             OnNextPlayerTurnServerRpc();
@@ -335,13 +344,13 @@ public class GameLogic : NetworkBehaviour
         if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isInPrison.Value && PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value > 0)
         {
             PrisonTabUI.Instance.Show((int)PlayersOrder[index].ClientId);
-            Debug.Log("Prison");
+            //Debug.Log("Prison");
             return;
         }
 
         if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value>0)
         {
-            Debug.Log("Cant move");
+            //Debug.Log("Cant move");
             Debug.Log(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value + " " + index);
             PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value--;
             OnNextPlayerTurnServerRpc();
@@ -350,7 +359,7 @@ public class GameLogic : NetworkBehaviour
 
         
         ClientHasPermissionToRollDiceClientRpc(clientRpcParams);
-        Debug.Log("end");
+        //Debug.Log("end");
 
 
     }

@@ -271,6 +271,7 @@ public class PlayerScript : NetworkBehaviour
 
     public void TeleportToTile(int pickedIndex)
     {
+        
         currentTileIndex = pickedIndex;
         int index = 0;
         if (currentTileIndex > GameLogic.Instance.mapGenerator.GetSize() - 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 2)
@@ -285,9 +286,10 @@ public class PlayerScript : NetworkBehaviour
         {
             index = (GameLogic.Instance.mapGenerator.GetSize() - 1) * 3;
         }
-
+        navMeshAgent.enabled = false;
         transform.position = GameLogic.Instance.allTileScripts[currentTileIndex].transform.position - (GameLogic.Instance.allTileScripts[index].transform.position - GameLogic.Instance.SpawnPoints[index / (GameLogic.Instance.mapGenerator.GetSize() - 1)].GetChild(playerIndex).transform.position);
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
+        navMeshAgent.enabled = true;
     }
 
     public void AddItemToInventory(Item item)
@@ -308,13 +310,14 @@ public class PlayerScript : NetworkBehaviour
         {
             GoThroughQueueOfWindowActions();
         }
-        
+        GameLogic.Instance.IncreasCallNextPlayerTurnServerRpc();
     }
 
 
     public void GoToNextAction()
     {
         goToNextActionWindow = true;
+        GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
     }
 
     async void GoThroughQueueOfWindowActions()

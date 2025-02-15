@@ -153,7 +153,8 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
         {
             options[0].GetComponentInChildren<Toggle>().enabled = true;
             options[0].GetComponentInChildren<Toggle>().GetComponentInChildren<Image>().enabled = true;
-            getOtherDrink.gameObject.SetActive(false);
+            getOtherDrink.GetComponent<Image>().enabled = false;
+            getOtherDrink.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         }
         else
         {
@@ -162,8 +163,9 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
             options[0].GetComponentInChildren<Toggle>().isOn = false;
             options[0].GetComponentInChildren<Toggle>().enabled = false;
             options[0].GetComponentInChildren<Toggle>().GetComponentInChildren<Image>().enabled =false;
-            getOtherDrink.gameObject.SetActive(true);
-            if(PlayerScript.LocalInstance.amountOfMoney.Value < currentTileScript.specialTileScript.GetPayAmount() / 10)
+            getOtherDrink.GetComponent<Image>().enabled = true;
+            getOtherDrink.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+            if (PlayerScript.LocalInstance.amountOfMoney.Value < currentTileScript.specialTileScript.GetPayAmount() / 10)
             {
                 getOtherDrink.interactable = false;
             }

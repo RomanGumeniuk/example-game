@@ -68,6 +68,7 @@ public class DisplayPropertyUI : MonoBehaviour
 
     public void ShowSellingView(int totalPropertyValue)
     {
+        backgroundImage.color = Color.red;
         backgroundImage.gameObject.SetActive(true);
         backgroundOfToggle.SetActive(true);
         toggle.enabled = true;

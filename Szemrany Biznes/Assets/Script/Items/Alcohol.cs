@@ -62,10 +62,16 @@ public class Alcohol : Item
                 playerScriptThatOwnsItem.TeleportToTile(currentListOfTilesIndex[randomNumber]);
                 break;
             case ItemTier.Relic:
-
+                ShowUIForChoosingTile();
                 break;
         }
     }
 
+
+    async void ShowUIForChoosingTile()
+    {
+        TileScript tile = await ChooseingTileUI.Instance.Show();
+        playerScriptThatOwnsItem.TeleportToTile(GameLogic.GetRealTileIndexFromAllTiles(tile.index));
+    }
 
 }
