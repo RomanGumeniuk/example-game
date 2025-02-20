@@ -23,17 +23,18 @@ public class Jew : Character
     const float COST_MULTIPLIER = 0.95f;
 
 
-    public override int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType=PropertyType.None)
+    public override int ApplyAllModifiersToSpecifiedTypeOfModificator(int value, TypeOfModificator typeOfMoneyTransaction, PropertyType propertyType=PropertyType.None)
     {
+        value = base.ApplyAllModifiersToSpecifiedTypeOfModificator(value,typeOfMoneyTransaction, propertyType);
         switch(typeOfMoneyTransaction)
         {
-            case TypeOfMoneyTransaction.BuyingTown:
-                return Mathf.RoundToInt((amountOfMoney * COST_MULTIPLIER)/10)*10;
+            case TypeOfModificator.BuyingTown:
+                return Mathf.RoundToInt((value * COST_MULTIPLIER)/10)*10;
 
-            case TypeOfMoneyTransaction.EarningMoneyFromPropertie:
-                return Mathf.RoundToInt((amountOfMoney * MULTIPLIER_FOR_EARNINGS)/10)*10; 
+            case TypeOfModificator.EarningMoneyFromPropertie:
+                return Mathf.RoundToInt((value * MULTIPLIER_FOR_EARNINGS)/10)*10; 
             default:
-                return amountOfMoney;
+                return value;
         }
     }
 

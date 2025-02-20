@@ -40,7 +40,7 @@ public class ShopTabUI : MonoBehaviour,IQueueWindows
         buy.onClick.AddListener(() =>
         {
             PlayerScript.LocalInstance.AddItemToInventory(avaliableItemsToBuy[selectedIndex]);
-            int cost = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(avaliableItemsToBuy[selectedIndex].GetCost(),TypeOfMoneyTransaction.BuyingItem);
+            int cost = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedTypeOfModificator(avaliableItemsToBuy[selectedIndex].GetCost(),TypeOfModificator.BuyingItem);
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(cost,PlayerScript.LocalInstance.playerIndex,1,true,true);
             _ =AlertTabForPlayerUI.Instance.ShowTab($"Kupi³eœ {avaliableItemsToBuy[selectedIndex].GetName()} za {avaliableItemsToBuy[selectedIndex].GetCost()}PLN \nZapraszamy ponownie!",2);
             Hide();
@@ -74,7 +74,7 @@ public class ShopTabUI : MonoBehaviour,IQueueWindows
 
     void ShowActualWindow()
     {
-        avaliableItemsToBuy = GameLogic.Instance.itemDataBase.GetRandomNumberOfItems(allOptions.Count);
+        avaliableItemsToBuy = GameLogic.Instance.itemDataBase.GetRandomNumberOfItems(allOptions.Count,new ItemType[] {ItemType.Drug});
         for (int i = 0; i < allOptions.Count; i++)
         {
             allOptions[i].GetComponent<RawImage>().texture = avaliableItemsToBuy[i].GetIcon()?.texture;

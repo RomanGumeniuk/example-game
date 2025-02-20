@@ -4,7 +4,7 @@ public abstract class Character
 {
     public PlayerScript playerScript;
     public string name = "blank";
-
+    public int HappinesValue;
     public string GetName()
     {
         return name;
@@ -38,6 +38,7 @@ public abstract class Character
     public virtual int OnDiceRolled(int diceRoll)
     {
         //Debug.Log("Nie powinienes tego widziec");
+        diceRoll = ApplyAllModifiersToSpecifiedTypeOfModificator(diceRoll, TypeOfModificator.DiceResult);
         return diceRoll;
     }
 
@@ -52,9 +53,47 @@ public abstract class Character
         Debug.Log("Character");
     }
 
-    public virtual int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
+    public virtual int ApplyAllModifiersToSpecifiedTypeOfModificator(int value, TypeOfModificator typeOfModificator, PropertyType propertyType = PropertyType.None)
     {
-        return amountOfMoney;
+        Modifiers currentModifier;
+        switch (typeOfModificator)
+        {
+            case TypeOfModificator.DiceResult:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                value += currentModifier.value;
+                break;
+            case TypeOfModificator.HazardWinChance:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                value += currentModifier.value;
+                break;
+            case TypeOfModificator.MoneyOnStartTile:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                Debug.Log(value + " " + (float)currentModifier.value / 100);
+                if (currentModifier.modifiersType == ModifiersType.Precentage) value += (int)((float)((float)currentModifier.value / 100) * value);
+                else value += currentModifier.value;
+                Debug.Log(value + "L");
+                break;
+            case TypeOfModificator.AlcoholTier:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                value += currentModifier.value;
+                if (value > 4) value = 4;
+                break;
+            case TypeOfModificator.LuckLevel:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                value += currentModifier.value;
+                break;
+            default:
+                currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
+                if (currentModifier == null) break;
+                value += currentModifier.value;
+                break;
+        }
+        return value;
     }
 
     public virtual void OnOwnedTileChange(TileScript tile)
@@ -68,7 +107,7 @@ public abstract class Character
     }
 }
 
-public enum TypeOfMoneyTransaction
+public enum TypeOfModificator
 { 
     BuyingTown,
     PayingForEnteringTown,
@@ -76,5 +115,11 @@ public enum TypeOfMoneyTransaction
     GettingMoney,
     MoneyOnStartTile,
     EarningMoneyFromPropertie,
-    BuyingItem
+    BuyingItem,
+    HazardWinChance,
+    DiceResult,
+    AlcoholTier,
+    LuckLevel,
+    DrugWithdrawalDeley
+
 }

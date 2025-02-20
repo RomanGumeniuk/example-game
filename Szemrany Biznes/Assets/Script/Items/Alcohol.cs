@@ -25,7 +25,8 @@ public class Alcohol : Item
     {
         int randomNumber;
         List<int> currentListOfTilesIndex = new List<int>();
-        switch (itemTier)
+        int itemTierAfterApplyingModifiers = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedTypeOfModificator((int)itemTier, TypeOfModificator.AlcoholTier);
+        switch ((ItemTier)itemTierAfterApplyingModifiers)
         {
             case ItemTier.Junk:
                 randomNumber = Random.Range(0, (GameLogic.Instance.mapGenerator.GetSize() * 4) - 4);

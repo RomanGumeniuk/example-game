@@ -23,6 +23,10 @@ public class ItemDataBaseSO : ScriptableObject
                     Debug.Log(newAlcohol.itemTier + " " + itemCreations[i].itemTier + " " + itemCreations[i].name);
                     allItems.Add(newAlcohol);
                     break;
+                case ItemType.Drug:
+                    Drug newDrug = new Drug(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost, itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier);
+                    allItems.Add(newDrug);
+                    break;
             
             }
 
@@ -36,11 +40,11 @@ public class ItemDataBaseSO : ScriptableObject
         List<Item> allItemsCopy = GetCopyOfAllItems(itemTypes,itemTiers);
         List<Item> pickedItems = new List<Item>();
         Debug.Log(allItemsCopy.Count + " copy items");
-        for(int i=0;i< allItemsCopy.Count;i++)
+        /*for(int i=0;i< allItemsCopy.Count;i++)
         {
             Debug.Log(allItems[i].itemTier);
             Debug.Log(allItemsCopy[i].itemTier);
-        }
+        }*/
         for (int i = 0; i < numberOfItems; i++)
         {
             
@@ -58,10 +62,11 @@ public class ItemDataBaseSO : ScriptableObject
         List<Item> copyList = new List<Item>();
         for (int i = 0; i < allItems.Count; i++)
         {
+            //Debug.Log(allItems[i].itemType);
             if (itemTypes!=null&&!itemTypes.Contains(allItems[i].itemType)) continue;
-            Debug.Log(itemTiers[0] + " " + allItems[i].itemTier);
+            //Debug.Log(itemTiers[0] + " " + allItems[i].itemTier);
             if (itemTiers != null && !itemTiers.Contains(allItems[i].itemTier)) continue;
-            Debug.Log(allItems[i].GetName() + " " + allItems[i].itemTier);
+            //Debug.Log(allItems[i].GetName() + " " + allItems[i].itemTier);
             copyList.Add(allItems[i]);
         }
         return copyList;
@@ -103,7 +108,7 @@ public enum ItemTier
     Normal,
     Decent,
     Exclusive,
-    Relic
-
+    Relic,
+    God
 }
 

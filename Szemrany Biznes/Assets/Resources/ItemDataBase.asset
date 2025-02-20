@@ -65,3 +65,63 @@ MonoBehaviour:
     value1: 4
     value2: 0
     value3: 0
+  - name: Meskalina Domowa
+    description: "Towar najni\u017Cszej jako\u015Bci"
+    amountOfUses: 0
+    cost: 50
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 0
+    value1: 4
+    value2: 0
+    value3: 0
+  - name: DMT
+    description: "Towar normalnej jako\u015Bci"
+    amountOfUses: 0
+    cost: 120
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 1
+    value1: 4
+    value2: 0
+    value3: 0
+  - name: Grzyby Halucynogenne
+    description: "Towar niez\u0142ej jako\u015Bci"
+    amountOfUses: 0
+    cost: 200
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 2
+    value1: 4
+    value2: 0
+    value3: 0
+  - name: LSD
+    description: "Towar ekskluzywnej jako\u015Bci"
+    amountOfUses: 0
+    cost: 500
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 3
+    value1: 4
+    value2: 0
+    value3: 0
+  - name: Ayahuasca
+    description: "Towar niespotykanej jako\u015Bci"
+    amountOfUses: 0
+    cost: 1000
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 4
+    value1: 4
+    value2: 0
+    value3: 0
+  - name: Psylocybina w czekoladzie
+    description: "Towar boskiej jako\u015Bci"
+    amountOfUses: 0
+    cost: 2000
+    icon: {fileID: 0}
+    itemType: 1
+    itemTier: 5
+    value1: 4
+    value2: 0
+    value3: 0

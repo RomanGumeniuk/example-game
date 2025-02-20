@@ -107,14 +107,6 @@ public class ChooseingTileUI : MonoBehaviour, IQueueWindows
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            Show();
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Hide();
-        }
         if(Input.GetMouseButtonDown(0) && choosenTile!=null)
         {
             Debug.Log(choosenTile.name);

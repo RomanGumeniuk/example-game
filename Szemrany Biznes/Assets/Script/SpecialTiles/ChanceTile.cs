@@ -21,12 +21,12 @@ public class ChanceTile : Tile
         switch(card.type)
         {
             case CardType.TakeMoney:
-                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(card.value1, TypeOfMoneyTransaction.PayingForPenalty);
+                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedTypeOfModificator(card.value1, TypeOfModificator.PayingForPenalty);
                 GameLogic.Instance.UpdateMoneyForPlayerServerRpc(moneyAmount, PlayerScript.LocalInstance.playerIndex, 1, true, true);
                 await AlertTabForPlayerUI.Instance.ShowTab(string.Format(card.description,moneyAmount),2.5f);
                 break;
             case CardType.GiveMoney:
-                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedAmountOfMoney(card.value1, TypeOfMoneyTransaction.GettingMoney);
+                moneyAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedTypeOfModificator(card.value1, TypeOfModificator.GettingMoney);
                 GameLogic.Instance.UpdateMoneyForPlayerServerRpc(moneyAmount, PlayerScript.LocalInstance.playerIndex, 2, true, true);
                 await AlertTabForPlayerUI.Instance.ShowTab(string.Format(card.description, moneyAmount), 2.5f);
                 break;

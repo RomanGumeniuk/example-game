@@ -35,7 +35,7 @@ public class StartTile : Tile
             if (PlayerScript.LocalInstance.GetTilesThatPlayerOwnList()[i].tileType == TileType.GangTile) gangAmount++;
         }
         combineAmount += gangBonus * gangAmount;
-
+        combineAmount = PlayerScript.LocalInstance.character.ApplyAllModifiersToSpecifiedTypeOfModificator(combineAmount, TypeOfModificator.MoneyOnStartTile);
         return combineAmount;
     }
 

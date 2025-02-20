@@ -6,6 +6,7 @@ public class ThickWoman : Character
     public override int OnDiceRolled(int diceValue)
     {
         Debug.Log("Roll decresed by one");
+        diceValue=base.OnDiceRolled(diceValue);
         return diceValue-1;
     }
 

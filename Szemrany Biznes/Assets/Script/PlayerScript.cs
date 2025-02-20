@@ -35,6 +35,9 @@ public class PlayerScript : NetworkBehaviour
     public bool wasBetrayed = false;
 
     public List<Item> inventory = new List<Item>();
+
+    public PlayerDrugsSystem playerDrugsSystem;
+
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
@@ -334,7 +337,10 @@ public class PlayerScript : NetworkBehaviour
         }
     }
 
-
-
+    [ClientRpc]
+    public void OnPlayerTurnEndClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        playerDrugsSystem.OnPlayerTurnEnded();
+    }
 
 }

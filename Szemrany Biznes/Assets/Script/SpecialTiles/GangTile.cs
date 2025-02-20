@@ -40,7 +40,7 @@ public class GangTile : Tile
         //Debug.Log("a" + tileScript.townCostToPay[0] + (multiplier * tileScript.amountMoneyOnPlayerStep) + " " + multiplier);
         Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
 
-        return tileScript.GetTownCostToPayIndex(0, tileScript.ownerId.Value) + character.ApplyAllModifiersToSpecifiedAmountOfMoney((multiplier * tileScript.amountMoneyOnPlayerStep),TypeOfMoneyTransaction.EarningMoneyFromPropertie,tileScript.propertyType);
+        return tileScript.GetTownCostToPayIndex(0, tileScript.ownerId.Value) + character.ApplyAllModifiersToSpecifiedTypeOfModificator((multiplier * tileScript.amountMoneyOnPlayerStep),TypeOfModificator.EarningMoneyFromPropertie,tileScript.propertyType);
     }
 
 

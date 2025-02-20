@@ -13,20 +13,21 @@ public class BrothelKeeper : Character
     const float EARNINGS_MULTIPLIER = 0.1f;
 
     const float PAYMENT_PENALTIES_MULTIPLIER = 1.05f;
-    public override int ApplyAllModifiersToSpecifiedAmountOfMoney(int amountOfMoney, TypeOfMoneyTransaction typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
+    public override int ApplyAllModifiersToSpecifiedTypeOfModificator(int value, TypeOfModificator typeOfMoneyTransaction, PropertyType propertyType = PropertyType.None)
     {
+        value = base.ApplyAllModifiersToSpecifiedTypeOfModificator(value, typeOfMoneyTransaction, propertyType);
         switch (typeOfMoneyTransaction)
         {
-            case TypeOfMoneyTransaction.EarningMoneyFromPropertie:
-                //Debug.Log((amountOfMoney * GetCombineMultiplier()) +" " +((amountOfMoney * GetCombineMultiplier()) / 10) +" "+ Mathf.RoundToInt((amountOfMoney * GetCombineMultiplier()) / 10));
-                if (propertyType == PropertyType.Prostitution) return Mathf.RoundToInt((amountOfMoney * GetCombineMultiplier())/10)*10;
-                return amountOfMoney;
-            case TypeOfMoneyTransaction.PayingForPenalty:
-                return Mathf.RoundToInt((amountOfMoney * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
-            case TypeOfMoneyTransaction.BuyingTown:
-                return Mathf.RoundToInt((amountOfMoney * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
+            case TypeOfModificator.EarningMoneyFromPropertie:
+                //Debug.Log((value * GetCombineMultiplier()) +" " +((value * GetCombineMultiplier()) / 10) +" "+ Mathf.RoundToInt((value * GetCombineMultiplier()) / 10));
+                if (propertyType == PropertyType.Prostitution) return Mathf.RoundToInt((value * GetCombineMultiplier())/10)*10;
+                return value;
+            case TypeOfModificator.PayingForPenalty:
+                return Mathf.RoundToInt((value * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
+            case TypeOfModificator.BuyingTown:
+                return Mathf.RoundToInt((value * PAYMENT_PENALTIES_MULTIPLIER) / 10)*10;
             default:
-                return amountOfMoney;
+                return value;
 
         }
 

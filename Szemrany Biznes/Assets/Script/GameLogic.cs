@@ -313,8 +313,21 @@ public class GameLogic : NetworkBehaviour
     public void OnNextPlayerTurnServerRpc()
     {
         //Debug.Log("on next player invoke");
-
-        if(!isDoublet)
+        ClientRpcParams clientRpcParams;
+        if (index != -1)
+        {
+            clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { PlayersOrder[index].ClientId }
+                }
+            };
+            PlayerScript.LocalInstance.OnPlayerTurnEndClientRpc(clientRpcParams);
+        }
+        
+        
+        if (!isDoublet)
         {
             if (allPlayerAmount == index + 1)
             {
@@ -324,7 +337,7 @@ public class GameLogic : NetworkBehaviour
         }
         else isDoublet = false;
 
-        ClientRpcParams clientRpcParams = new ClientRpcParams
+        clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
