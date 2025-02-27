@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Character
 {
     public PlayerScript playerScript;
     public string name = "blank";
-    public int HappinesValue;
+    public int happinesValue=1;
+    public List<Modifiers> characterAdvantagesAndDisadvantages;
     public string GetName()
     {
         return name;
@@ -105,6 +107,16 @@ public abstract class Character
     {
         deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
     }
+
+    public virtual float ApplyCharacterAdvantagesOrDisadvantages(string modificatorName,float value)
+    {
+        return value;
+    }
+
+    public virtual void SetCharacterAdvantagesOrDisadvantages(string modificatorName,int value)
+    {
+
+    }
 }
 
 public enum TypeOfModificator
@@ -120,6 +132,8 @@ public enum TypeOfModificator
     DiceResult,
     AlcoholTier,
     LuckLevel,
-    DrugWithdrawalDeley
+    DrugWithdrawalDeley,
+    CharacterAdvantages,
+    CharacterDisadvantages
 
 }

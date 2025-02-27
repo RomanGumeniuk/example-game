@@ -51,14 +51,15 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnTryCallingNextPlayerTurnServerRpc);
-        allCharacters.Add(new ThickWoman());
+        /*allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Jew());
         allCharacters.Add(new Seba());
         allCharacters.Add(new Jamal());
-        allCharacters.Add(new Student());
+        allCharacters.Add(new Student());*/
+        allCharacters.Add(new Jew());
     }
 
 
@@ -271,14 +272,14 @@ public class GameLogic : NetworkBehaviour
     public void IncreasCallNextPlayerTurnServerRpc()
     {
         amountOfBlockersForNextPlayerTurn++;
-        Debug.Log("increase");
+        //Debug.Log("increase");
     }
     [ServerRpc(RequireOwnership = false)]
     public void DecreaseCallNextPlayerTurnServerRpc()
     {
         if (amountOfBlockersForNextPlayerTurn == 0) return;
         amountOfBlockersForNextPlayerTurn--;
-        Debug.Log("decrease");
+        //Debug.Log("decrease");
     }
 
     bool isBusy = false;
