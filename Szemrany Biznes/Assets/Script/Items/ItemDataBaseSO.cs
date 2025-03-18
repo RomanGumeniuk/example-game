@@ -20,7 +20,7 @@ public class ItemDataBaseSO : ScriptableObject
             {
                 case ItemType.Alcohol:
                     Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier);
-                    Debug.Log(newAlcohol.itemTier + " " + itemCreations[i].itemTier + " " + itemCreations[i].name);
+                    //Debug.Log(newAlcohol.itemTier + " " + itemCreations[i].itemTier + " " + itemCreations[i].name);
                     allItems.Add(newAlcohol);
                     break;
                 case ItemType.Drug:
@@ -39,7 +39,7 @@ public class ItemDataBaseSO : ScriptableObject
     {
         List<Item> allItemsCopy = GetCopyOfAllItems(itemTypes,itemTiers);
         List<Item> pickedItems = new List<Item>();
-        Debug.Log(allItemsCopy.Count + " copy items");
+        //Debug.Log(allItemsCopy.Count + " copy items");
         /*for(int i=0;i< allItemsCopy.Count;i++)
         {
             Debug.Log(allItems[i].itemTier);
@@ -49,7 +49,7 @@ public class ItemDataBaseSO : ScriptableObject
         {
             
             int pickedItem = UnityEngine.Random.Range(0,allItemsCopy.Count);
-            Debug.Log(pickedItem + " picked item" );
+            //Debug.Log(pickedItem + " picked item" );
             pickedItems.Add(allItemsCopy[pickedItem]);
             allItemsCopy.RemoveAt(pickedItem);
         }

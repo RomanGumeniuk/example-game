@@ -51,15 +51,14 @@ public class GameLogic : NetworkBehaviour
             GameUIScript.OnNextPlayerTurn = new UnityEvent();
 
         GameUIScript.OnNextPlayerTurn.AddListener(OnTryCallingNextPlayerTurnServerRpc);
-        /*allCharacters.Add(new ThickWoman());
+        allCharacters.Add(new ThickWoman());
         allCharacters.Add(new Homeless());
         allCharacters.Add(new NPC());
         allCharacters.Add(new BrothelKeeper());
         allCharacters.Add(new Jew());
         allCharacters.Add(new Seba());
         allCharacters.Add(new Jamal());
-        allCharacters.Add(new Student());*/
-        allCharacters.Add(new Jew());
+        allCharacters.Add(new Student());
     }
 
 
@@ -325,9 +324,21 @@ public class GameLogic : NetworkBehaviour
                 }
             };
             PlayerScript.LocalInstance.OnPlayerTurnEndClientRpc(clientRpcParams);
+
+            if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isBancroupt)
+            {
+                if (!AreThereEnoughPlayerNotBancrouptToPlay())
+                {
+                    EndGameClientRpc();
+                    //game end
+                    return;
+                }
+
+            }
         }
+
         
-        
+
         if (!isDoublet)
         {
             if (allPlayerAmount == index + 1)
@@ -338,6 +349,17 @@ public class GameLogic : NetworkBehaviour
         }
         else isDoublet = false;
 
+        if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isBancroupt)
+        {
+            if(AreThereEnoughPlayerNotBancrouptToPlay()) OnNextPlayerTurnServerRpc();
+            else
+            {
+                EndGameClientRpc();
+                //game end
+            }
+            return;
+        }
+
         clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -345,6 +367,9 @@ public class GameLogic : NetworkBehaviour
                 TargetClientIds = new ulong[] { PlayersOrder[index].ClientId }
             }
         };
+
+
+
         //Debug.Log("player id: "+PlayersOrder[index].ClientId);
         if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().wasBetrayed)
         {
@@ -377,7 +402,21 @@ public class GameLogic : NetworkBehaviour
 
 
     }
+    [ClientRpc]
+    private void EndGameClientRpc()
+    {
+        EndResultsTabUI.Instance.Show();
+    }
 
+    private bool AreThereEnoughPlayerNotBancrouptToPlay()
+    {
+        int result = 0;
+        for (int i = 0; i < PlayersOrder.Count; i++)
+        {
+            if (!PlayersOrder[i].PlayerObject.GetComponent<PlayerScript>().isBancroupt) result++;
+        }
+        return result > 1;
+    }
     public List<TileScript> GetAllTileScriptFromBoard()
     {
         List<TileScript> tileScripts = new List<TileScript>();

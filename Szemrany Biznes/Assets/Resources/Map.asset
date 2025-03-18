@@ -31,7 +31,7 @@ MonoBehaviour:
     type: 1
     townCostToBuy: 
     townCostToPay: 
-    amountOfMoneyOnStep: 800
+    amountOfMoneyOnStep: 2400
     indexOfTileWhichMakesMonopol: 
     material: {fileID: 2100000, guid: 2e57b5f8ec3a9e14a9f80092650b7884, type: 2}
   - index: 1

@@ -7,7 +7,7 @@ public class BonusTile : Tile
         this.tileScript = tileScript;
     }
 
-    const int AMOUNT_OF_MONEY = 200;
+    const int AMOUNT_OF_MONEY = 800;
 
     public override void OnPlayerStepped()
     {

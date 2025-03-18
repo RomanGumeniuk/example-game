@@ -12,10 +12,10 @@ public class PlayerScript : NetworkBehaviour
 {
     public int currentTileIndex = 0;
     public int playerIndex;
-    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(7000);
+    public NetworkVariable<int> amountOfMoney = new NetworkVariable<int>(10000);
     [SerializeField]
     private List<TileScript> tilesThatPlayerOwnList = new List<TileScript>();
-    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(7000);
+    public NetworkVariable<int> totalAmountOfMoney = new NetworkVariable<int>(10000);
     public byte currentAvailableTownUpgrade = 2;
     public byte minTownLevel=1;
     public NetworkVariable<int> cantMoveFor = new NetworkVariable<int>(0);
@@ -38,19 +38,14 @@ public class PlayerScript : NetworkBehaviour
 
     public PlayerDrugsSystem playerDrugsSystem;
 
+    public bool isBancroupt=false;
+
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
             LocalInstance = this;
             navMeshAgent = GetComponent<NavMeshAgent>();
-            
-            //Debug.Log("AAA" +PlayerScript.LocalInstance.playerIndex);
-            /*camera = FindAnyObjectByType<CinemachineCamera>();
-            CameraTarget target = new CameraTarget();
-            target.TrackingTarget = transform;
-            camera.Target = target;
-            camera.LookAt = transform;*/
         }
     }
 
@@ -152,7 +147,10 @@ public class PlayerScript : NetworkBehaviour
     {
         if(amountOfMoneyThatNeedsToBePaid>totalAmountOfMoney.Value)
         {
-            Debug.Log("Bankrut!!!");
+            BancruptServerRpc();
+            _ = AlertTabForPlayerUI.Instance.ShowTab("Zbankrutowa³eœ!", 2);
+            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalAmountOfMoney.Value, playerIndexThatGetsPaid, 2, true, true);
+            GameLogic.Instance.UpdateMoneyForPlayerServerRpc(0, playerIndex, 0, true, true);
             return;
         }
         SellingTabUI.Instance.Show(amountOfMoneyThatNeedsToBePaid, amountOfMoney.Value,playerIndexThatGetsPaid);
@@ -160,6 +158,18 @@ public class PlayerScript : NetworkBehaviour
         {
             tile.ShowSellingView();
         }
+    }
+    [ServerRpc(RequireOwnership =false)]
+    private void BancruptServerRpc()
+    {
+        BuncruptClientRpc();
+    }
+
+
+    [ClientRpc]
+    private void BuncruptClientRpc()
+    {
+        isBancroupt = true;
     }
 
     public void ShowTownDamageTab()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StartTile : Tile
 {
-    private int gangBonus=100;
+    private int gangBonus=300;
 
     public StartTile(TileScript tileScript)
     {

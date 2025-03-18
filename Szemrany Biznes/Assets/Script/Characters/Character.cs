@@ -106,6 +106,7 @@ public abstract class Character
     public virtual void ClaimDeadDropBox(DeadDropBox deadDropBoxScript)
     {
         deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
+        Debug.Log("ooo");
     }
 
     public virtual float ApplyCharacterAdvantagesOrDisadvantages(string modificatorName,float value)

@@ -8,6 +8,7 @@ public class DiceSpawn : NetworkBehaviour
 {
     public static DiceSpawn Instance { get; private set; }
     //Gameobjects
+    public GameObject EightSideDice;
     public GameObject SixSideDice;
     public GameObject FourSideDice;
 
@@ -66,14 +67,13 @@ public class DiceSpawn : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true,DiceType type = DiceType.SixSide)
     {
-        currentPlayerIndex = playerIndex;
         diceResults.Clear();
         for (int i=0;i< diceAmount; i++)
         {
             StartCoroutine(CheckVelocity(SpawnDice(type), playerIndex, movePlayer));
         }
         if(addDiceLeft) diceLeft += diceAmount;
-        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(movePlayer);
+        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(playerIndex, movePlayer);
     }
 
     private Rigidbody SpawnDice(DiceType diceType)
@@ -86,6 +86,9 @@ public class DiceSpawn : NetworkBehaviour
                 break;
             case DiceType.FourSide:
                 prefab = FourSideDice;
+                break;
+            case DiceType.EightSide:
+                prefab = EightSideDice;
                 break;
         }
 
@@ -106,7 +109,6 @@ public class DiceSpawn : NetworkBehaviour
 
     private int diceLeft = 0;
     private int combineDiceNumber = 0;
-    private int currentPlayerIndex;
     bool isWaitingForAllDicesToRoll = false;
     List<int> diceResults = new List<int>();
     public void DecreaseDiceLeft(int diceNumber)
@@ -118,7 +120,7 @@ public class DiceSpawn : NetworkBehaviour
         //Debug.Log("Dice decrease" + " "+ diceLeft);
     }
 
-    public async void WaitForAllDiceToRoll(bool movePlayer = true)
+    public async void WaitForAllDiceToRoll(int playerIndex,bool movePlayer = true)
     {
         Time.timeScale = 1.4f;
         isWaitingForAllDicesToRoll = true;
@@ -137,7 +139,7 @@ public class DiceSpawn : NetworkBehaviour
         {
             Send = new ClientRpcSendParams
             {
-                TargetClientIds = new ulong[] { (ulong)currentPlayerIndex }
+                TargetClientIds = new ulong[] { (ulong)playerIndex }
             }
         };
         PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber,  movePlayer, clientRpcParams);
@@ -147,10 +149,24 @@ public class DiceSpawn : NetworkBehaviour
         Time.timeScale = 1f;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            RollTheDiceServerRpc(0,1,true,false,DiceType.EightSide);
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            RollTheDiceServerRpc(0, 1, true, false, DiceType.FourSide);
+        }
+    }
+
+
 }
 
 public enum DiceType
 {
     FourSide,
-    SixSide
+    SixSide,
+    EightSide
 }

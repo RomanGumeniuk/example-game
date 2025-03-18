@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1555331697
+  GlobalObjectIdHash: 3992289524
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
   currentTileIndex: 0
   playerIndex: 0
   amountOfMoney:
-    m_InternalValue: 7000
+    m_InternalValue: 10000
   tilesThatPlayerOwnList: []
   totalAmountOfMoney:
     m_InternalValue: 10000
@@ -235,6 +235,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   wasBetrayed: 0
   playerDrugsSystem: {fileID: -3091479849338976474}
+  isBancroupt: 0
 --- !u!114 &-3091479849338976474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,3 +255,4 @@ MonoBehaviour:
   badTrip: 0
   isInStreak: 0
   modifiers: []
+  badTripLength: 0

@@ -1,7 +1,4 @@
-using Unity.Multiplayer.Center.NetcodeForGameObjectsExample;
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class DeadDropBox : NetworkBehaviour
@@ -24,16 +21,21 @@ public class DeadDropBox : NetworkBehaviour
                 break;
         }
         transform.GetChild(0).gameObject.SetActive(false);
+        if (!IsOwner) return;
+        Debug.Log(index + "a");
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
         {
+            Debug.Log(client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex + "b");
             if (client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex != index) continue;
             OnPlayerClaimServerRpc((int)client.ClientId);
+            Debug.Log((int)client.ClientId + "c");
         }
     }
     [ServerRpc(RequireOwnership =false)]
     public void OnPlayerClaimServerRpc(int playerIndex)
     {
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(amountOfMoney, playerIndex,2,true,true);
+        Debug.Log(playerIndex + "d");
         Destroy(gameObject);
     }
 
