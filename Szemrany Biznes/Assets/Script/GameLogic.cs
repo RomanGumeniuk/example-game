@@ -139,7 +139,7 @@ public class GameLogic : NetworkBehaviour
             SetAllCharactersClientRpc(charatersIds[i], (int)PlayersOrder[i].ClientId,i);
         }
         AddAllPlayerPrefabList();
-        
+        DiceSpawn.Instance.StartGame();
     }
 
     [ClientRpc]

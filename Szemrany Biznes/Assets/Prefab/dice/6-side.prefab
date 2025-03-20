@@ -731,10 +731,10 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 4362962105363994262, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
+      objectReference: {fileID: 2100000, guid: 58e12f669cc17124188e4c2bc3f243a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
       propertyPath: m_Name
-      value: dicerog
+      value: 6-side
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -773,6 +773,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
       insertIndex: -1
       addedObject: {fileID: 102}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6852357462340640103}
   m_SourcePrefab: {fileID: 100100000, guid: 13c4b0faf0a0617419333f95f7007681, type: 3}
 --- !u!4 &8097851586122739718 stripped
 Transform:
@@ -851,7 +854,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
+  ActiveSceneSynchronization: 1
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
@@ -872,7 +875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
+  UseRigidBodyForMotion: 1
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
 --- !u!114 &102
@@ -911,3 +914,16 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-6852357462340640103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875057411541281468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56755657e7b396c4bb6b5aa75fe1d6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

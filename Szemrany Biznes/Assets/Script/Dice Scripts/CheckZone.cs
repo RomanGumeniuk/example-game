@@ -15,7 +15,7 @@ public class CheckZone : NetworkBehaviour
     }
 
 
-    public void CheckDiceNumber(GameObject prefabGameObject,int playerIndex)
+    public void CheckDiceNumber(GameObject prefabGameObject,int playerIndex,DiceType diceType,bool movePlayer = true)
     {
         string name="";
         float min = 1;
@@ -34,7 +34,7 @@ public class CheckZone : NetworkBehaviour
         if (name == "")
         {
             Destroy(prefabGameObject);
-            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex,1,false);
+            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex,1,false, movePlayer,diceType);
             return;
         }
         try
@@ -44,11 +44,11 @@ public class CheckZone : NetworkBehaviour
         catch
         {
             Destroy(prefabGameObject);
-            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex, 1, false);
+            DiceSpawn.Instance.RollTheDiceServerRpc(playerIndex, 1, false,movePlayer, diceType);
             return;
         }
         dicesToDestroy.Add(prefabGameObject);
-        DiceSpawn.Instance.DecreaseDiceLeft(diceNumber);
+        DiceSpawn.Instance.DecreaseDiceLeft(diceNumber, playerIndex);
     }
 
     private List<GameObject> dicesToDestroy = new List<GameObject>();
