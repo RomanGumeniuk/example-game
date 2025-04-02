@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Threading.Tasks;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class DiceSpawn : NetworkBehaviour
 {
@@ -139,6 +140,7 @@ public class DiceSpawn : NetworkBehaviour
     {
         Time.timeScale = 1.4f;
         isWaitingForAllDicesToRoll = true;
+        combineDiceNumberCopy.Clear();
         while (true)
         {
             await Awaitable.WaitForSecondsAsync(0.1f);
@@ -155,9 +157,9 @@ public class DiceSpawn : NetworkBehaviour
             if ((diceResults[i].x != diceResults[0].x)) isDoublet = false; // not working for more than 1 person
         }
         GameLogic.Instance.SetIsDoubletServerRPC(isDoublet);
-        for(int i=0;i<combineDiceNumber.Count;i++)
+        combineDiceNumberCopy.AddRange(combineDiceNumber);
+        for (int i=0;i<combineDiceNumber.Count;i++)
         {
-            Debug.Log("b "+combineDiceNumber.ElementAt(i).Value);
             if (combineDiceNumber.ElementAt(i).Value == 0) continue;
             ClientRpcParams clientRpcParams = new ClientRpcParams
             {
@@ -174,7 +176,19 @@ public class DiceSpawn : NetworkBehaviour
         isWaitingForAllDicesToRoll = false;
         Time.timeScale = 1f;
     }
-    public GameObject nonNetworkPrefab;
+
+    private Dictionary<int, int> combineDiceNumberCopy = new Dictionary<int, int>();
+
+    public async Task<Dictionary<int,int>> GetAllDiceValues()
+    {
+        while(isWaitingForAllDicesToRoll)
+        {
+            await Awaitable.EndOfFrameAsync();
+        }
+        return combineDiceNumberCopy;
+
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.T))
@@ -197,28 +211,9 @@ public class DiceSpawn : NetworkBehaviour
             RollTheDiceServerRpc(1, 1, true, false, DiceType.EightSide);
             RollTheDiceServerRpc(2, 1, true, false, DiceType.EightSide);
         }
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            offsetPosition = new Vector3(RandomNumber(3, 17), RandomNumber(1, 6), RandomNumber(3, 17));
-            offsetRotation = new Vector3(RandomNumber(-180, 180), RandomNumber(-180, 180), RandomNumber(-180, 180));
-            Vector3 randomValue1 = RandomDirectionHorizontal() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f);
-            Vector3 randomValue2 = RandomDirectionVertical() * RandomNumber(rollForce / 1.5f, rollForce * 1.5f);
-            float randomValue3 = RandomNumber(rollForce / 1.5f, rollForce * 1.5f);
-            SpawnObjectClientRpc(offsetPosition,offsetRotation, randomValue1, randomValue2, randomValue3);
 
+    }
 
-        }
-    }
-    [ClientRpc]
-    private void SpawnObjectClientRpc(Vector3 offsetPosition, Vector3 offsetRotation,Vector3 randomValue1, Vector3 randomValue2, float randomValue3)
-    {
-        GameObject prefabInstance = Instantiate(nonNetworkPrefab, offsetPosition, Quaternion.Euler(offsetRotation));
-        Rigidbody rb = prefabInstance.GetComponent<Rigidbody>();
-        //prefabInstance.GetComponent<NetworkObject>().Spawn();
-        rb.AddForce(randomValue1, ForceMode.Impulse);
-        rb.AddForce(randomValue2, ForceMode.Impulse);
-        rb.AddTorque(transform.up * randomValue3, ForceMode.Impulse);
-    }
 
 }
 

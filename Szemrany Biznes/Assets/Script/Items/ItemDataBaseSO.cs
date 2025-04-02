@@ -19,12 +19,12 @@ public class ItemDataBaseSO : ScriptableObject
             switch (itemCreations[i].itemType)
             {
                 case ItemType.Alcohol:
-                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier);
+                    Alcohol newAlcohol = new Alcohol(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost,itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier,false);
                     //Debug.Log(newAlcohol.itemTier + " " + itemCreations[i].itemTier + " " + itemCreations[i].name);
                     allItems.Add(newAlcohol);
                     break;
                 case ItemType.Drug:
-                    Drug newDrug = new Drug(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost, itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier);
+                    Drug newDrug = new Drug(itemCreations[i].name, itemCreations[i].description, itemCreations[i].amountOfUses, itemCreations[i].cost, itemCreations[i].icon, itemCreations[i].itemType, itemCreations[i].itemTier,true);
                     allItems.Add(newDrug);
                     break;
             
@@ -70,6 +70,16 @@ public class ItemDataBaseSO : ScriptableObject
             copyList.Add(allItems[i]);
         }
         return copyList;
+    }
+
+
+    public int GetIndexOfItem(Item item)
+    {
+        for (int i = 0; i < allItems.Count; i++)
+        {
+            if (allItems[i].GetName() == item.GetName()) return i;
+        }
+        return - 1;
     }
 
 }

@@ -304,11 +304,23 @@ public class PlayerScript : NetworkBehaviour
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
         navMeshAgent.enabled = true;
     }
+    [ClientRpc]
+    public void TeleportToTileClientRpc(int pickedIndex,ClientRpcParams clientRpcParams)
+    {
+        TeleportToTile(pickedIndex);
+    }
 
     public void AddItemToInventory(Item item)
     {
         item.playerScriptThatOwnsItem = this;
         inventory.Add(item);
+    }
+
+    [ClientRpc]
+    public void AddItemToInventoryClientRpc(int itemID,ClientRpcParams clientRpcParams = default)
+    {
+        AddItemToInventory(GameLogic.Instance.itemDataBase.allItems[itemID]);
+        Debug.Log("AAA " +  itemID);
     }
 
     Queue<IQueueWindows> queueOfWindowActions = new Queue<IQueueWindows>();
@@ -351,6 +363,12 @@ public class PlayerScript : NetworkBehaviour
     public void OnPlayerTurnEndClientRpc(ClientRpcParams clientRpcParams = default)
     {
         playerDrugsSystem.OnPlayerTurnEnded();
+    }
+
+    [ClientRpc]
+    public void ClearAllIllegalItemsClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        inventory.RemoveAll(inventory => inventory.isIllegal);
     }
 
 }

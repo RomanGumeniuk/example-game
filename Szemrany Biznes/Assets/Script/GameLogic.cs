@@ -466,7 +466,7 @@ public class GameLogic : NetworkBehaviour
         deadBox.transform.parent = allTileScripts[tileIndex].transform;
         deadBox.GetComponent<DeadDropBox>().SetAmountOfMoney(amountOfMoney);
         deadBox.GetComponent<DeadDropBox>().index = tileIndex;
-    }    
+    }
 }
 
 public static class IListExtensions

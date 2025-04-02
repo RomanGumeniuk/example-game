@@ -12,6 +12,8 @@ public abstract class Item
     public ItemType itemType;
     public ItemTier itemTier;
 
+    public bool isIllegal; 
+
     public void BeforeOnItemUse()
     {
         OnItemUse();

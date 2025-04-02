@@ -81,6 +81,8 @@ public class TileScript : NetworkBehaviour
                 return new PrisonTile(this);
             case TileType.ShopTile:
                 return new ShopTile(this);
+            case TileType.MelangeTile:
+                return new MelangeTile(this);
             default:
                 return new TownTile(this);
         }

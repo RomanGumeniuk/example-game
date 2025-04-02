@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Drug : Item
 {
-    public Drug(string name, string description, int amountOfUses, int cost, RawImage icon, ItemType itemType, ItemTier itemTier)
+    public Drug(string name, string description, int amountOfUses, int cost, RawImage icon, ItemType itemType, ItemTier itemTier,bool isIllegal)
     {
        
         this.name = name;
@@ -13,7 +13,7 @@ public class Drug : Item
         this.icon = icon;
         this.itemType = itemType;
         this.itemTier = itemTier;
-    
+        this.isIllegal = isIllegal;
     }
 
 

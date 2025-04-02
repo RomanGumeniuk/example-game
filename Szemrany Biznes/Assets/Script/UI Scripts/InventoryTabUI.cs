@@ -43,11 +43,15 @@ public class InventoryTabUI : MonoBehaviour
             int index = i;
             itemPrefab.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = PlayerScript.LocalInstance.inventory[index].GetName();
             itemPrefab.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = PlayerScript.LocalInstance.inventory[index].GetDescription();
-            itemPrefab.GetComponentInChildren<Button>().onClick.AddListener(() =>
+            if (GameLogic.Instance.index == PlayerScript.LocalInstance.playerIndex) itemPrefab.GetComponentInChildren<Button>().interactable = false;
+            else
             {
-                PlayerScript.LocalInstance.inventory[index].BeforeOnItemUse();
-                Hide();
-            });
+                itemPrefab.GetComponentInChildren<Button>().onClick.AddListener(() =>
+                {
+                    PlayerScript.LocalInstance.inventory[index].BeforeOnItemUse();
+                    Hide();
+                });
+            }
         }
 
         foreach (Transform child in transform)
