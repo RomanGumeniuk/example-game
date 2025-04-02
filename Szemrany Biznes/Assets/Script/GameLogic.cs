@@ -271,14 +271,14 @@ public class GameLogic : NetworkBehaviour
     public void IncreasCallNextPlayerTurnServerRpc()
     {
         amountOfBlockersForNextPlayerTurn++;
-        //Debug.Log("increase");
+        Debug.Log("increase");
     }
     [ServerRpc(RequireOwnership = false)]
     public void DecreaseCallNextPlayerTurnServerRpc()
     {
         if (amountOfBlockersForNextPlayerTurn == 0) return;
         amountOfBlockersForNextPlayerTurn--;
-        //Debug.Log("decrease");
+        Debug.Log("decrease");
     }
 
     bool isBusy = false;
@@ -374,7 +374,7 @@ public class GameLogic : NetworkBehaviour
         if (PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().wasBetrayed)
         {
             //Debug.Log("betray");
-            AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz ciê podkapowa³, nie mo¿esz nic zrobiæ w tej turze", 2.5f, (int)PlayersOrder[index].ClientId);
+            _ = AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz ciê podkapowa³, nie mo¿esz nic zrobiæ w tej turze", 2.5f, (int)PlayersOrder[index].ClientId);
             PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().SetWasBetrayedServerRpc(false);
             OnNextPlayerTurnServerRpc();
             return;

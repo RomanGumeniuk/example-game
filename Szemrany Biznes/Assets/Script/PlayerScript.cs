@@ -122,10 +122,10 @@ public class PlayerScript : NetworkBehaviour
 
 
     [ClientRpc]
-    public void OnDiceNumberReturnClientRpc(int diceValue, bool movePlayer = true, ClientRpcParams clientRpcParams = default)
+    public void OnDiceNumberReturnClientRpc(int diceValue, bool movePlayer = true,bool isMultiplePlayersThrow=false, ClientRpcParams clientRpcParams = default)
     {
         diceValue = LocalInstance.character.OnDiceRolled(diceValue);
-        GameUIScript.Instance.OnDiceNumberReturn(diceValue);
+        GameUIScript.Instance.OnDiceNumberReturn(diceValue, isMultiplePlayersThrow);
         if(movePlayer)LocalInstance.Move(diceValue);
         else LocalInstance.OnDiceRollValueRecived(diceValue);
     }
@@ -133,14 +133,16 @@ public class PlayerScript : NetworkBehaviour
 
     public async void Move(int diceValue)
     {
+        GameLogic.Instance.IncreasCallNextPlayerTurnServerRpc();
         navMeshAgent.isStopped = false;
         for (int i=0;i<Mathf.Abs(diceValue);i++)
         {
             await ChangeCurrentTileIndex(diceValue,i);
         }
+        GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
         GameLogic.Instance.allTileScripts[currentTileIndex].OnPlayerEnter(currentAvailableTownUpgrade);
         navMeshAgent.isStopped = true;
-
+        
     }
 
     public void ShowSellingTab(int amountOfMoneyThatNeedsToBePaid,int playerIndexThatGetsPaid)
@@ -284,7 +286,7 @@ public class PlayerScript : NetworkBehaviour
 
     public void TeleportToTile(int pickedIndex)
     {
-        
+        Debug.Log(IsOwner+" Tu jestem " + navMeshAgent + " " + playerIndex);
         currentTileIndex = pickedIndex;
         int index = 0;
         if (currentTileIndex > GameLogic.Instance.mapGenerator.GetSize() - 2 && currentTileIndex < (GameLogic.Instance.mapGenerator.GetSize() - 2) * 2 + 2)
@@ -305,9 +307,9 @@ public class PlayerScript : NetworkBehaviour
         navMeshAgent.enabled = true;
     }
     [ClientRpc]
-    public void TeleportToTileClientRpc(int pickedIndex,ClientRpcParams clientRpcParams)
+    public void TeleportToTileClientRpc(int pickedIndex,ClientRpcParams clientRpcParams = default)
     {
-        TeleportToTile(pickedIndex);
+        LocalInstance.TeleportToTile(pickedIndex);
     }
 
     public void AddItemToInventory(Item item)
@@ -319,7 +321,7 @@ public class PlayerScript : NetworkBehaviour
     [ClientRpc]
     public void AddItemToInventoryClientRpc(int itemID,ClientRpcParams clientRpcParams = default)
     {
-        AddItemToInventory(GameLogic.Instance.itemDataBase.allItems[itemID]);
+        LocalInstance.AddItemToInventory(GameLogic.Instance.itemDataBase.allItems[itemID]);
         Debug.Log("AAA " +  itemID);
     }
 

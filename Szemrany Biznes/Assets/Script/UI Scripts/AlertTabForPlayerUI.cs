@@ -74,13 +74,14 @@ public class AlertTabForPlayerUI : NetworkBehaviour, IQueueWindows
     }
 
 
-    public void ShowTabForOtherPlayer(string alertText,float secondsIsVisible,int playerIndex)
+    public async Task ShowTabForOtherPlayer(string alertText,float secondsIsVisible,int playerIndex)
     {
         ShowTabServerRpc(alertText, secondsIsVisible,playerIndex);
+        await Awaitable.WaitForSecondsAsync(secondsIsVisible);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ShowTabServerRpc(string alertText, float secondsIsVisible,int playerIndex)
+    private void ShowTabServerRpc(string alertText, float secondsIsVisible,int playerIndex)
     {
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {

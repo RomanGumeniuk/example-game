@@ -95,7 +95,7 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
                 client.PlayerObject.GetComponent<PlayerScript>().SetIsInPrisonServerRpc(false);
                 client.PlayerObject.GetComponent<PlayerScript>().UpdatePlayerCantMoveVariableServerRpc(0, (int)client.ClientId);
                 _ = AlertTabForPlayerUI.Instance.ShowTab("Uda³o ci siê uwolniæ gracza z wiêzienia!", 2.5f);
-                AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz pomóg³ ci w ucieczce z wiêzienia, jesteœ wolny", 2.5f, (int)client.ClientId);
+                _ = AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz pomóg³ ci w ucieczce z wiêzienia, jesteœ wolny", 2.5f, (int)client.ClientId);
                 return;
             }
             Debug.LogWarning("Nie znaleziono gracza w wiêzieniu");
@@ -113,7 +113,7 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
             if (!client.PlayerObject.GetComponent<PlayerScript>().isInPrison.Value) continue;
             client.PlayerObject.GetComponent<PlayerScript>().SetWasBetrayedServerRpc(true);
             _ = AlertTabForPlayerUI.Instance.ShowTab("Uda³o ci siê odkapowaæ gracza w wiêzieniu!", 2.5f);
-            AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz podkapowa³ ciê, w nastêpnej turze nie bêdziesz móg³ nic zrobiæ", 2.5f, (int)client.ClientId);
+            _ = AlertTabForPlayerUI.Instance.ShowTabForOtherPlayer("Inny gracz podkapowa³ ciê, w nastêpnej turze nie bêdziesz móg³ nic zrobiæ", 2.5f, (int)client.ClientId);
             return;
         }
         Debug.LogWarning("Nie znaleziono gracza w wiêzieniu");

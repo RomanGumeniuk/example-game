@@ -81,7 +81,7 @@ public class DiceSpawn : NetworkBehaviour
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true,DiceType type = DiceType.SixSide)
+    public void RollTheDiceServerRpc(int playerIndex,int diceAmount,bool addDiceLeft = true,bool movePlayer=true,DiceType type = DiceType.SixSide,float gameSpeed = 1.4f)
     {
         diceResults.Clear();
         for (int i=0;i< diceAmount; i++)
@@ -89,7 +89,7 @@ public class DiceSpawn : NetworkBehaviour
             StartCoroutine(CheckVelocity(SpawnDice(type,playerIndex), playerIndex, type,movePlayer));
         }
         if(addDiceLeft) diceLeft[playerIndex] += diceAmount;
-        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(playerIndex, movePlayer);
+        if(!isWaitingForAllDicesToRoll) WaitForAllDiceToRoll(playerIndex, movePlayer, gameSpeed);
     }
 
     private Rigidbody SpawnDice(DiceType diceType, int playerIndex)
@@ -136,9 +136,10 @@ public class DiceSpawn : NetworkBehaviour
         //Debug.Log("Dice decrease" + " "+ diceLeft);
     }
 
-    public async void WaitForAllDiceToRoll(int playerIndex,bool movePlayer = true)
+    private async void WaitForAllDiceToRoll(int playerIndex,bool movePlayer = true,float gameSpeed = 1.4f)
     {
-        Time.timeScale = 1.4f;
+        GameLogic.Instance.IncreasCallNextPlayerTurnServerRpc();
+        Time.timeScale = gameSpeed;
         isWaitingForAllDicesToRoll = true;
         combineDiceNumberCopy.Clear();
         while (true)
@@ -158,6 +159,7 @@ public class DiceSpawn : NetworkBehaviour
         }
         GameLogic.Instance.SetIsDoubletServerRPC(isDoublet);
         combineDiceNumberCopy.AddRange(combineDiceNumber);
+        GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
         for (int i=0;i<combineDiceNumber.Count;i++)
         {
             if (combineDiceNumber.ElementAt(i).Value == 0) continue;
@@ -168,13 +170,14 @@ public class DiceSpawn : NetworkBehaviour
                     TargetClientIds = new ulong[] { (ulong)combineDiceNumber.ElementAt(i).Key }
                 }
             };
-            PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber.ElementAt(i).Value, movePlayer, clientRpcParams);
+            PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber.ElementAt(i).Value, movePlayer, combineDiceNumber.Count>1, clientRpcParams);
             combineDiceNumber[combineDiceNumber.ElementAt(i).Key] = 0;
         }
         
         CheckZone.Instance.DestroyAllDices();
         isWaitingForAllDicesToRoll = false;
         Time.timeScale = 1f;
+        
     }
 
     private Dictionary<int, int> combineDiceNumberCopy = new Dictionary<int, int>();

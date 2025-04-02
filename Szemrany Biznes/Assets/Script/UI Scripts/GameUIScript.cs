@@ -19,9 +19,25 @@ public class GameUIScript : NetworkBehaviour
     public static UnityEvent OnStartGame;
     public static UnityEvent OnNextPlayerTurn;
 
-    public void OnDiceNumberReturn(int diceNumber)
+    public void OnDiceNumberReturn(int diceNumber,bool isMultiplePlayerThrow = false)
     {
-        TextAboutStateOfGame.text = "You rolled " + diceNumber;
+        TextAboutStateOfGame.text = "Wyrzuci³eœ: " + diceNumber;
+        if(!isMultiplePlayerThrow)OnDiceNumberReturnForOtherPlayersServerRpc(diceNumber,PlayerScript.LocalInstance.character.GetName());
+        //PlayerScript.LocalInstance.Move(diceNumber);
+    }
+    [ServerRpc(RequireOwnership =false)]
+    private void OnDiceNumberReturnForOtherPlayersServerRpc(int diceNumber, string playerName)
+    {
+        OnDiceNumberReturnForOtherPlayersClientRpc(diceNumber, playerName);
+    }
+
+
+    [ClientRpc]
+    private void OnDiceNumberReturnForOtherPlayersClientRpc(int diceNumber,string playerName)
+    {
+        if (PlayerScript.LocalInstance.character.GetName() == playerName) return;
+        TextAboutStateOfGame.gameObject.SetActive(true);
+        TextAboutStateOfGame.text = playerName+" wyrzuci³: " + diceNumber;
         //PlayerScript.LocalInstance.Move(diceNumber);
     }
 
@@ -29,6 +45,7 @@ public class GameUIScript : NetworkBehaviour
     {
         RollDiceButton.onClick.AddListener(() =>
         {
+            GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
             RollDiceButton.gameObject.SetActive(false);
             DiceSpawn.Instance.RollTheDiceServerRpc(PlayerScript.LocalInstance.playerIndex,2);
         });
@@ -55,9 +72,10 @@ public class GameUIScript : NetworkBehaviour
 
 
     public void ShowUIForRollDice()
-    { 
+    {
+        GameLogic.Instance.IncreasCallNextPlayerTurnServerRpc();
         RollDiceButton.gameObject.SetActive(true);
-        TextAboutStateOfGame.text = "Roll Dice!!!";
+        TextAboutStateOfGame.text = "Rzuæ kostk¹!!!";
         TextAboutStateOfGame.gameObject.SetActive(true);
         CheckIfButtonShowed();
     }
@@ -82,6 +100,7 @@ public class GameUIScript : NetworkBehaviour
     public void HideButton()
     {
         RollDiceButton.gameObject.SetActive(false);
+        GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
     }
 
 

@@ -14,7 +14,7 @@ public class MelangeTile : Tile
 
     public override void OnPlayerStepped()
     {
-        MelangeTabUI.Instance.OnPlayerEnterServerRpc();
+        MelangeTabUI.Instance.OnPlayerEnterServerRpc(PlayerScript.LocalInstance.playerIndex);
     }
 
 }
