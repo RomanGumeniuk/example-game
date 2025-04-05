@@ -16,6 +16,7 @@ public class GameLogic : NetworkBehaviour
     public List<NetworkClient> PlayersOrder = new List<NetworkClient>();
 
     public ChancesSO chancesSO;
+    public BlessingDataBaseSO blessingDataBaseSO;
 
     public List<TileScript> allTileScripts = new List<TileScript>();
 
@@ -472,6 +473,7 @@ public class GameLogic : NetworkBehaviour
 public static class IListExtensions
 {
     /// <summary>
+    /// 
     /// Shuffles the element order of the specified list.
     /// </summary>
     public static void Shuffle<T>(this IList<T> ts)
