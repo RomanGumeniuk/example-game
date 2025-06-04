@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: -4426713862982720676}
   - component: {fileID: -7835915973141497218}
   - component: {fileID: -3091479849338976474}
+  - component: {fileID: -7724456777953194738}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -235,6 +236,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   wasBetrayed: 0
   playerDrugsSystem: {fileID: -3091479849338976474}
+  playerBlessingSystem: {fileID: -7724456777953194738}
   isBancroupt: 0
 --- !u!114 &-3091479849338976474
 MonoBehaviour:
@@ -256,3 +258,16 @@ MonoBehaviour:
   isInStreak: 0
   modifiers: []
   badTripLength: 0
+--- !u!114 &-7724456777953194738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8427377863888018464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e5bca8b5bed434cabc25b5eaa4a90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using System;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class BlessingSystem : NetworkBehaviour
 {
     List<Blessing> blessings = new List<Blessing>();
 
     
-    public void OnTurnStart()
+    public void OnPlayerTurnEnd()
     {
         foreach(Blessing b in blessings)
         {
@@ -33,11 +34,24 @@ public class BlessingSystem : NetworkBehaviour
                 b.SetAmountOfTurnLeft(blessing.GetAmountOfTurnLeft());
             }
         }
+        DoSthIfNesesery(blessing);
         if (found) return;
 
     }
 
-    public void ApplyBlessing(string blessingName)
+    private void DoSthIfNesesery(Blessing blessing)
+    {
+        switch(blessing.GetName())
+        {
+            case "":
+
+                break;
+        }
+    }
+
+
+
+    public bool CheckBlessing(string blessingName)
     {
         
         bool found = false;
@@ -45,14 +59,7 @@ public class BlessingSystem : NetworkBehaviour
         {
             if (b.GetName() == blessingName) found = true;
         }
-        if(!found) return;
-
-
-        switch(blessingName)
-        {
-            case "":
-                break;
-        }
+        return found;
 
     }
 

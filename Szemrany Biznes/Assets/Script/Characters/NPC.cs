@@ -6,5 +6,6 @@ public class NPC : Character
     {
         Debug.Log("NPC");
         name = "NPC";
+        isWoman = false;
     }
 }

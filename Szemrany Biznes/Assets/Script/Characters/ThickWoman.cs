@@ -14,6 +14,7 @@ public class ThickWoman : Character
     {
         Debug.Log("ThickWoman");
         name = "Baba Grzmot";
+        isWoman = true;
     }
 
     const int AMOUNT_OF_TILES_THAT_SCARES_OTHER_PLAYERS = 2;

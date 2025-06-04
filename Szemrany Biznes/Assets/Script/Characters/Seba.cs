@@ -6,5 +6,6 @@ public class Seba : Character
     {
         Debug.Log("Seba");
         name = "Seba";
+        isWoman = false;
     }
 }

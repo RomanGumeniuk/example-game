@@ -22,22 +22,22 @@ public class GameUIScript : NetworkBehaviour
     public void OnDiceNumberReturn(int diceNumber,bool isMultiplePlayerThrow = false)
     {
         TextAboutStateOfGame.text = "Wyrzuci³eœ: " + diceNumber;
-        if(!isMultiplePlayerThrow)OnDiceNumberReturnForOtherPlayersServerRpc(diceNumber,PlayerScript.LocalInstance.character.GetName());
+        if(!isMultiplePlayerThrow)OnDiceNumberReturnForOtherPlayersServerRpc(diceNumber,PlayerScript.LocalInstance.character.GetName(),PlayerScript.LocalInstance.character.isWoman);
         //PlayerScript.LocalInstance.Move(diceNumber);
     }
     [ServerRpc(RequireOwnership =false)]
-    private void OnDiceNumberReturnForOtherPlayersServerRpc(int diceNumber, string playerName)
+    private void OnDiceNumberReturnForOtherPlayersServerRpc(int diceNumber, string playerName,bool isWoman)
     {
-        OnDiceNumberReturnForOtherPlayersClientRpc(diceNumber, playerName);
+        OnDiceNumberReturnForOtherPlayersClientRpc(diceNumber, playerName,isWoman);
     }
 
 
     [ClientRpc]
-    private void OnDiceNumberReturnForOtherPlayersClientRpc(int diceNumber,string playerName)
+    private void OnDiceNumberReturnForOtherPlayersClientRpc(int diceNumber,string playerName,bool isWoman)
     {
         if (PlayerScript.LocalInstance.character.GetName() == playerName) return;
         TextAboutStateOfGame.gameObject.SetActive(true);
-        TextAboutStateOfGame.text = playerName+" wyrzuci³: " + diceNumber;
+        TextAboutStateOfGame.text = playerName+" wyrzuci³"+(isWoman?"a":"")+": " + diceNumber;
         //PlayerScript.LocalInstance.Move(diceNumber);
     }
 

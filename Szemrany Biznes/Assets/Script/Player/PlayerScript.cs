@@ -38,6 +38,8 @@ public class PlayerScript : NetworkBehaviour
 
     public PlayerDrugsSystem playerDrugsSystem;
 
+    public BlessingSystem playerBlessingSystem;
+
     public bool isBancroupt=false;
 
     public override void OnNetworkSpawn()
@@ -365,6 +367,7 @@ public class PlayerScript : NetworkBehaviour
     public void OnPlayerTurnEndClientRpc(ClientRpcParams clientRpcParams = default)
     {
         playerDrugsSystem.OnPlayerTurnEnded();
+        playerBlessingSystem.OnPlayerTurnEnd();
     }
 
     [ClientRpc]

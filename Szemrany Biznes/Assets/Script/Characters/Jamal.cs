@@ -8,6 +8,7 @@ public class Jamal : Character
     {
         Debug.Log("Jamal");
         name = "Jamal";
+        isWoman = false;
     }
 
     public override bool OnPlayerStepped(TileScript tile)

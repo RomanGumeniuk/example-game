@@ -7,6 +7,7 @@ public abstract class Character
     public string name = "blank";
     public int happinesValue=1;
     public List<Modifiers> characterAdvantagesAndDisadvantages;
+    public bool isWoman;
     public string GetName()
     {
         return name;

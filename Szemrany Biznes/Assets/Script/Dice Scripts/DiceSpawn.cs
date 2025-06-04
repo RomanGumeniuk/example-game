@@ -160,9 +160,11 @@ public class DiceSpawn : NetworkBehaviour
         GameLogic.Instance.SetIsDoubletServerRPC(isDoublet);
         combineDiceNumberCopy.AddRange(combineDiceNumber);
         GameLogic.Instance.DecreaseCallNextPlayerTurnServerRpc();
+        int amountOfThrowers = 0;
         for (int i=0;i<combineDiceNumber.Count;i++)
         {
             if (combineDiceNumber.ElementAt(i).Value == 0) continue;
+            amountOfThrowers++;
             ClientRpcParams clientRpcParams = new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
@@ -170,7 +172,7 @@ public class DiceSpawn : NetworkBehaviour
                     TargetClientIds = new ulong[] { (ulong)combineDiceNumber.ElementAt(i).Key }
                 }
             };
-            PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber.ElementAt(i).Value, movePlayer, combineDiceNumber.Count>1, clientRpcParams);
+            PlayerScript.LocalInstance.OnDiceNumberReturnClientRpc(combineDiceNumber.ElementAt(i).Value, movePlayer, amountOfThrowers > 1, clientRpcParams);
             combineDiceNumber[combineDiceNumber.ElementAt(i).Key] = 0;
         }
         

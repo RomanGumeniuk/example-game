@@ -8,6 +8,7 @@ public class Jew : Character
     {
         Debug.Log("Jew");
         name = "¯yd";
+        isWoman = false;
     }
     int moves = 0;
     public override bool OnPlayerStepped(TileScript tile)

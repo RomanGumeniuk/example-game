@@ -7,6 +7,7 @@ public class Homeless : Character
     {
         Debug.Log("Homeless");
         name = "Mietek";
+        isWoman = false;
     }
 
     public override bool OnPlayerStepped(TileScript tile)

@@ -8,6 +8,7 @@ public class BrothelKeeper : Character
     {
         Debug.Log("BrothelKeeper");
         name = "Burdel Mama";
+        isWoman = true;
     }
 
     const float EARNINGS_MULTIPLIER = 0.1f;

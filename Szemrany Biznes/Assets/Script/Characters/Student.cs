@@ -7,6 +7,7 @@ public class Student : Character
     {
         Debug.Log("Student");
         name = "Student";
+        isWoman = false;
     }
     const float START_MONEY_MULTIPLIER = 0.8f;
 
