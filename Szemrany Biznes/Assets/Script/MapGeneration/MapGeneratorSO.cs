@@ -103,17 +103,24 @@ public class MapGeneratorSO : ScriptableObject
         GameObject tileObject = Instantiate(tilePrefab, position, Quaternion.Euler(new Vector3(0, rotation, 0)), board.transform);
         tileObject.name = tile.GetName();
         tileObject.transform.localScale = new Vector3(tileSize.x / 100, 1, tileSize.y / 100);
-        tileObject.GetComponent<MeshRenderer>().material = tile.GetMaterial();
         switch (tile.GetTileType())
         {
             case TileType.TownTile:
             case TileType.GangTile:
             case TileType.SpecialTile:
-                GameObject prefabButton = Instantiate(townButton, Vector3.zero,Quaternion.identity,Instantiate(townTilesCanvas, tileObject.transform).transform);
+                GameObject townPrefab = Instantiate(townTilesCanvas, tileObject.transform);
+                GameObject prefabButton = Instantiate(townButton, Vector3.zero,Quaternion.identity, townPrefab.transform);
                 prefabButton.transform.localPosition = new Vector3(0, (((GetSize()*4)-4) / 2 >= tile.GetIndex()-1?-6.5f:6.5f), -0.0001f);
                 prefabButton.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                townPrefab.GetComponent<DisplayPropertyUI>().SetUpDisplay(tile.GetName(), tile.GetMaterial(), tile.GetTownCostToBuy()[0]);
+                if(tile.GetMaterial().color == Color.white)
+                {
+                    townPrefab.GetComponent<DisplayPropertyUI>().townCostToPay.color = Color.black;
+                    townPrefab.GetComponent<DisplayPropertyUI>().townName.color = Color.black;
+                }
                 break;
             default:
+                tileObject.GetComponent<MeshRenderer>().material = tile.GetMaterial();
                 TextMeshProUGUI ui = Instantiate(otherTilesCanvas, tileObject.transform).GetComponentInChildren<TextMeshProUGUI>();
                 ui.text = tile.GetName().Split(" ")[0];
                 if(ui.transform.parent.parent.GetComponent<MeshRenderer>().sharedMaterials[0].color == Color.black) ui.color = Color.white;

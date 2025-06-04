@@ -9,12 +9,13 @@ public class DisplayPropertyUI : MonoBehaviour
 {
     public Toggle toggle;
     public TextMeshProUGUI townCostToPay;
-    public TextMeshProUGUI ownerId;
-    public TextMeshProUGUI townLevel;
+    public TextMeshProUGUI townName;
     public Image backgroundImage;
     public GameObject backgroundOfToggle;
     public TileScript tileScript;
     public Button townButton;
+    public Image lableImage;
+
 
     private void Awake()
     {
@@ -45,7 +46,21 @@ public class DisplayPropertyUI : MonoBehaviour
         });
 
         townButton.gameObject.SetActive(false);
+        
     }
+
+
+    public void SetUpDisplay(string name, Material material,int cost)
+    {
+        if(name.Contains(" - "))
+        {
+            townName.text = name.Split(" - ")[0];
+        }
+        else townName.text = name;
+        lableImage.color = material.color;
+        townCostToPay.text = cost.ToString();
+    }
+
 
     public void ShowButton(string text)
     {
@@ -82,31 +97,23 @@ public class DisplayPropertyUI : MonoBehaviour
         {
             if (onlyChangeText)
             {
-                this.ownerId.text = "";
-                this.townLevel.text = "";
                 this.townCostToPay.text = "";
                 return;
             }
             backgroundImage.gameObject.SetActive(false);
             backgroundOfToggle.SetActive(false);
             toggle.enabled = false;
-            this.ownerId.text = "";
-            this.townLevel.text = "";
             this.townCostToPay.text = "";
             return;
         }
         if (onlyChangeText)
         {
-            this.ownerId.text = ownerId.ToString();
-            this.townLevel.text = "Lvl:" + townLevel;
             this.townCostToPay.text = townCostToPay + "PLN";
             return;
         }
         backgroundImage.gameObject.SetActive(false);
         backgroundOfToggle.SetActive(false);
         toggle.enabled = false;
-        this.ownerId.text = ownerId.ToString();
-        this.townLevel.text = "Lvl:" + townLevel;
         this.townCostToPay.text = townCostToPay + "PLN";
     }
 
