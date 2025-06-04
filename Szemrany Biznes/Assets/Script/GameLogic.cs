@@ -272,14 +272,12 @@ public class GameLogic : NetworkBehaviour
     public void IncreasCallNextPlayerTurnServerRpc()
     {
         amountOfBlockersForNextPlayerTurn++;
-        //Debug.Log("increase");
     }
     [ServerRpc(RequireOwnership = false)]
     public void DecreaseCallNextPlayerTurnServerRpc()
     {
         if (amountOfBlockersForNextPlayerTurn == 0) return;
         amountOfBlockersForNextPlayerTurn--;
-        //Debug.Log("decrease");
     }
 
     bool isBusy = false;

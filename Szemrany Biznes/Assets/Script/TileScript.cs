@@ -104,7 +104,6 @@ public class TileScript : NetworkBehaviour
     }
     public void OnOwnerValueChanged(int prevValue, int newValue)
     {
-        Debug.Log($"owner changed {prevValue}  {newValue}");
         if(newValue!=-1) NetworkManager.Singleton.ConnectedClientsList[newValue].PlayerObject.GetComponent<PlayerScript>().character.OnOwnedTileChange(this);
         else if(prevValue !=-1) NetworkManager.Singleton.ConnectedClientsList[prevValue].PlayerObject.GetComponent<PlayerScript>().character.OnOwnedTileChange(this);
         if (tileType != 0) return;
@@ -168,7 +167,6 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership =false)]
     public void SetMonopolyServerRpc(bool Value)
     {
-        Debug.Log("Monopol set " + Value);
         SetMonopolyClientRpc(Value);
     }
     [ClientRpc]
@@ -294,7 +292,6 @@ public class TileScript : NetworkBehaviour
 
     public int GetRepairCost()
     {
-        Debug.Log(specialTileScript.CaluculatePropertyValue() + " " + ((float)destroyPercentage.Value / 100));
         return (int)(specialTileScript.CaluculatePropertyValue() * ((float)destroyPercentage.Value / 100));
     }
 

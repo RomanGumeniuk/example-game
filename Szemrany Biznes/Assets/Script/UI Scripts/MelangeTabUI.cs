@@ -38,7 +38,6 @@ public class MelangeTabUI : NetworkBehaviour
     {
         GameLogic gameLogic = GameLogic.Instance;
         DiceSpawn diceSpawn = DiceSpawn.Instance;
-        Debug.Log("OOO" + " " + gameLogic.allPlayerAmount);
         for (int i = 0; i < gameLogic.allPlayerAmount; i++)
         {
             int playerId = (int)gameLogic.PlayersOrder[i].ClientId;

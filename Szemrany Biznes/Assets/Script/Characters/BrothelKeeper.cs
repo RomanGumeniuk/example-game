@@ -53,7 +53,6 @@ public class BrothelKeeper : Character
     {
         foreach (TileScript playerTile in playerScript.GetTilesThatPlayerOwnList())
         {
-            Debug.Log("town updated " + playerTile.name + " " + playerTile.ownerId.Value + " " + playerScript.playerIndex);
             if (playerTile.propertyType == PropertyType.Prostitution)
             {
                 playerTile.UpdateOwnerTextServerRpc();

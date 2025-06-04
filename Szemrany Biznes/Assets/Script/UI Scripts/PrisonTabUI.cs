@@ -66,7 +66,6 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
     {
         if (!isWaitingForDiceRoll) return;
         isWaitingForDiceRoll = false;
-        Debug.Log("On dice value returned: " + diceValue);
         if (PlayerScript.LocalInstance.isInPrison.Value)
         {
             if(diceValue == 3 || diceValue ==7)
@@ -127,7 +126,6 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
 
     public void Show(int playerIndex=-1)
     {
-        Debug.Log("a");
         if(playerIndex == -1) playerIndex = PlayerScript.LocalInstance.playerIndex;
         ShowServerRpc(playerIndex); 
     }
@@ -143,7 +141,6 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
                 TargetClientIds = new ulong[] { (ulong)playerIndex }
             }
         };
-        Debug.Log("b " + playerIndex);
         ShowClientRpc(clientRpcParams);
     }
 

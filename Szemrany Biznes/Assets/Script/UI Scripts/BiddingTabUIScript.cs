@@ -177,29 +177,23 @@ public class BiddingTabUIScript : NetworkBehaviour
 
     public void OnCurrentBidChanged(int prevValue,int currentValue)
     {
-        Debug.Log($"old: {prevValue} new:{currentValue}");
-        Debug.Log($"player money: {PlayerScript.LocalInstance.amountOfMoney.Value} curentBid{currentValue}");
         if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 10)
         {
             Bid10Button.interactable = false;
             RemovePlayerToListServerRpc(PlayerScript.LocalInstance.playerIndex);
             HideBiddingOption();
-            Debug.Log("hide10");
         }
         if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 50)
         {
             Bid50Button.interactable = false;
-            Debug.Log("hide50");
         }
         if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 100)
         {
             Bid100Button.interactable = false;
-            Debug.Log("hide100");
         }
         if (PlayerScript.LocalInstance.amountOfMoney.Value < currentValue + 200)
         {
             Bid200Button.interactable = false;
-            Debug.Log("hide200");
         }
     }
     
@@ -207,7 +201,6 @@ public class BiddingTabUIScript : NetworkBehaviour
     {
         if (currentBidWinnerPlayerIndex.Value != PlayerScript.LocalInstance.playerIndex)
         {
-            Debug.Log("true interactable |" + currentBidWinnerPlayerIndex.Value +"|"+ PlayerScript.LocalInstance.playerIndex);
             PassButton.interactable = true;
             if(PlayerScript.LocalInstance.amountOfMoney.Value >= currentBid.Value + 10)
                 Bid10Button.interactable = true;

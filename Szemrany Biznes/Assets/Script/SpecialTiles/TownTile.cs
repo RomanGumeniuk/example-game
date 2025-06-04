@@ -107,7 +107,6 @@ public class TownTile : Tile
                 AlcoholTabUI.Instance.Show(tileScript.ownerId.Value == PlayerScript.LocalInstance.playerIndex, tileScript);
                 break;
             case PropertyType.Drugs:
-                Debug.Log("abc");
                 tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, PlayerScript.LocalInstance.currentAvailableTownUpgrade);
                 DrugTabUI.Instance.Show(tileScript);
                 break;

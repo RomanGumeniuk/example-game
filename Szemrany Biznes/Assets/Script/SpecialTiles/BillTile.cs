@@ -23,7 +23,6 @@ public class BillTile : Tile
             {
                 
                 payAmount += player.GetTilesThatPlayerOwnList()[i].specialTileScript.CaluculatePropertyValue() / 20;
-                Debug.Log(player.GetTilesThatPlayerOwnList()[i].name + " " + payAmount + " " + player.GetTilesThatPlayerOwnList()[i].specialTileScript.CaluculatePropertyValue() / 20);
             }
             tileScript.Pay(player.amountOfMoney.Value, payAmount, false);
         }

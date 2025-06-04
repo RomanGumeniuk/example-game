@@ -50,8 +50,6 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
         });
         take.onClick.AddListener(() =>
         {
-            Debug.Log(listOfPickedAlcohols.Count + " / " + selectedAlcoholIndex);
-            
             PlayerScript.LocalInstance.AddItemToInventory(listOfPickedAlcohols[selectedAlcoholIndex]);
             OnOptionSelected(-1);
             Hide();
@@ -73,13 +71,11 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
             }
             int randomNumber = Random.Range(0, maxRandomNumber);
             int currentValue = 0;
-            Debug.Log(randomNumber + " " + maxRandomNumber);
             for (int i = 0; i < newTierValues.Count; i++)
             {
                 currentValue += newTierValues[i];
                 if (randomNumber < currentValue)
                 {
-                    Debug.Log("i:" + i);
                     itemTiersPicked.Add((ItemTier)i);
                     break;
                 }
@@ -132,7 +128,6 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
         for (int i = 0; i < (isCurrentPlayerOwner?options.Count:0); i++)
         {
             if (i == index) continue;
-            Debug.Log(i + " " +  options[i].name);
             options[i].GetComponentInChildren<Toggle>().isOn = false;
         }
     }
@@ -178,7 +173,6 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
         List<int> alcoholTierValues = tierValues[currentTileScript.townLevel.Value];
         int currentValue = 0;
         int randomNumber = Random.Range(0,100);
-        Debug.Log(randomNumber + "random number");
         itemTiersPicked.Clear();
         for(int i=0;i<alcoholTierValues.Count;i++)
         {
@@ -193,7 +187,6 @@ public class AlcoholTabUI : MonoBehaviour,IQueueWindows
             currentValue += alcoholTierValues[i];
             if (randomNumber < currentValue)
             {
-                Debug.Log("i:"+i);
                 itemTiersPicked.Add((ItemTier)i);
                 break;
             }

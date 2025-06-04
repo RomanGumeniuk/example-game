@@ -34,7 +34,6 @@ public class Jamal : Character
             PlayerScript player = client.PlayerObject.GetComponent<PlayerScript>();
             //Debug.Log("j " + player.playerIndex);
             if ((int)client.ClientId == playerScript.playerIndex) continue;
-            Debug.Log("other player index: " + client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex + " " + GameLogic.GetRealTileIndexFromAllTiles(tile.index));
             if(client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex != playerScript.currentTileIndex) continue;
             
             randomNumber = Random.Range(1, 100);

@@ -82,7 +82,6 @@ public class ChoosingPropertyTypeUI : MonoBehaviour, IQueueWindows
             AllOptions[i].transform.parent.GetComponentInChildren<TextMeshProUGUI>().text = cost.ToString() + " PLN";
             if (PlayerScript.LocalInstance.amountOfMoney.Value < cost)
             {
-                Debug.Log("ok " + AllOptions[i].transform.parent.position.x);
                 AllOptions[i].transform.parent.GetComponent<RawImage>().color = new Color32(100, 100, 100, 255);
                 AllOptions[i].interactable = false;
             }

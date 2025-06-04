@@ -47,7 +47,6 @@ public abstract class Character
 
     public virtual bool OnPlayerStepped(TileScript tile)
     {
-        Debug.Log("Character");
         return false;
     }
 
@@ -74,10 +73,8 @@ public abstract class Character
             case TypeOfModificator.MoneyOnStartTile:
                 currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
                 if (currentModifier == null) break;
-                Debug.Log(value + " " + (float)currentModifier.value / 100);
                 if (currentModifier.modifiersType == ModifiersType.Precentage) value += (int)((float)((float)currentModifier.value / 100) * value);
                 else value += currentModifier.value;
-                Debug.Log(value + "L");
                 break;
             case TypeOfModificator.AlcoholTier:
                 currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
@@ -107,7 +104,6 @@ public abstract class Character
     public virtual void ClaimDeadDropBox(DeadDropBox deadDropBoxScript)
     {
         deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
-        Debug.Log("ooo");
     }
 
     public virtual float ApplyCharacterAdvantagesOrDisadvantages(string modificatorName,float value)
