@@ -383,6 +383,7 @@ public class TileScript : NetworkBehaviour
         townLevel.Value = currentNewLevel;
         specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
         UpdateOwnerText(ownerId, townLevel.Value);
+        
     }
 
     [ServerRpc(RequireOwnership =false)]
@@ -431,6 +432,7 @@ public class TileScript : NetworkBehaviour
         if (ownerId != -1) GetComponent<MeshRenderer>().material = GameLogic.Instance.PlayerColors[ownerId];
         else GetComponent<MeshRenderer>().material = startMaterial;
         displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay, onlyChangeText);
+        displayPropertyUI.UpdateBuilding(townLevel);
     }
 
     [ServerRpc(RequireOwnership =false)]

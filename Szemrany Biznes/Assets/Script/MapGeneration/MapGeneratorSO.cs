@@ -113,7 +113,7 @@ public class MapGeneratorSO : ScriptableObject
                 prefabButton.transform.localPosition = new Vector3(0, (((GetSize()*4)-4) / 2 >= tile.GetIndex()-1?-6.5f:6.5f), -0.0001f);
                 prefabButton.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 townPrefab.GetComponent<DisplayPropertyUI>().SetUpDisplay(tile.GetName(), tile.GetMaterial(), tile.GetTownCostToBuy()[0]);
-                if(tile.GetMaterial().color == Color.white)
+                if(tile.GetMaterial().color == Color.white || tile.GetMaterial().name == "Yellow")
                 {
                     townPrefab.GetComponent<DisplayPropertyUI>().townCostToPay.color = Color.black;
                     townPrefab.GetComponent<DisplayPropertyUI>().townName.color = Color.black;

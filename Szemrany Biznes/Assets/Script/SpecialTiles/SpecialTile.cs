@@ -38,14 +38,12 @@ public class SpecialTile : Tile
     public int CalculatePayAmount()
     {
         List<TileScript> ownerProperties = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().GetTilesThatPlayerOwnList();
-        Debug.Log(ownerProperties.Count + " " + type);
         int calculatedAmount = tileScript.GetTownCostToPayIndex(0, tileScript.ownerId.Value);
         switch (type)
         {
             case Type.FieldAirport:
                 for (int i = 0;i<ownerProperties.Count;i++)
                 {
-                    Debug.Log(ownerProperties[i].propertyType + " " + ownerProperties[i].name);
                     if (ownerProperties[i].propertyType != PropertyType.Drugs) continue;
                     calculatedAmount += ownerProperties[i].specialTileScript.GetPayAmount() /10;
                 }

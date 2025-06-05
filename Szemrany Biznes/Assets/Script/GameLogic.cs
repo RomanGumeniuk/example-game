@@ -20,6 +20,8 @@ public class GameLogic : NetworkBehaviour
 
     public List<TileScript> allTileScripts = new List<TileScript>();
 
+    public List<GameObject> propertyTiers = new List<GameObject>();
+
     public List<Transform> allPlayersListPrefab = new List<Transform>();
 
     public List<string> chanceList = new List<string>();

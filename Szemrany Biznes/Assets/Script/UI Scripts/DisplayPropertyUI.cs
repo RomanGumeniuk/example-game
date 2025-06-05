@@ -49,6 +49,19 @@ public class DisplayPropertyUI : MonoBehaviour
         
     }
 
+    public void UpdateBuilding(int propertyTier)
+    {
+        foreach(Transform child in toggle.transform)
+        {
+            if (child.name.StartsWith("Level"))
+            {
+                Destroy(child.gameObject);
+                break;
+            }
+        }
+        if (propertyTier == -1) return;
+        Instantiate(GameLogic.Instance.propertyTiers[propertyTier],toggle.transform);
+    }
 
     public void SetUpDisplay(string name, Material material,int cost)
     {
