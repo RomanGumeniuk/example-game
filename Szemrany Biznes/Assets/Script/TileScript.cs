@@ -379,12 +379,25 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpgradeTownServerRpc(int currentNewLevel,int ownerId)
     {
+        /*if(tileType == TileType.GangTile)
+        {
+            UpgradeGangTileServerRpc(ownerId);
+            return;
+        }*/
         this.ownerId.Value = ownerId;
         townLevel.Value = currentNewLevel;
         specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
         UpdateOwnerText(ownerId, townLevel.Value);
         
     }
+    /*[ServerRpc(RequireOwnership = false)]
+    public void UpgradeGangTileServerRpc(int ownerId)
+    {
+        this.ownerId.Value = ownerId;
+        townLevel.Value = 
+        specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
+        UpdateOwnerText(ownerId, townLevel.Value);
+    }*/
 
     [ServerRpc(RequireOwnership =false)]
     public void UpdateOwnerTextServerRpc(bool onlyChangeText=false)
@@ -429,6 +442,7 @@ public class TileScript : NetworkBehaviour
     [ClientRpc]
     private void UpdateOwnerTextClientRpc(int ownerId,int townLevel,int townCostToPay,bool onlyChangeText)
     {
+        Debug.Log("OOO"+townLevel);
         if (ownerId != -1) GetComponent<MeshRenderer>().material = GameLogic.Instance.PlayerColors[ownerId];
         else GetComponent<MeshRenderer>().material = startMaterial;
         displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay, onlyChangeText);
@@ -451,7 +465,8 @@ public class TileScript : NetworkBehaviour
             if (tile.displayPropertyUI == null) continue;
             if (tile.ownerId.Value == -1) continue;
             int payAmount = tile.specialTileScript.GetPayAmount();
-            tile.displayPropertyUI.ShowNormalView(tile.ownerId.Value, tile.townLevel.Value, payAmount, true);        
+            tile.displayPropertyUI.ShowNormalView(tile.ownerId.Value, tile.townLevel.Value, payAmount, true);
+            tile.displayPropertyUI.UpdateBuilding(tile.townLevel.Value);
         }
     }
 
@@ -518,6 +533,11 @@ public class TileScript : NetworkBehaviour
     public void SetTownCostToBuy(List<int> townCostToBuy)
     {
         this.townCostToBuy = new List<int>(townCostToBuy);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SetTownLevelServerRpc(int newTownLevel)
+    { 
+        townLevel.Value = newTownLevel;
     }
 
 }

@@ -15,7 +15,7 @@ public class Jamal : Character
     {
         if (tile.tileType != TileType.TownTile && tile.tileType != TileType.SpecialTile && tile.tileType != TileType.GangTile) return false;
         Debug.Log("Jamalll");
-        if (tile.ownerId.Value == playerScript.playerIndex) return false;
+        if (tile.ownerId.Value == playerScript.playerIndex || tile.ownerId.Value == -1) return false;
         int randomNumber = Random.Range(1, 100);
         Debug.Log("Random number: " + randomNumber);
         if(randomNumber < 6)

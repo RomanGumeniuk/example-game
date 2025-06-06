@@ -55,4 +55,22 @@ public class GangTile : Tile
         Character character = NetworkManager.Singleton.ConnectedClientsList[tileScript.ownerId.Value].PlayerObject.GetComponent<PlayerScript>().character;
         return tileScript.GetTownCostToBuyIndex(0, character);
     }
+
+    public override void OnTownUpgrade(int ownerID, int townLevel)
+    {
+        townLevel = -1;
+        for (int i = 0; i < tileScript.AllTownsToGetMonopol.Count; i++)
+        {
+            if (tileScript.AllTownsToGetMonopol[i].ownerId.Value == ownerID) townLevel++;
+        }
+        foreach (TileScript tile in tileScript.AllTownsToGetMonopol)
+        {
+            if (tile.ownerId.Value == tileScript.ownerId.Value)
+            {
+                tile.SetTownLevelServerRpc(townLevel);
+                //tile.UpdateOwnerTextServerRpc(true);
+            }
+        }
+
+    }
 }

@@ -381,8 +381,13 @@ public class GameLogic : NetworkBehaviour
             return;
         }
 
-        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isInPrison.Value && PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value > 0)
+        if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().isInPrison.Value)
         {
+            if(PlayersOrder[index].PlayerObject.GetComponent<PlayerScript>().cantMoveFor.Value == 0)
+            {
+                PrisonTabUI.Instance.ServedTimeInPrisonServerRpc((int)PlayersOrder[index].ClientId);
+                return;
+            }
             PrisonTabUI.Instance.Show((int)PlayersOrder[index].ClientId);
             //Debug.Log("Prison");
             return;

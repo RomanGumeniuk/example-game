@@ -67,7 +67,7 @@ public class DisplayPropertyUI : MonoBehaviour
     {
         if(name.Contains(" - "))
         {
-            townName.text = name.Split(" - ")[0];
+            townName.text = name.Split(" - ")[1];
         }
         else townName.text = name;
         lableImage.color = material.color;

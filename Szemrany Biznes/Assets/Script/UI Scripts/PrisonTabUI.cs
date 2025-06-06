@@ -194,4 +194,23 @@ public class PrisonTabUI : NetworkBehaviour,IQueueWindows
     {
         Show();
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void ServedTimeInPrisonServerRpc(int playerIndex = -1)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { (ulong)playerIndex }
+            }
+        };
+        ServedTimeInPrisonClientRpc(clientRpcParams);
+    }
+    [ClientRpc(RequireOwnership = false)]
+    public void ServedTimeInPrisonClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        PlayerScript.LocalInstance.SetIsInPrisonServerRpc(false);
+        _ = AlertTabForPlayerUI.Instance.ShowTab("Odsiedzia³eœ ca³¹ kare w wiêzieniu.\nJesteœ wolny!", 3, false);
+        GameUIScript.Instance.ShowUIForRollDice();
+    }
 }
