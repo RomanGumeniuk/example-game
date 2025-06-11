@@ -87,7 +87,7 @@ public class SpecialTile : Tile
     public override void OnTownLevelChanged(int prevValue, int newValue)
     {
         Debug.Log("town level changed " + tileScript.name);
-        FindAndUpdateAllTiles(tileScript.ownerId.Value);
+        if(newValue!=-1)FindAndUpdateAllTiles(tileScript.ownerId.Value);
     }
 
     private void FindAndUpdateAllTiles(int ownerID)

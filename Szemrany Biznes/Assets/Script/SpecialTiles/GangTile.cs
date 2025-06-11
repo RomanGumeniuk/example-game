@@ -68,7 +68,7 @@ public class GangTile : Tile
             if (tile.ownerId.Value == tileScript.ownerId.Value)
             {
                 tile.SetTownLevelServerRpc(townLevel);
-                //tile.UpdateOwnerTextServerRpc(true);
+                tile.UpdateOwnerTextServerRpc(true);
             }
         }
 

@@ -239,8 +239,9 @@ public class PlayerScript : NetworkBehaviour
     [ClientRpc]
     private void RemoveTilesThatPlayerOwnListClientRpc(int tileIndex)
     {
-        for(int i=0;i<tilesThatPlayerOwnList.Count;i++)
+        for (int i=0;i<tilesThatPlayerOwnList.Count;i++)
         {
+            Debug.Log(tileIndex + " " + tilesThatPlayerOwnList[i].index);
             if (tilesThatPlayerOwnList[i].index == tileIndex)
             {
                 tilesThatPlayerOwnList.RemoveAt(i);

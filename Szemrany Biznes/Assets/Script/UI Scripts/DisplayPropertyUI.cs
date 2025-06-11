@@ -55,12 +55,14 @@ public class DisplayPropertyUI : MonoBehaviour
         {
             if (child.name.StartsWith("Level"))
             {
+                Debug.Log("Destroyed: " + child.name);
                 Destroy(child.gameObject);
                 break;
             }
         }
         if (propertyTier == -1) return;
-        Instantiate(GameLogic.Instance.propertyTiers[propertyTier],toggle.transform);
+        GameObject child2 = Instantiate(GameLogic.Instance.propertyTiers[propertyTier],toggle.transform);
+        Debug.Log("Created: " + child2.name);
     }
 
     public void SetUpDisplay(string name, Material material,int cost)

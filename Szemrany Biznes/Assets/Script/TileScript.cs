@@ -29,7 +29,7 @@ public class TileScript : NetworkBehaviour
 
     public List<TileScript> AllTownsToGetMonopol = new List<TileScript>();
 
-    private Material startMaterial;
+    [SerializeField] private Material startMaterial;
 
     public Tile specialTileScript;
 
@@ -41,10 +41,10 @@ public class TileScript : NetworkBehaviour
     {
         displayPropertyUI = transform.GetComponentInChildren<DisplayPropertyUI>();
         specialTileScript = SetSpecialTileScript();
+        startMaterial = transform.GetComponent<MeshRenderer>().material;
         if (tileType != 0) return;
 
         if (townCostToBuy.Count == 0) return;
-        startMaterial = transform.GetComponent<MeshRenderer>().material;
         townCostToBuy.Add(Mathf.CeilToInt(townCostToBuy[0] * 1.5f));
         townCostToBuy.Add(townCostToBuy[0] * 3);
         townCostToBuy.Add(Mathf.CeilToInt(townCostToBuy[0] * 4.5f));
@@ -215,7 +215,11 @@ public class TileScript : NetworkBehaviour
         }
         if (playerAmountOfMoney >= Cost)
         {
-            BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
+            if (tileType == TileType.TownTile)
+            {
+                ChoosingPropertyTypeUI.Instance.ShowChoosingUI(this);
+            }
+            else BuyingTabForOnePaymentUIScript.Instance.ShowBuyingUI(Cost, this);
             return;
         }
         _ = AlertTabForPlayerUI.Instance.ShowTab($"Nie staæ ciê na t¹ posiad³oœæ: {GetTownCostToBuyIndex(0)}PLN!", 3.5f, invokeNextPlayer);
@@ -411,7 +415,7 @@ public class TileScript : NetworkBehaviour
     {
         int townTotalValue = specialTileScript.CaluculatePropertyValue();
         specialTileScript.OnTownSell(playerIndex);
-        PlayerScript.LocalInstance.RemoveTilesThatPlayerOwnListServerRpc(index);
+        NetworkManager.Singleton.ConnectedClients[(ulong)playerIndex].PlayerObject.GetComponent<PlayerScript>().RemoveTilesThatPlayerOwnListServerRpc(index);
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(townTotalValue, playerIndex, 2);
         ownerId.Value = -1;
         townLevel.Value = -1;
@@ -439,10 +443,11 @@ public class TileScript : NetworkBehaviour
         else UpdateOwnerTextClientRpc(ownerId, townLevel, specialTileScript.GetPayAmount(), onlyChangeText);
     }
 
+
+
     [ClientRpc]
     private void UpdateOwnerTextClientRpc(int ownerId,int townLevel,int townCostToPay,bool onlyChangeText)
     {
-        Debug.Log("OOO"+townLevel);
         if (ownerId != -1) GetComponent<MeshRenderer>().material = GameLogic.Instance.PlayerColors[ownerId];
         else GetComponent<MeshRenderer>().material = startMaterial;
         displayPropertyUI.ShowNormalView(ownerId, townLevel, townCostToPay, onlyChangeText);
@@ -466,9 +471,9 @@ public class TileScript : NetworkBehaviour
             if (tile.ownerId.Value == -1) continue;
             int payAmount = tile.specialTileScript.GetPayAmount();
             tile.displayPropertyUI.ShowNormalView(tile.ownerId.Value, tile.townLevel.Value, payAmount, true);
-            tile.displayPropertyUI.UpdateBuilding(tile.townLevel.Value);
         }
     }
+
 
 
     public void ShowSellingView()

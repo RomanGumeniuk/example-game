@@ -16,7 +16,7 @@ public class TownTile : Tile
     public override int GetPayAmount()
     {
         if (tileScript.destroyPercentage.Value > 0) return 0;
-
+        if (tileScript.ownerId.Value == -1) return 0;
         if (tileScript.propertyType == PropertyType.None || tileScript.propertyType == PropertyType.Gambling) return base.GetPayAmount();
         int curentPayValue;
         bool isAirportInStock;
