@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
-using UnityEngine.AI;
-
+[Serializable]
 public class Homeless : Character
 {
     public override void Greetings()
@@ -12,7 +12,7 @@ public class Homeless : Character
 
     public override bool OnPlayerStepped(TileScript tile)
     {
-        int number = Random.Range(0, 100);
+        int number = UnityEngine.Random.Range(0, 100);
         Debug.Log("Homeless "+number);
         if (number > 70)
         {

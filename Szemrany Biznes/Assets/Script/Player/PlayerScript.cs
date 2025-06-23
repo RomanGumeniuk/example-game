@@ -28,6 +28,7 @@ public class PlayerScript : NetworkBehaviour
 
     private CinemachineCamera camera;
 
+    [SerializeField]
     public Character character;
 
     public Tile tileType;

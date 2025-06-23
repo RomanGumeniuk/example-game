@@ -38,6 +38,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour, IQueueWindows
             {
                 GameLogic.Instance.UpdateMoneyForPlayerServerRpc(baseCost, PlayerScript.LocalInstance.playerIndex, 1);
                 currentTileScript.UpgradeTownServerRpc(0, PlayerScript.LocalInstance.playerIndex);
+                PlayerScript.LocalInstance.character.AfterCharacterPayForSth(TypeOfModificator.BuyingTown, baseCost);
                 Hide();
                 return;
             }
@@ -46,6 +47,7 @@ public class ChoosingPropertyTypeUI : MonoBehaviour, IQueueWindows
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.SetPropertyTypeServerRpc((PropertyType)(selectedOption+1));
             currentTileScript.UpgradeTownServerRpc(1, PlayerScript.LocalInstance.playerIndex);
+            PlayerScript.LocalInstance.character.AfterCharacterPayForSth(TypeOfModificator.BuyingTown, totalCost);
             Hide();
         });
 

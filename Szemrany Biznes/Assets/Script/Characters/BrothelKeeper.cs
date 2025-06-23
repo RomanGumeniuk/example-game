@@ -1,6 +1,7 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
-
+[Serializable]
 public class BrothelKeeper : Character
 {
 

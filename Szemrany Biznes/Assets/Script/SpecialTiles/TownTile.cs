@@ -110,6 +110,10 @@ public class TownTile : Tile
                 tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, PlayerScript.LocalInstance.currentAvailableTownUpgrade);
                 DrugTabUI.Instance.Show(tileScript);
                 break;
+            case PropertyType.Prostitution:
+                tileScript.OnTownEnter(PlayerScript.LocalInstance.amountOfMoney.Value, PlayerScript.LocalInstance.currentAvailableTownUpgrade);
+                ProstitutionUITab.Instance.Show(tileScript);
+                break;
             default:
                 if (tileScript.tileType == TileType.TownTile)
                 {

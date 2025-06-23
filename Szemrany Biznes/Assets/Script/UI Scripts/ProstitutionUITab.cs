@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProstitutionUITab : MonoBehaviour, IQueueWindows
 {
@@ -11,7 +12,25 @@ public class ProstitutionUITab : MonoBehaviour, IQueueWindows
 
 
     TileScript tile;
-    public GameObject minigame;
+    public MiniGameScript minigame;
+    [SerializeField] private Button take;
+    [SerializeField] private Button exit;
+
+    private void Start()
+    {
+        take.onClick.AddListener(() =>
+        {
+            minigame.ShowMiniGame(tile.townLevel.Value);
+        });
+
+        exit.onClick.AddListener(() =>
+        {
+
+
+        });
+    }
+
+
     public void Show(TileScript tile)
     {
         this.tile = tile;
@@ -22,7 +41,6 @@ public class ProstitutionUITab : MonoBehaviour, IQueueWindows
     {
         foreach (Transform child in transform)
         {
-            if (child.name == minigame.name) continue;
             child.gameObject.SetActive(true);
         }
     }

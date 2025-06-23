@@ -1,7 +1,8 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable]
 public class Jew : Character
 {
     public override void Greetings()
@@ -22,9 +23,6 @@ public class Jew : Character
         return false;
     }
 
-    const float MULTIPLIER_FOR_EARNINGS = 1.1f;
-    const float COST_MULTIPLIER = 0.95f;
-
 
     public override int ApplyAllModifiersToSpecifiedTypeOfModificator(int value, TypeOfModificator typeOfMoneyTransaction, PropertyType propertyType=PropertyType.None)
     {
@@ -33,11 +31,11 @@ public class Jew : Character
         switch(typeOfMoneyTransaction)
         {
             case TypeOfModificator.BuyingTown:
-                result = Mathf.RoundToInt((value * ApplyCharacterAdvantagesOrDisadvantages("LessCosts", 0)) / 10) * 10;
+                result = Mathf.RoundToInt((value * ApplyCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage.LessCosts, 0)) / 10) * 10;
                 return result;
 
             case TypeOfModificator.EarningMoneyFromPropertie:
-                result = Mathf.RoundToInt((value * ApplyCharacterAdvantagesOrDisadvantages("MoreEarnings", 0)) / 10) * 10;
+                result = Mathf.RoundToInt((value * ApplyCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage.MoreEarnings, 0)) / 10) * 10;
                 return result;
             case TypeOfModificator.LuckLevel:
                 Modifiers modifiers = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(TypeOfModificator.LuckLevel);
@@ -52,29 +50,29 @@ public class Jew : Character
 
     public override void OnCharacterCreated()
     {
-        characterAdvantagesAndDisadvantages = new List<Modifiers>();
-        characterAdvantagesAndDisadvantages.Add(new Modifiers("MoreEarnings",10,TypeOfModificator.CharacterAdvantages,ModifiersType.Precentage,0,0));
-        characterAdvantagesAndDisadvantages.Add(new Modifiers("LessCosts", -5, TypeOfModificator.CharacterAdvantages, ModifiersType.Precentage, 0, 0));
-        characterAdvantagesAndDisadvantages.Add(new Modifiers("FirstBuildingEarnings", 2, TypeOfModificator.CharacterAdvantages, ModifiersType.WholeNumber, 0, 0));
-        characterAdvantagesAndDisadvantages.Add(new Modifiers("CantMoveAfterSpecifiedTurnAmount", 7, TypeOfModificator.CharacterDisadvantages, ModifiersType.WholeNumber, 0, 0));
-        characterAdvantagesAndDisadvantages.Add(new Modifiers("CantTakeAnythingThatIsntKosher", 1, TypeOfModificator.CharacterDisadvantages, ModifiersType.WholeNumber, 0, 0));
+        base.OnCharacterCreated();
+        characterAdvantagesAndDisadvantages.Add(new Modifiers("MoreEarnings",10,TypeOfModificator.CharacterAdvantages,ModifiersType.Precentage,0,0, true,TypeOfCharacterAdvantageOrDisadvantage.MoreEarnings));
+        characterAdvantagesAndDisadvantages.Add(new Modifiers("LessCosts", -5, TypeOfModificator.CharacterAdvantages, ModifiersType.Precentage, 0, 0,true, TypeOfCharacterAdvantageOrDisadvantage.LessCosts));
+        characterAdvantagesAndDisadvantages.Add(new Modifiers("FirstBuildingEarnings", 2, TypeOfModificator.CharacterAdvantages, ModifiersType.WholeNumber, 0, 0,true, TypeOfCharacterAdvantageOrDisadvantage.FirstBuildingEarnings));
+        characterAdvantagesAndDisadvantages.Add(new Modifiers("CantMoveAfterSpecifiedTurnAmount", 7, TypeOfModificator.CharacterDisadvantages, ModifiersType.WholeNumber, 0, 0,true, TypeOfCharacterAdvantageOrDisadvantage.CantMoveAfterSpecifiedTurnAmount));
+        characterAdvantagesAndDisadvantages.Add(new Modifiers("CantTakeAnythingThatIsntKosher", 1, TypeOfModificator.CharacterDisadvantages, ModifiersType.WholeNumber, 0, 0,true, TypeOfCharacterAdvantageOrDisadvantage.CantTakeAnythingThatIsntKosher));
     }
 
-    public override float ApplyCharacterAdvantagesOrDisadvantages(string modificatorName, float value)
+    public override float ApplyCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage modificatorName, float value)
     {
         int index=0;
         int defaultValue = 0;
         int happinesValue = ApplyAllModifiersToSpecifiedTypeOfModificator(this.happinesValue, TypeOfModificator.LuckLevel);
         for (int i = 0; i < characterAdvantagesAndDisadvantages.Count; i++)
         {
-            if (characterAdvantagesAndDisadvantages[i].name != modificatorName) continue;
+            if (characterAdvantagesAndDisadvantages[i].typeOfCharacterProsOrCons != modificatorName) continue;
             index = i;
             break;
         }
         switch (modificatorName)
         {
-            case "MoreEarnings":
-            case "LessCosts":
+            case TypeOfCharacterAdvantageOrDisadvantage.MoreEarnings:
+            case TypeOfCharacterAdvantageOrDisadvantage.LessCosts:
                 defaultValue = characterAdvantagesAndDisadvantages[index].value;
                 if (happinesValue > 1)
                 {
@@ -85,7 +83,7 @@ public class Jew : Character
                 if (happinesValue == -1) defaultValue *= -1;
                 float multiplier = 1 + (float)(defaultValue / 100f);
                 return multiplier;
-            case "FirstBuildingEarnings":
+            case TypeOfCharacterAdvantageOrDisadvantage.FirstBuildingEarnings:
                 defaultValue = 2;
                 if (happinesValue == -1) return value *= 0.5f;
                 if (happinesValue == 0) defaultValue = 1;
@@ -93,11 +91,11 @@ public class Jew : Character
                 if(happinesValue >5) defaultValue +=1;
                 value *= defaultValue;
                 return value;
-            case "CantMoveAfterSpecifiedTurnAmount":
+            case TypeOfCharacterAdvantageOrDisadvantage.CantMoveAfterSpecifiedTurnAmount:
                 if (happinesValue > 3) value += 2;
                 if (happinesValue > 5) value += 2;
                 return value;
-            case "CantTakeAnythingThatIsntKosher":
+            case TypeOfCharacterAdvantageOrDisadvantage.CantTakeAnythingThatIsntKosher:
                 if (happinesValue == 6) value = 0;
                 return value;
             default:
@@ -106,11 +104,11 @@ public class Jew : Character
         
     }
 
-    public override void SetCharacterAdvantagesOrDisadvantages(string modificatorName, int value)
+    public override void SetCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage modificatorName, int value)
     {
         for(int i=0;i<characterAdvantagesAndDisadvantages.Count;i++)
         {
-            if (characterAdvantagesAndDisadvantages[i].name != modificatorName) continue;
+            if (characterAdvantagesAndDisadvantages[i].typeOfCharacterProsOrCons != modificatorName) continue;
             characterAdvantagesAndDisadvantages[i].value = value;
             return;
         }

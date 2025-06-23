@@ -1,6 +1,7 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
-
+[Serializable]
 public class Student : Character
 {
     public override void Greetings()
@@ -16,6 +17,7 @@ public class Student : Character
 
     public override void OnCharacterCreated()
     {
+        base.OnCharacterCreated();
         GameLogic.Instance.UpdateMoneyForPlayerServerRpc(Mathf.CeilToInt(playerScript.amountOfMoney.Value * START_MONEY_MULTIPLIER), playerScript.playerIndex, 0, true, true);
     }
     const float DEAD_DROP_MULTIPLIER = 1.5f;

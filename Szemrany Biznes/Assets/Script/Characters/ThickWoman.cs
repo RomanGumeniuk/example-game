@@ -1,6 +1,7 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
-
+[Serializable]
 public class ThickWoman : Character
 {
     public override int OnDiceRolled(int diceValue)

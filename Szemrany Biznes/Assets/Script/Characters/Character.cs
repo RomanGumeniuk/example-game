@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable]
 public abstract class Character
 {
     public PlayerScript playerScript;
@@ -16,7 +17,7 @@ public abstract class Character
 
     public virtual void OnCharacterCreated()
     {
-
+        characterAdvantagesAndDisadvantages = new List<Modifiers>();
     }
 
     public void BeforeOnPlayerPassBy(TileScript tile)
@@ -60,6 +61,13 @@ public abstract class Character
         Modifiers currentModifier;
         switch (typeOfModificator)
         {
+            case TypeOfModificator.BuyingItem:
+            case TypeOfModificator.BuyingTown:
+            case TypeOfModificator.PayingForEnteringTown:
+            case TypeOfModificator.PayingForPenalty:
+                return Mathf.RoundToInt(ApplyCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage.HappinesAfterSex,value) / 10) * 10;
+
+
             case TypeOfModificator.DiceResult:
                 currentModifier = playerScript.playerDrugsSystem.FindAndGetModifierByTypeOnlyFirst(typeOfModificator);
                 if (currentModifier == null) break;
@@ -106,15 +114,63 @@ public abstract class Character
         deadDropBoxScript.OnPlayerClaimServerRpc(playerScript.playerIndex);
     }
 
-    public virtual float ApplyCharacterAdvantagesOrDisadvantages(string modificatorName,float value)
+    public virtual float ApplyCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage modificatorType,float value)
     {
+        for (int i = 0; i < characterAdvantagesAndDisadvantages.Count; i++)
+        {
+            if (characterAdvantagesAndDisadvantages[i].typeOfCharacterProsOrCons != modificatorType) continue;
+            switch(modificatorType)
+            {
+                case TypeOfCharacterAdvantageOrDisadvantage.HappinesAfterSex:
+                    value -= (value * ((float)characterAdvantagesAndDisadvantages[i].value / 100));
+                    break;
+            }
+        }
         return value;
     }
 
-    public virtual void SetCharacterAdvantagesOrDisadvantages(string modificatorName,int value)
+    public virtual void SetCharacterAdvantagesOrDisadvantages(TypeOfCharacterAdvantageOrDisadvantage modificatorName,int value)
     {
 
     }
+
+    public virtual void AfterCharacterPayForSth(TypeOfModificator typeOfTransaction,int amount)
+    {
+        canRemove = false;
+        switch (typeOfTransaction)
+        {
+            case TypeOfModificator.PayingForEnteringTown:
+            case TypeOfModificator.BuyingTown:
+                for (int i = 0; i < characterAdvantagesAndDisadvantages.Count; i++)
+                {
+                    switch (characterAdvantagesAndDisadvantages[i].typeOfCharacterProsOrCons)
+                    {
+                        case TypeOfCharacterAdvantageOrDisadvantage.HappinesAfterSex:
+                            characterAdvantagesAndDisadvantages[i].maxValue--;
+                            if (characterAdvantagesAndDisadvantages[i].maxValue == characterAdvantagesAndDisadvantages[i].minValue)
+                            {
+                                RemoveCharacterAdvantageOrDisadvangtage(i);
+                            }
+
+                            break;
+                    }
+
+                }
+                break;
+        }
+        canRemove = true;
+    }
+    bool canRemove = false;
+    private async void RemoveCharacterAdvantageOrDisadvangtage(int index)
+    {
+        while(!canRemove)
+        {
+            await Awaitable.FixedUpdateAsync();
+        }
+        characterAdvantagesAndDisadvantages.RemoveAt(index);
+        canRemove = false;
+    }
+
 }
 
 public enum TypeOfModificator
@@ -133,5 +189,15 @@ public enum TypeOfModificator
     DrugWithdrawalDeley,
     CharacterAdvantages,
     CharacterDisadvantages
+}
 
+public enum TypeOfCharacterAdvantageOrDisadvantage
+{
+    Null,
+    HappinesAfterSex,
+    MoreEarnings,
+    LessCosts,
+    FirstBuildingEarnings,
+    CantMoveAfterSpecifiedTurnAmount,
+    CantTakeAnythingThatIsntKosher
 }

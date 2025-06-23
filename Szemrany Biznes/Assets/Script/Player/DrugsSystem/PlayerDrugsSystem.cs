@@ -330,13 +330,14 @@ public class Modifiers
     public string name;
     public int value;
     public TypeOfModificator typeOfModificator;
+    public TypeOfCharacterAdvantageOrDisadvantage typeOfCharacterProsOrCons;
     public ModifiersType modifiersType;
     public int maxValue;
     public int minValue;
     public bool isModifierMaxedOut=false;
     [SerializeField]bool isActive = true;
 
-    public Modifiers(string name, int value, TypeOfModificator typeOfModificator,ModifiersType modifiersType, int maxValue,int minValue, bool isActive=true)
+    public Modifiers(string name, int value, TypeOfModificator typeOfModificator,ModifiersType modifiersType, int maxValue,int minValue, bool isActive=true,TypeOfCharacterAdvantageOrDisadvantage typeOfCharacterProsOrCons = 0)
     {
         this.name = name;
         this.value = value;
@@ -345,6 +346,7 @@ public class Modifiers
         this.maxValue = maxValue;
         this.isActive = isActive;
         this.minValue = minValue;
+        this.typeOfCharacterProsOrCons = typeOfCharacterProsOrCons;
 
     }
 
@@ -358,6 +360,7 @@ public class Modifiers
         isModifierMaxedOut = copy.isModifierMaxedOut;
         minValue = copy.minValue;
         isActive = copy.isActive;
+        typeOfCharacterProsOrCons = copy.typeOfCharacterProsOrCons;
     }
     public void SetIsActive(bool isActive)
     {

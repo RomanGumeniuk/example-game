@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-
+[Serializable]
 public class Seba : Character
 {
     public override void Greetings()

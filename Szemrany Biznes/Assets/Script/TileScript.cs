@@ -244,6 +244,7 @@ public class TileScript : NetworkBehaviour
                 propertyValue = (int)(specialTileScript.CaluculatePropertyValue() * 1.5f);
                 isCapableOfBuyingProperty = PlayerScript.LocalInstance.amountOfMoney.Value > propertyValue;
             }
+            PlayerScript.LocalInstance.character.AfterCharacterPayForSth(TypeOfModificator.PayingForEnteringTown, amountOfMoneyToPay);
             await AlertTabForPlayerUI.Instance.ShowTab($"Zap³aci³eœ {amountOfMoneyToPay}PLN", 1.5f, invokeNextPlayer);
             //if (!isCapableOfBuyingProperty) return;
             //oferta wykupu
@@ -323,15 +324,7 @@ public class TileScript : NetworkBehaviour
         }
 
         switch (tileType)
-        { /*
-            case TileType.TownTile:
-                Debug.Log(currentAvailableTownUpgrade);
-                OnTownEnter(playerAmountOfMoney,currentAvailableTownUpgrade);
-                return;*/
-            case TileType.PartyTile:
-                _ = AlertTabForPlayerUI.Instance.ShowTab($"Wprosi³eœ siê na impreze z darmowym alkocholem, jesteœ 400 PLN do przodu", 3.5f);
-                GiveMoney(amountMoneyOnPlayerStep);
-                return;
+        { 
             case TileType.PatrolTile:
                 UpdatePlayerCantMoveVariableServerRpc(2, PlayerScript.LocalInstance.playerIndex);
                 GameUIScript.OnNextPlayerTurn.Invoke();
@@ -383,25 +376,12 @@ public class TileScript : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpgradeTownServerRpc(int currentNewLevel,int ownerId)
     {
-        /*if(tileType == TileType.GangTile)
-        {
-            UpgradeGangTileServerRpc(ownerId);
-            return;
-        }*/
         this.ownerId.Value = ownerId;
         townLevel.Value = currentNewLevel;
         specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
         UpdateOwnerText(ownerId, townLevel.Value);
         
     }
-    /*[ServerRpc(RequireOwnership = false)]
-    public void UpgradeGangTileServerRpc(int ownerId)
-    {
-        this.ownerId.Value = ownerId;
-        townLevel.Value = 
-        specialTileScript.OnTownUpgrade(ownerId, currentNewLevel);
-        UpdateOwnerText(ownerId, townLevel.Value);
-    }*/
 
     [ServerRpc(RequireOwnership =false)]
     public void UpdateOwnerTextServerRpc(bool onlyChangeText=false)
@@ -553,7 +533,7 @@ public enum TileType
     StartTile,
     CustodyTile,
     PatrolTile,
-    PartyTile,
+    PartyTile, // to remove but if you just remove it every other type will broke
     ShopTile,
     PrisonTile,
     GangTile,

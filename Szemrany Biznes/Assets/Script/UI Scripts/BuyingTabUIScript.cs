@@ -48,6 +48,7 @@ public class BuyingTabUIScript : MonoBehaviour,IQueueWindows
             GameLogic.Instance.UpdateMoneyForPlayerServerRpc(totalCost, PlayerScript.LocalInstance.playerIndex, 1);
             currentTileScript.UpgradeTownServerRpc(newCurrentTownLevel, PlayerScript.LocalInstance.playerIndex);
             PlayerScript.LocalInstance.OnTownUpgrade();
+            PlayerScript.LocalInstance.character.AfterCharacterPayForSth(TypeOfModificator.BuyingTown, totalCost);
             Hide();
         });
         

@@ -1,6 +1,7 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
-
+[Serializable]
 public class Jamal : Character
 {
 
@@ -16,7 +17,7 @@ public class Jamal : Character
         if (tile.tileType != TileType.TownTile && tile.tileType != TileType.SpecialTile && tile.tileType != TileType.GangTile) return false;
         Debug.Log("Jamalll");
         if (tile.ownerId.Value == playerScript.playerIndex || tile.ownerId.Value == -1) return false;
-        int randomNumber = Random.Range(1, 100);
+        int randomNumber = UnityEngine.Random.Range(1, 100);
         Debug.Log("Random number: " + randomNumber);
         if(randomNumber < 6)
         {
@@ -36,7 +37,7 @@ public class Jamal : Character
             if ((int)client.ClientId == playerScript.playerIndex) continue;
             if(client.PlayerObject.GetComponent<PlayerScript>().currentTileIndex != playerScript.currentTileIndex) continue;
             
-            randomNumber = Random.Range(1, 100);
+            randomNumber = UnityEngine.Random.Range(1, 100);
             Debug.Log("Random number stolen: " + randomNumber);
             if (randomNumber > 10) continue;
             
